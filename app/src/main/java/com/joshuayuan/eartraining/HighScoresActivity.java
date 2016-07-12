@@ -39,11 +39,11 @@ public class HighScoresActivity extends AppCompatActivity {
         String chordsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("chhs", 0) + "";
         String cadencesScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("cahs", 0) + "";
 
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ARLRDBD.TTF");
-        intervals.setTypeface(type);
-        chords.setTypeface(type);
-        cadences.setTypeface(type);
-        hstitle.setTypeface(type);
+//        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/GIL.TTF");
+//        intervals.setTypeface(type);
+//        chords.setTypeface(type);
+//        cadences.setTypeface(type);
+//        hstitle.setTypeface(type);
 
         intervals.setText ("Intervals: " + intervalsScore);
         chords.setText ("Chords: " + chordsScore);

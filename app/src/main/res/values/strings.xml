@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Ear Training</string>
     <string name="please_select_the_activity_that_you_wish_to_practice">Please select the activity that you wish to practice:</string>
-    <string name="intervals">Intervals</string>
-    <string name="chords">Chords</string>
-    <string name="cadences">Cadences</string>
+    <string name="intervals">- INTERVALS -</string>
+    <string name="chords">- CHORDS -</string>
+    <string name="cadences">- CADENCES -</string>
     <string name="perfect">Perfect</string>
     <string name="major">Major</string>
     <string name="minor">Minor</string>
@@ -30,16 +30,16 @@
     <string name="score_value">0</string>
     <string name="score">Score</string>
     <string name="tritone">Tritone</string>
-    <string name="high_scores">High Scores</string>
+    <string name="high_scores">- HIGH SCORES -</string>
     <string name="select_the_cadence_you_hear">Select the cadence you hear:</string>
     <string name="_0">0</string>
     <string name="replay">REPLAY</string>
     <string name="select_the_chord_you_hear">Select the chord you hear:</string>
-    <string name="ear_training">Ear Training</string>
-    <string name="version_1_0">Version 1.0</string>
+    <string name="ear_training">RCM - EAR TRAINING</string>
+    <string name="version_1_0">Version 2.0</string>
     <string name="intervals_hs">Intervals:</string>
     <string name="chords_hs">Chords:</string>
     <string name="cadences_hs">Cadences:</string>
-    <string name="high_scores_capital">HIGH SCORES</string>
+    <string name="high_scores_capital">- HIGH SCORES -</string>
     <string name="select_the_interval_you_hear">Select the interval you hear:</string>
 </resources>
