@@ -194,6 +194,7 @@ public class ChordsActivity extends AppCompatActivity {
             answer1 = "Dim 7";
             answer2 = "none";
         }
+        Log.i ("answer", answer1 +  " " + answer2);
     }
 
     /**
@@ -209,37 +210,37 @@ public class ChordsActivity extends AppCompatActivity {
         int note2, note3, note4 = 1;
 
         CharSequence chord = answer1 + " " + answer2;
-        if (chord.equals("Major Root Position")) {
+        if (chord.equals("Major Root Pos")) {
             note2 = note1 + 4;
             note3 = note2 + 3;
-        } else if (chord.equals("Major 1st Inversion")) {
+        } else if (chord.equals("Major 1st Inv")) {
             note2 = note1 + 3;
             note3 = note2 + 5;
-        } else if (chord.equals("Major 2nd Inversion")) {
+        } else if (chord.equals("Major 2nd Inv")) {
             note2 = note1 + 5;
             note3 = note2 + 4;
-        } else if (chord.equals("Minor Root Position")) {
+        } else if (chord.equals("Minor Root Pos")) {
             note2 = note1 + 3;
             note3 = note2 + 4;
-        } else if (chord.equals("Minor 1st Inversion")) {
+        } else if (chord.equals("Minor 1st Inv")) {
             note2 = note1 + 4;
             note3 = note2 + 5;
-        } else if (chord.equals("Minor 2nd Inversion")) {
+        } else if (chord.equals("Minor 2nd Inv")) {
             note2 = note1 + 5;
             note3 = note2 + 3;
-        } else if (chord.equals("Dom 7 Root Position")) {
+        } else if (chord.equals("Dom 7 Root Pos")) {
             note2 = note1 + 4;
             note3 = note2 + 3;
             note4 = note3 + 3;
-        } else if (chord.equals("Dom 7 1st Inversion")) {
+        } else if (chord.equals("Dom 7 1st Inv")) {
             note2 = note1 + 3;
             note3 = note2 + 3;
             note4 = note3 + 2;
-        } else if (chord.equals("Dom 7 2nd Inversion")) {
+        } else if (chord.equals("Dom 7 2nd Inv")) {
             note2 = note1 + 3;
             note3 = note2 + 2;
             note4 = note3 + 4;
-        } else if (chord.equals("Dom 7 3rd Inversion")) {
+        } else if (chord.equals("Dom 7 3rd Inv")) {
             note2 = note1 + 2;
             note3 = note2 + 4;
             note4 = note3 + 3;

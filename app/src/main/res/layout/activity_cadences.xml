@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bk4"
+    android:background="#00001a"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.joshuayuan.eartraining.CadencesActivity">
 
-    <TextView
+    <com.joshuayuan.eartraining.TextView1
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -23,7 +23,7 @@
         android:textColor="#ffffff"
         android:paddingTop="10dp" />
 
-    <Button
+    <com.joshuayuan.eartraining.Button1
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/perfect1"
@@ -40,7 +40,7 @@
         android:background="#7b00f2ff"
         android:layout_marginTop="10dp" />
 
-    <Button
+    <com.joshuayuan.eartraining.Button1
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/plagal"
@@ -56,7 +56,7 @@
         android:background="#7b00f2ff"
         android:layout_marginTop="10dp" />
 
-    <Button
+    <com.joshuayuan.eartraining.Button1
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/imperfect"
@@ -72,7 +72,7 @@
         android:background="#7b00f2ff"
         android:layout_marginTop="10dp" />
 
-    <Button
+    <com.joshuayuan.eartraining.Button1
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/deceptive"
@@ -88,7 +88,7 @@
         android:background="#7b00f2ff"
         android:layout_marginTop="10dp" />
 
-    <TextView
+    <com.joshuayuan.eartraining.TextView1
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -100,7 +100,7 @@
         android:layout_alignParentStart="true"
         android:paddingTop="10dp" />
 
-    <TextView
+    <com.joshuayuan.eartraining.TextView1
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -111,7 +111,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
+    <com.joshuayuan.eartraining.Button1
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="@string/replay"
