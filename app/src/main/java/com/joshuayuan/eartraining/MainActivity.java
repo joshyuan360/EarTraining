@@ -12,13 +12,9 @@ package com.joshuayuan.eartraining;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Typeface;
-import android.preference.PreferenceActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 /**
  * The first screen that appears when the user opens the app.
@@ -36,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        TextView title = (TextView) findViewById(R.id.title);
-//        title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/GIL.TTF"));
     }
 
     /**
@@ -67,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Opens the settings window.
+     * @param view The Settings button pressed.
+     */
     public void openSettings(View view) {
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);

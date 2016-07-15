@@ -1,3 +1,13 @@
+/*
+ * Copyright (C) 2016 Joshua Yuan
+ *
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ */
 package com.joshuayuan.eartraining;
 
 import android.content.Context;
@@ -9,20 +19,18 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 /**
- * Created by Josh on 7/14/2016.
+ * A <code>DialogPreference</code> that changes value of
+ * <code>Utilities.resetHighScores</code> after a positive response.
  */
-public class MyDialogPreference extends DialogPreference { //dont need to implement DialogPreferences.OnClickListener
-    //just override onClick
-
+public class MyDialogPreference extends DialogPreference {
     public MyDialogPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
+    @Override
     public void onClick(DialogInterface dialog, int which){
         if (which == DialogInterface.BUTTON_POSITIVE) {
-            // do your stuff to handle positive button
             Utilities.resetHighScores = true;
-            Log.i ("bb", "nbn");
         }
     }
 }

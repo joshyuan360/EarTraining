@@ -61,8 +61,12 @@ public class ChordsActivity extends AppCompatActivity {
     private int score = 0;
     /** The sound files required to play the chord. */
     private final MediaPlayer [] mp = new MediaPlayer [4];
+    /** The chords that the user wishes to be tested on. */
     private Set<String> selections;
-    private boolean prefRepeat, enableDom;
+    /** <code>true</code> if the user wants automatic replays. */
+    private boolean prefRepeat;
+    /** <code>true</code> if the user wants to be tested on one or more dominant 7th chord(s). */
+    private boolean allowDom;
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -95,7 +99,7 @@ public class ChordsActivity extends AppCompatActivity {
 
         for (String s : selections) {
             if (s.contains("Dom")) {
-                enableDom = true;
+                allowDom = true;
                 break;
             }
         }
@@ -145,15 +149,21 @@ public class ChordsActivity extends AppCompatActivity {
     private void setFirstRowEnabled(boolean enabled) {
         major.setEnabled(enabled);
         minor.setEnabled(enabled);
-        dominant.setEnabled(enableDom && enabled);
+        dominant.setEnabled(allowDom && enabled);
         diminished.setEnabled(selections.contains("Dim 7 none") && enabled);
 
         major.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
         minor.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        dominant.setBackgroundColor(enableDom && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        dominant.setBackgroundColor(allowDom && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
         diminished.setBackgroundColor(selections.contains("Dim 7 none") && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
     }
 
+    /**
+     * Determines if the inversion button should be enabled
+     * based on user settings.
+     * @param inversion The inversion button.
+     * @return <code>true</code> if the button specified by <code>inversion</code> should be enabled.
+     */
     private boolean allowInvButton(String inversion) {
         for (String s : selections) {
             if (part1 != null && s.contains(part1) && s.contains(inversion)) {
@@ -318,7 +328,7 @@ public class ChordsActivity extends AppCompatActivity {
     }
 
     /**
-     * Displays the result of the user's input as "Correct!" or "Try Again!".
+     * Displays the result of the user's input as "Correct!" or "Incorrect...".
      * The score is either incremented (if correct) or reset to zero (if incorrect).
      */
     private void displayResult() {

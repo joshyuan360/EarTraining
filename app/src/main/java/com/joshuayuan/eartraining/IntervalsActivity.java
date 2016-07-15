@@ -22,7 +22,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.util.Set;
 
 /**
@@ -59,8 +58,13 @@ public class IntervalsActivity extends AppCompatActivity {
     private int score;
     /** The interval sound files to be played. */
     private final MediaPlayer[] mp = new MediaPlayer[2];
+    /** The intervals that the user wishes to be tested on. */
     private Set<String> selections;
-    private boolean prefRepeat, allowPerfect;
+    /** <code>true</code> if the user wants automatic replays. */
+    private boolean prefRepeat;
+    /** <code>true</code> if the user wants to be tested on one or more interval(s). */
+    private boolean allowPerfect;
+
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -293,6 +297,12 @@ public class IntervalsActivity extends AppCompatActivity {
         }, 1500);
     }
 
+    /**
+     * Determines if the unison, fourth, fifth, or octave button should be enabled
+     * based on user settings.
+     * @param option Unison, fourth, fifth, or octave.
+     * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
+     */
     private boolean allowPerButton(String option) {
         for (String s : selections) {
             if (s.equals("Perfect " + option)) {
@@ -302,6 +312,11 @@ public class IntervalsActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Determines if the button should be enabled based on user settings.
+     * @param option A button on the interval activities window.
+     * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
+     */
     private boolean allowButton(String option) {
         for (String s : selections) {
             if (s.equals (part1 + " " + option)) {
@@ -310,6 +325,7 @@ public class IntervalsActivity extends AppCompatActivity {
         }
         return false;
     }
+
     /**
      * Enables or disables the bottom two rows of buttons.
      * @param perfect Controls the unison, fourth, fifth, and octave buttons.
@@ -354,7 +370,7 @@ public class IntervalsActivity extends AppCompatActivity {
     }
 
     /**
-     * Displays the result of the user's input as "Correct!" or "Try Again!".
+     * Displays the result of the user's input as "Correct! Next one playing..." or "Incorrect...".
      * The score is either incremented (if correct) or reset to zero (if incorrect).
      */
     private void displayResult() {
