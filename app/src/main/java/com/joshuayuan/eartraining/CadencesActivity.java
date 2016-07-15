@@ -16,13 +16,16 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Arrays;
+import java.util.Set;
 
 /**
  * The cadences activity plays a cadence and asks the user to identify it.
@@ -50,7 +53,8 @@ public class CadencesActivity extends AppCompatActivity {
     private TextView hs;
     /** Contains the sound files required to play the cadence. */
     private final MediaPlayer[] mp = new MediaPlayer[8];
-
+    private Set<String> selections;
+    private boolean prefRepeat;
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -63,10 +67,15 @@ public class CadencesActivity extends AppCompatActivity {
         tv = (TextView) findViewById(R.id.cadenceText);
         hs = (TextView) findViewById(R.id.cadenceScore);
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        selections = sharedPrefs.getStringSet("pref_cadences", null);
+        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+
         initializeButtons();
         setButtonsEnabled(false);
         replay.setEnabled(false);
         replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -113,6 +122,9 @@ public class CadencesActivity extends AppCompatActivity {
         } else {
             answer = "Deceptive";
         }
+        if (!answer.equals("Perfect") && !answer.equals("Plagal") && !selections.contains(answer)) {
+            setAnswer();
+        }
     }
 
     /**
@@ -133,13 +145,14 @@ public class CadencesActivity extends AppCompatActivity {
     private void setButtonsEnabled(boolean enabled) {
         perfect.setEnabled(enabled);
         plagal.setEnabled(enabled);
-        imperfect.setEnabled(enabled);
-        deceptive.setEnabled(enabled);
+
+        imperfect.setEnabled(enabled && selections.contains("Imperfect"));
+        deceptive.setEnabled(enabled && selections.contains("Deceptive"));
 
         perfect.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
         plagal.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        imperfect.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        deceptive.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        imperfect.setBackgroundColor(enabled && selections.contains("Imperfect") ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        deceptive.setBackgroundColor(enabled && selections.contains ("Deceptive") ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
     }
 
     /**
@@ -148,11 +161,11 @@ public class CadencesActivity extends AppCompatActivity {
      */
     private void displayResult() {
         if (response.equals(answer)) {
-            tv.setText("Correct!");
+            tv.setText("Correct! Next one playing...");
             answerCorrect = true;
             score++;
         } else {
-            tv.setText("Try again!");
+            tv.setText("Incorrect...");
             answerCorrect = false;
             score = 0;
         }
@@ -183,9 +196,9 @@ public class CadencesActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (answerCorrect) {
-                    tv.setText("Playing new cadence...");
+                    tv.setText("Identify the cadence...");
                 } else {
-                    tv.setText("Replaying cadence...");
+                    tv.setText("Try again!");
                 }
                 setButtonsEnabled(true);
                 testUser();
@@ -200,9 +213,11 @@ public class CadencesActivity extends AppCompatActivity {
     private void testUser() {
         if (answerCorrect) {
             setAnswer();
+            playAnswer();
+        } else if (prefRepeat) {
+            playAnswer();
         }
-        playAnswer();
-        setButtonsEnabled(true);
+        //setButtonsEnabled(true);
     }
 
     /**

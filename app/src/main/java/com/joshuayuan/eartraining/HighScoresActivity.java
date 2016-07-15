@@ -11,6 +11,7 @@
 package com.joshuayuan.eartraining;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,15 +36,15 @@ public class HighScoresActivity extends AppCompatActivity {
         TextView cadences = (TextView) findViewById(R.id.cahs);
         TextView hstitle = (TextView) findViewById(R.id.hstitle);
 
+        if (Utilities.resetHighScores) {
+            SharedPreferences prefs = getSharedPreferences("high scores", Context.MODE_PRIVATE);
+            prefs.edit().putInt("ihs", 0).putInt("chhs", 0).putInt("cahs", 0).apply();
+            Utilities.resetHighScores = false;
+        }
+
         String intervalsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("ihs", 0) + "";
         String chordsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("chhs", 0) + "";
         String cadencesScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("cahs", 0) + "";
-
-//        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/GIL.TTF");
-//        intervals.setTypeface(type);
-//        chords.setTypeface(type);
-//        cadences.setTypeface(type);
-//        hstitle.setTypeface(type);
 
         intervals.setText ("Intervals: " + intervalsScore);
         chords.setText ("Chords: " + chordsScore);

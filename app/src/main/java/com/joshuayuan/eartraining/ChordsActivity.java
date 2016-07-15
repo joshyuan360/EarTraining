@@ -15,13 +15,16 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Set;
 
 /**
  * The chords activity plays a chord and asks the user to identify it.
@@ -58,7 +61,8 @@ public class ChordsActivity extends AppCompatActivity {
     private int score = 0;
     /** The sound files required to play the chord. */
     private final MediaPlayer [] mp = new MediaPlayer [4];
-
+    private Set<String> selections;
+    private boolean prefRepeat, enableDom;
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -70,6 +74,11 @@ public class ChordsActivity extends AppCompatActivity {
 
         tv = (TextView) findViewById(R.id.chInstructions);
         hs = (TextView) findViewById(R.id.chordScore);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        selections = sharedPrefs.getStringSet("pref_chords", null);
+        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+
         initializeButtons();
         setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);
@@ -83,6 +92,13 @@ public class ChordsActivity extends AppCompatActivity {
                 setFirstRowEnabled(true);
             }
         }, 1500);
+
+        for (String s : selections) {
+            if (s.contains("Dom")) {
+                enableDom = true;
+                break;
+            }
+        }
     }
 
     /**
@@ -129,13 +145,22 @@ public class ChordsActivity extends AppCompatActivity {
     private void setFirstRowEnabled(boolean enabled) {
         major.setEnabled(enabled);
         minor.setEnabled(enabled);
-        dominant.setEnabled(enabled);
-        diminished.setEnabled(enabled);
+        dominant.setEnabled(enableDom && enabled);
+        diminished.setEnabled(selections.contains("Dim 7 none") && enabled);
 
         major.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
         minor.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        dominant.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        diminished.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        dominant.setBackgroundColor(enableDom && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        diminished.setBackgroundColor(selections.contains("Dim 7 none") && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+    }
+
+    private boolean allowInvButton(String inversion) {
+        for (String s : selections) {
+            if (part1 != null && s.contains(part1) && s.contains(inversion)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -144,15 +169,16 @@ public class ChordsActivity extends AppCompatActivity {
      * @param enableThird Controls the 3rd inv button.
      */
     private void setBottomRowsEnabled(boolean enabled, boolean enableThird) {
-        root.setEnabled(enabled);
-        first.setEnabled(enabled);
-        second.setEnabled(enabled);
-        third.setEnabled(enableThird);
+        boolean allowRoot = part1 != null && !(part1.equals("Dom 7") && !selections.contains("Dom 7 Root Pos"));
+        root.setEnabled(allowRoot && enabled);
+        first.setEnabled(allowInvButton("1st Inv") && enabled);
+        second.setEnabled(allowInvButton("2nd Inv") && enabled);
+        third.setEnabled(allowInvButton("3rd Inv") && enableThird);
 
-        root.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        first.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        second.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        third.setBackgroundColor(enableThird? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        root.setBackgroundColor(allowRoot && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        first.setBackgroundColor(allowInvButton("1st Inv") && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        second.setBackgroundColor(allowInvButton("2nd Inv") && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
+        third.setBackgroundColor(allowInvButton("3rd Inv") && enableThird? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
     }
 
     /**
@@ -195,6 +221,10 @@ public class ChordsActivity extends AppCompatActivity {
             answer2 = "none";
         }
         Log.i ("answer", answer1 +  " " + answer2);
+        String answer = answer1 + " " + answer2;
+        if (!answer.equals("Major Root Pos") && !answer.equals("Minor Root Pos") && !selections.contains(answer)) {
+            setAnswer();
+        }
     }
 
     /**
@@ -281,8 +311,10 @@ public class ChordsActivity extends AppCompatActivity {
     private void testUser() {
         if (answerCorrect) {
             setAnswer();
+            playAnswer();
+        } else if (prefRepeat) {
+            playAnswer();
         }
-        playAnswer();
     }
 
     /**
@@ -299,7 +331,7 @@ public class ChordsActivity extends AppCompatActivity {
             answerCorrect = true;
             score++;
         } else {
-            tv.setText("Try again!");
+            tv.setText("Incorrect...");
             answerCorrect = false;
             score = 0;
         }
@@ -316,9 +348,9 @@ public class ChordsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (answerCorrect) {
-                    tv.setText("Playing new chord...");
+                    tv.setText("Identify the chord...");
                 } else {
-                    tv.setText("Replaying chord...");
+                    tv.setText("Try again!");
                 }
                 setFirstRowEnabled(true);
                 testUser();
