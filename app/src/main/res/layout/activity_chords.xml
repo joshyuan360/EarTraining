@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/playing_sound"
+        android:text="Identify the chord..."
         android:id="@+id/chInstructions"
         android:textColor="#ffffff"
         android:paddingTop="10dp"
@@ -36,7 +36,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp" />
 
-    <com.joshuayuan.eartraining.TextView1
+    <com.joshuayuan.eartraining.TextView2
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"

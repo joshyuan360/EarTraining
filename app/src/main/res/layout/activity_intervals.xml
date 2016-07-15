@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/playing_sound"
+        android:text="Identify the interval..."
         android:id="@+id/insDisplay"
         android:textColor="#ffffff"
         android:layout_alignParentLeft="true"
@@ -36,7 +36,7 @@
         android:paddingTop="10dp"
         android:layout_below="@+id/linearLayout3" />
 
-    <com.joshuayuan.eartraining.TextView1
+    <com.joshuayuan.eartraining.TextView2
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"

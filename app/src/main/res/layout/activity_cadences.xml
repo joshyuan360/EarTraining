@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
+        android:paddingBottom="10dp"
         android:textColor="#ffffff"
         android:paddingTop="10dp" />
 
@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/playing_sound"
+        android:text="Identify the cadence..."
         android:id="@+id/cadenceText"
         android:textColor="#ffffff"
         android:layout_below="@+id/deceptive"
@@ -100,7 +100,7 @@
         android:layout_alignParentStart="true"
         android:paddingTop="10dp" />
 
-    <com.joshuayuan.eartraining.TextView1
+    <com.joshuayuan.eartraining.TextView2
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"

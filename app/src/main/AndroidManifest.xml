@@ -18,7 +18,8 @@
         <activity android:name=".ChordsActivity" />
         <activity android:name=".CadencesActivity" />
         <activity android:name=".IntervalsActivity" />
-        <activity android:name=".HighScoresActivity"></activity>
+        <activity android:name=".HighScoresActivity" />
+        <activity android:name=".PreferencesActivity"></activity>
     </application>
 
 </manifest>

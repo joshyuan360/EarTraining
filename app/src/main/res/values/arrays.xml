@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_intervals_entries">
+        <item>Minor Second</item>
+        <item>Major Second</item>
+        <item>Minor Sixth</item>
+        <item>Major Sixth</item>
+        <item>Minor Seventh</item>
+        <item>Major Seventh</item>
+        <item>Perfect Unison</item>
+        <item>Perfect Fourth</item>
+        <item>Perfect Fifth</item>
+        <item>Perfect Octave</item>
+        <item>Tritone</item>
+    </string-array>
+
+    <string-array name="pref_chords_entries">
+        <item>Major - 1st Inv.</item>
+        <item>Major - 2nd Inv.</item>
+        <item>Minor - 1st Inv.</item>
+        <item>Minor - 2nd Inv.</item>
+        <item>Dominant 7th - Root Pos.</item>
+        <item>Dominant 7th - 1st Inv.</item>
+        <item>Dominant 7th - 2nd Inv.</item>
+        <item>Dominant 7th - 3rd Inv.</item>
+        <item>Diminished 7th</item>
+    </string-array>
+
+    <string-array name="pref_chords_values">
+        <item>Major 1st Inv</item>
+        <item>Major 2nd Inv</item>
+        <item>Minor 1st Inv</item>
+        <item>Minor 2nd Inv</item>
+        <item>Dom 7 Root Pos</item>
+        <item>Dom 7 1st Inv</item>
+        <item>Dom 7 2nd Inv</item>
+        <item>Dom 7 3rd Inv</item>
+        <item>Dim 7 none</item>
+    </string-array>
+
+    <string-array name="pref_cadences_entries">
+        <item>Imperfect</item>
+        <item>Deceptive</item>
+    </string-array>
+
+    <string-array name="pref_level_default" >
+        <item>one</item>
+    </string-array>
+</resources>

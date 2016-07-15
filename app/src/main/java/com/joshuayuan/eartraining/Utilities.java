@@ -15,6 +15,7 @@ package com.joshuayuan.eartraining;
  * @author Joshua Yuan
  */
 public class Utilities {
+    public static boolean resetHighScores = false;
     /**
      * Returns the resource ID of the requested note.
      * @param note The note to be played.

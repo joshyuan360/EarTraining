@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bk7"
+    android:background="#00001a"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,53 +10,56 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.joshuayuan.eartraining.HighScoresActivity">
 
-    <com.joshuayuan.eartraining.TextView1
+    <com.joshuayuan.eartraining.TextView2
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/intervals_hs"
         android:id="@+id/inhs"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="28sp"
         android:layout_marginTop="95dp"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/cahs"
         android:layout_alignStart="@+id/cahs"
-        android:typeface="sans"
-        android:layout_alignRight="@+id/cahs"
-        android:layout_alignEnd="@+id/cahs"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <com.joshuayuan.eartraining.TextView1
+    <com.joshuayuan.eartraining.TextView2
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/chords_hs"
         android:id="@+id/chhs"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="28sp"
         android:layout_below="@+id/inhs"
         android:layout_alignLeft="@+id/inhs"
         android:layout_alignStart="@+id/inhs"
         android:typeface="sans"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:layout_alignRight="@+id/inhs"
+        android:layout_alignEnd="@+id/inhs" />
 
-    <com.joshuayuan.eartraining.TextView1
+    <com.joshuayuan.eartraining.TextView2
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/cadences_hs"
         android:id="@+id/cahs"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="28sp"
         android:layout_marginLeft="38dp"
         android:layout_marginStart="38dp"
         android:layout_below="@+id/chhs"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:typeface="sans" />
+        android:typeface="sans"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <com.joshuayuan.eartraining.TextView1
+    <com.joshuayuan.eartraining.TextView2
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -66,5 +69,5 @@
         android:layout_centerHorizontal="true"
         android:paddingTop="20dp"
         android:textSize="32sp"
-        android:textColor="#000000" />
+        android:textColor="#ffffff" />
 </RelativeLayout>

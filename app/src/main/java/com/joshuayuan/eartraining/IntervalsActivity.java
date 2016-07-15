@@ -15,15 +15,15 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.prefs.Preferences;
+import java.util.Set;
 
 /**
  * The interval activity plays an interval and asks the user to identify it.
@@ -59,7 +59,8 @@ public class IntervalsActivity extends AppCompatActivity {
     private int score;
     /** The interval sound files to be played. */
     private final MediaPlayer[] mp = new MediaPlayer[2];
-
+    private Set<String> selections;
+    private boolean prefRepeat, allowPerfect;
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -71,6 +72,10 @@ public class IntervalsActivity extends AppCompatActivity {
 
         tv = (TextView) findViewById(R.id.insDisplay);
         hs = (TextView) findViewById(R.id.chordScore);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        selections = sharedPrefs.getStringSet("pref_intervals", null);
+        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
         initializeButtons();
         setFirstRowEnabled(false);
@@ -85,6 +90,13 @@ public class IntervalsActivity extends AppCompatActivity {
                 setFirstRowEnabled(true);
             }
         }, 1500);
+
+        for (String s : selections) {
+            if (s.contains("Perfect")) {
+                allowPerfect = true;
+                break;
+            }
+        }
     }
 
     /**
@@ -132,9 +144,12 @@ public class IntervalsActivity extends AppCompatActivity {
      * Method is invoked only when the last answer provided is correct.
      */
     private void setAnswer() {
-        if (Math.random() < 0.1) {
+        if (Math.random() < 0.1) { //to do: chances should be based on number of options overall
             answer1 = "Tritone";
             answer2 = "Tritone";
+            if (!selections.contains(answer1)) {
+                setAnswer();
+            }
             return;
         }
 
@@ -169,6 +184,10 @@ public class IntervalsActivity extends AppCompatActivity {
             } else {
                 answer2 = "Seventh";
             }
+        }
+        String answer = answer1 + " " + answer2;
+        if (!answer.equals("Major Third") && !answer.equals("Minor Third") && !selections.contains(answer)) {
+            setAnswer();
         }
     }
 
@@ -250,8 +269,10 @@ public class IntervalsActivity extends AppCompatActivity {
     private void testUser() {
         if (answerCorrect) {
             setAnswer();
+            playAnswer();
+        } else if (prefRepeat) {
+            playAnswer();
         }
-        playAnswer ();
     }
 
     /**
@@ -263,40 +284,57 @@ public class IntervalsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (answerCorrect)
-                    tv.setText ("Playing new interval...");
+                    tv.setText ("Identify the interval...");
                 else
-                    tv.setText("Replaying interval...");
+                    tv.setText("Try again!");
                 setFirstRowEnabled(true);
                 testUser();
             }
         }, 1500);
     }
 
+    private boolean allowPerButton(String option) {
+        for (String s : selections) {
+            if (s.equals("Perfect " + option)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean allowButton(String option) {
+        for (String s : selections) {
+            if (s.equals (part1 + " " + option)) {
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Enables or disables the bottom two rows of buttons.
      * @param perfect Controls the unison, fourth, fifth, and octave buttons.
      * @param other Controls the second, third, sixth, and seventh buttons.
      */
     private void setBottomRowsEnabled(boolean perfect, boolean other) {
-        unison.setEnabled(perfect);
-        fourth.setEnabled(perfect);
-        fifth.setEnabled(perfect);
-        octave.setEnabled(perfect);
+        unison.setEnabled(allowPerButton("Unison") && perfect);
+        fourth.setEnabled(allowPerButton("Fourth") && perfect);
+        fifth.setEnabled(allowPerButton("Fifth") && perfect);
+        octave.setEnabled(allowPerButton("Octave") && perfect);
 
-        unison.setBackgroundColor(perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        fourth.setBackgroundColor(perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        fifth.setBackgroundColor(perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        octave.setBackgroundColor(perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        unison.setBackgroundColor(allowPerButton("Unison") && perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        fourth.setBackgroundColor(allowPerButton("Fourth") && perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        fifth.setBackgroundColor(allowPerButton("Fifth") && perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        octave.setBackgroundColor(allowPerButton("Octave") && perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
 
-        second.setEnabled(other);
+        second.setEnabled(allowButton("Second") && other);
         third.setEnabled(other);
-        sixth.setEnabled(other);
-        seventh.setEnabled(other);
+        sixth.setEnabled(allowButton("Sixth") && other);
+        seventh.setEnabled(allowButton("Seventh") && other);
 
-        second.setBackgroundColor(other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        second.setBackgroundColor(allowButton("Second") && other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
         third.setBackgroundColor(other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        sixth.setBackgroundColor(other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        seventh.setBackgroundColor(other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        sixth.setBackgroundColor(allowButton("Sixth") && other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        seventh.setBackgroundColor(allowButton("Seventh") && other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
     }
 
     /**
@@ -304,15 +342,15 @@ public class IntervalsActivity extends AppCompatActivity {
      * @param enabled Controls the perfect, major, minor, and tritone buttons.
      */
     private void setFirstRowEnabled(boolean enabled) {
-        perfect.setEnabled(enabled);
+        perfect.setEnabled(allowPerfect && enabled);
         major.setEnabled(enabled);
         minor.setEnabled(enabled);
-        tritone.setEnabled(enabled);
+        tritone.setEnabled(selections.contains("Tritone") && enabled);
 
-        perfect.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        perfect.setBackgroundColor(allowPerfect && enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
         major.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
         minor.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        tritone.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
+        tritone.setBackgroundColor(selections.contains("Tritone") && enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
     }
 
     /**
@@ -321,15 +359,15 @@ public class IntervalsActivity extends AppCompatActivity {
      */
     private void displayResult() {
         if (part2.equals("Tritone") && answer2.equals("Tritone")) {
-            tv.setText("Correct!");
+            tv.setText("Correct! Next one playing...");
             answerCorrect = true;
             score++;
         } else if (part1.equals(answer1) && part2.equals(answer2)) {
-            tv.setText("Correct!");
+            tv.setText("Correct! Next one playing...");
             answerCorrect = true;
             score++;
         } else {
-            tv.setText("Try Again!");
+            tv.setText("Incorrect...");
             answerCorrect = false;
             score = 0;
         }
