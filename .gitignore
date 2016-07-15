@@ -8,5 +8,6 @@
 .DS_Store
 /build
 /captures
-/src/androidTest
-/src/test
+/app/src/androidTest
+/app/src/test
+/app/build
