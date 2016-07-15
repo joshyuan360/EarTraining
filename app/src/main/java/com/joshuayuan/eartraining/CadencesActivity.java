@@ -53,8 +53,11 @@ public class CadencesActivity extends AppCompatActivity {
     private TextView hs;
     /** Contains the sound files required to play the cadence. */
     private final MediaPlayer[] mp = new MediaPlayer[8];
+    /** The chords that the user wishes to be tested on. */
     private Set<String> selections;
+    /** <code>true</code> if the user wants automatic replays. */
     private boolean prefRepeat;
+
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -169,7 +172,7 @@ public class CadencesActivity extends AppCompatActivity {
             answerCorrect = false;
             score = 0;
         }
-        hs.setText(""+score);
+        hs.setText("" + score);
         setHighScores(score);
     }
 
@@ -217,7 +220,6 @@ public class CadencesActivity extends AppCompatActivity {
         } else if (prefRepeat) {
             playAnswer();
         }
-        //setButtonsEnabled(true);
     }
 
     /**

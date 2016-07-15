@@ -12,9 +12,8 @@ package com.joshuayuan.eartraining;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 /**
@@ -34,7 +33,6 @@ public class HighScoresActivity extends AppCompatActivity {
         TextView intervals = (TextView) findViewById(R.id.inhs);
         TextView chords = (TextView) findViewById(R.id.chhs);
         TextView cadences = (TextView) findViewById(R.id.cahs);
-        TextView hstitle = (TextView) findViewById(R.id.hstitle);
 
         if (Utilities.resetHighScores) {
             SharedPreferences prefs = getSharedPreferences("high scores", Context.MODE_PRIVATE);
