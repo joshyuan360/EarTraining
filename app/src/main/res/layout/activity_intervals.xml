@@ -57,7 +57,7 @@
         android:enabled="false"
         android:onClick="replayInterval"
         android:textColor="#ffffff"
-        android:background="#7b00f2ff" />
+        android:background="@drawable/custom_button" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             android:textSize="10dp"
             android:textColor="#ffffff"
             android:onClick="part1Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -92,7 +92,7 @@
             android:textSize="10dp"
             android:textColor="#ffffff"
             android:onClick="part1Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -104,7 +104,7 @@
             android:textSize="10dp"
             android:textColor="#ffffff"
             android:onClick="part1Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -116,7 +116,7 @@
             android:textSize="10dp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -144,7 +144,7 @@
             android:textSize="10sp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -158,7 +158,7 @@
             android:textSize="10sp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -172,7 +172,7 @@
             android:textSize="10sp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -186,7 +186,7 @@
             android:textSize="10sp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -214,7 +214,7 @@
             android:textSize="10dp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -228,7 +228,7 @@
             android:textSize="10dp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -242,7 +242,7 @@
             android:textSize="10dp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -256,7 +256,7 @@
             android:textSize="10dp"
             android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="#7b00f2ff"
+            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />

@@ -81,7 +81,6 @@ public class CadencesActivity extends AppCompatActivity {
         initializeButtons();
         setButtonsEnabled(false);
         replay.setEnabled(false);
-        replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -153,11 +152,6 @@ public class CadencesActivity extends AppCompatActivity {
 
         imperfect.setEnabled(enabled && selections.contains("Imperfect"));
         deceptive.setEnabled(enabled && selections.contains("Deceptive"));
-
-        perfect.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        plagal.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        imperfect.setBackgroundColor(enabled && selections.contains("Imperfect") ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        deceptive.setBackgroundColor(enabled && selections.contains ("Deceptive") ? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
     }
 
     /**
@@ -373,7 +367,6 @@ public class CadencesActivity extends AppCompatActivity {
      */
     private void playAnswer() {
         replay.setEnabled(false);
-        replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
         if (answerCorrect) {
             if (answer.equals("Perfect")) {
                 notes = randPerfectCadence();
@@ -422,7 +415,6 @@ public class CadencesActivity extends AppCompatActivity {
                     mp[i] = null;
                 }
                 replay.setEnabled(true);
-                replay.setBackgroundColor(Color.parseColor("#7B00F2FF"));
             }
         });
     }
