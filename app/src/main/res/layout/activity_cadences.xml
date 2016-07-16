@@ -26,7 +26,7 @@
     <com.joshuayuan.eartraining.Button1
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="@string/perfect1"
+        android:text="@string/perfect"
         android:id="@+id/perfect"
         android:onClick="answerClicked"
         android:enabled="false"
@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Playing cadence..."
+        android:text="@string/playing_cadence"
         android:id="@+id/cadenceText"
         android:textColor="#ffffff"
         android:layout_below="@+id/deceptive"

@@ -157,7 +157,7 @@ public class IntervalsActivity extends AppCompatActivity {
      * Method is invoked only when the last answer provided is correct.
      */
     private void setAnswer() {
-        if (Math.random() < 0.1) { //to do: chances should be based on number of options overall
+        if (Math.random() < 0.1) {
             answer1 = "Tritone";
             answer2 = "Tritone";
             if (!selections.contains(answer1)) {
@@ -214,9 +214,9 @@ public class IntervalsActivity extends AppCompatActivity {
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
         if (answerCorrect) {
-            tv.setText("Playing interval...");
+            tv.setText(getResources().getString(R.string.playing_interval));
         } else {
-            tv.setText("Replaying...");
+            tv.setText(getResources().getString(R.string.replaying));
         }
 
         if (answerCorrect) {
@@ -282,7 +282,7 @@ public class IntervalsActivity extends AppCompatActivity {
                 // set up UI
                 replay.setEnabled(true);
                 setFirstRowEnabled(true);
-                tv.setText("Identify the cadence...");
+                tv.setText(getResources().getString(R.string.identify_the_interval));
                 isReplaying = false;
             }
         });
@@ -363,20 +363,20 @@ public class IntervalsActivity extends AppCompatActivity {
      * The score is either incremented (if correct) or reset to zero (if incorrect).
      */
     private void displayResult() {
-        if (part2.equals("Tritone") && answer2.equals("Tritone")) {
-            tv.setText("Correct!");
+        if (part2.equals("Tritone") && answer2.equals("Tritone")) { //TODO simplify repeating statements
+            tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
         } else if (part1.equals(answer1) && part2.equals(answer2)) {
-            tv.setText("Correct!");
+            tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
         } else {
-            tv.setText("Incorrect...");
+            tv.setText(getResources().getString(R.string.incorrect));
             answerCorrect = false;
             score = 0;
         }
-        hs.setText(""+score);
+        hs.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -442,7 +442,7 @@ public class IntervalsActivity extends AppCompatActivity {
                     testUser();
                 } else if (!isReplaying) {
                     setFirstRowEnabled(true);
-                    tv.setText("Try Again!");
+                    tv.setText(getResources().getString(R.string.try_again));
                 }
             }
         }, 1500);

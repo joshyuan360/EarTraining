@@ -1,13 +1,17 @@
 <resources>
     <string name="app_name">Ear Training</string>
-    <string name="please_select_the_activity_that_you_wish_to_practice">Please select the activity that you wish to practice:</string>
+
     <string name="intervals">- INTERVALS -</string>
     <string name="chords">- CHORDS -</string>
     <string name="cadences">- CADENCES -</string>
+    <string name="high_scores">- HIGH SCORES -</string>
     <string name="settings">- SETTINGS -</string>
+
     <string name="perfect">Perfect</string>
     <string name="major">Major</string>
     <string name="minor">Minor</string>
+    <string name="tritone">Tritone</string>
+
     <string name="unison">Unison</string>
     <string name="second">Second</string>
     <string name="third">Third</string>
@@ -16,32 +20,44 @@
     <string name="sixth">Sixth</string>
     <string name="seventh">Seventh</string>
     <string name="octave">Octave</string>
-    <string name="select_the_interval_that_you_hear">Select the interval that you hear:</string>
+
     <string name="dom_7">Dom 7</string>
     <string name="dim_7">Dim 7</string>
-    <string name="root_position">Root Position</string>
-    <string name="_1st_inversion">1st Inversion</string>
-    <string name="_2nd_inversion">2nd Inversion</string>
-    <string name="_3rd_inversion">3rd Inversion</string>
-    <string name="playing_sound">Playing sound...</string>
-    <string name="perfect1">Perfect</string>
+    <string name="root_pos">Root Pos</string>
+    <string name="_1st_inv">1st Inv</string>
+    <string name="_2nd_inv">2nd Inv</string>
+    <string name="_3rd_inv">3rd Inv</string>
+
+    <string name="playing_interval">Playing interval…</string>
+    <string name="playing_chord">Playing chord…</string>
+    <string name="playing_cadence">Playing cadence…</string>
+
+    <string name="identify_the_interval">Identify the interval…</string>
+    <string name="identify_the_chord">Identify the chord…</string>
+    <string name="identify_the_cadence">Identify the cadence…</string>
+
+    <string name="replaying">Replaying…</string>
+    <string name="correct">Correct!</string>
+    <string name="incorrect">Incorrect…</string>
+    <string name="try_again">Try again!</string>
+
     <string name="plagal">Plagal</string>
     <string name="imperfect">Imperfect</string>
     <string name="deceptive">Deceptive</string>
+
     <string name="score_value">0</string>
     <string name="score">Score</string>
-    <string name="tritone">Tritone</string>
-    <string name="high_scores">- HIGH SCORES -</string>
+
     <string name="select_the_cadence_you_hear">Select the cadence you hear:</string>
     <string name="_0">0</string>
     <string name="replay">REPLAY</string>
+
+    <string name="select_the_interval_you_hear">Select the interval you hear:</string>
     <string name="select_the_chord_you_hear">Select the chord you hear:</string>
     <string name="ear_training">RCM - EAR TRAINING</string>
-    <string name="version_1_0">Version 3.0</string>
+    <string name="version">Version 3.0</string>
+
     <string name="intervals_hs">Intervals:</string>
     <string name="chords_hs">Chords:</string>
     <string name="cadences_hs">Cadences:</string>
-    <string name="high_scores_capital">- HIGH SCORES -</string>
-    <string name="select_the_interval_you_hear">Select the interval you hear:</string>
-    <string name="title_activity_settings">Settings</string>
 </resources>

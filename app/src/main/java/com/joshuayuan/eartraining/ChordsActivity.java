@@ -244,9 +244,9 @@ public class ChordsActivity extends AppCompatActivity {
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
         if (answerCorrect) {
-            tv.setText("Playing chord...");
+            tv.setText(getResources().getString(R.string.playing_chord));
         } else {
-            tv.setText("Replaying...");
+            tv.setText(getResources().getString(R.string.replaying));
         }
 
         if (answerCorrect) {
@@ -318,7 +318,7 @@ public class ChordsActivity extends AppCompatActivity {
                 // set up UI
                 replay.setEnabled(true);
                 setFirstRowEnabled(true);
-                tv.setText("Identify the chord...");
+                tv.setText(getResources().getString(R.string.identify_the_chord));
                 isReplaying = false;
             }
         });
@@ -343,19 +343,19 @@ public class ChordsActivity extends AppCompatActivity {
      */
     private void displayResult() {
         if (answer1.equals("Dim 7") && part2.equals("Dim 7")) {
-            tv.setText("Correct!");
+            tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
         } else if (part1.equals(answer1) && part2.equals(answer2)) {
-            tv.setText("Correct!");
+            tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
         } else {
-            tv.setText("Incorrect...");
+            tv.setText(getResources().getString(R.string.incorrect));
             answerCorrect = false;
             score = 0;
         }
-        hs.setText(""+score);
+        hs.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -418,7 +418,7 @@ public class ChordsActivity extends AppCompatActivity {
                     testUser();
                 } else if (!isReplaying) {
                     setFirstRowEnabled(true);
-                    tv.setText("Try Again!");
+                    tv.setText(getResources().getString(R.string.try_again));
                 }
             }
         }, 1500);
