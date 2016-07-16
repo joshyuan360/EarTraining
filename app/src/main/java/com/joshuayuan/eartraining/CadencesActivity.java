@@ -13,13 +13,11 @@ package com.joshuayuan.eartraining;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -60,6 +58,7 @@ public class CadencesActivity extends AppCompatActivity {
     private boolean prefRepeat;
     /** Used to play sound after a specified amount of time. */
     private Handler handler = new Handler();
+    private boolean isReplaying;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -74,7 +73,7 @@ public class CadencesActivity extends AppCompatActivity {
         hs = (TextView) findViewById(R.id.cadenceScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet(Arrays.asList(new String[] { "Imperfect", "Deceptive" }));
+        Set<String> defaultSet = new HashSet(Arrays.asList(new String[] { "Imperfect", "Deceptive" })); //TODO change this
         selections = sharedPrefs.getStringSet("pref_cadences", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
@@ -86,7 +85,6 @@ public class CadencesActivity extends AppCompatActivity {
             @Override
             public void run() {
                 testUser();
-                setButtonsEnabled(true);
             }
         }, 1500);
     }
@@ -160,7 +158,7 @@ public class CadencesActivity extends AppCompatActivity {
      */
     private void displayResult() {
         if (response.equals(answer)) {
-            tv.setText("Correct! Next one playing...");
+            tv.setText("Correct!");
             answerCorrect = true;
             score++;
         } else {
@@ -184,24 +182,6 @@ public class CadencesActivity extends AppCompatActivity {
             editor.putInt("cahs", score);
             editor.commit();
         }
-    }
-
-    /**
-     * After a two second delay, this method enables the answer buttons and tests the user again.
-     */
-    private void reset() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (answerCorrect) {
-                    tv.setText("Identify the cadence...");
-                } else {
-                    tv.setText("Try again!");
-                }
-                setButtonsEnabled(true);
-                testUser();
-            }
-        }, 2000);
     }
 
     /**
@@ -366,7 +346,15 @@ public class CadencesActivity extends AppCompatActivity {
      * When playing a new cadence, the two chords are pseudo-randomly generated.
      */
     private void playAnswer() {
+        // set up UI
+        setButtonsEnabled(false);
         replay.setEnabled(false);
+        if (answerCorrect) {
+            tv.setText("Playing cadence...");
+        } else {
+            tv.setText("Replaying...");
+        }
+
         if (answerCorrect) {
             if (answer.equals("Perfect")) {
                 notes = randPerfectCadence();
@@ -397,24 +385,29 @@ public class CadencesActivity extends AppCompatActivity {
             mp[i] = MediaPlayer.create (this, Utilities.getResourceId(notes[i]));
         }
         for (int i = 0; i < 4; i++) {
-            mp[i].start ();
+            mp[i].start();
         }
-        while (true) {
-            if (!mp[3].isPlaying()) {
+
+        mp[3].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer med) {
                 for (int i = 4; i < 8; i++) {
                     mp[i].start();
                 }
-                break;
             }
-        }
+        });
 
         mp[7].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
                 for (int i = 0; i < 8; i++) {
+                    mp[i].stop();
                     mp[i].release();
                     mp[i] = null;
                 }
+                // set up UI
                 replay.setEnabled(true);
+                setButtonsEnabled(true);
+                tv.setText("Identify the cadence...");
+                isReplaying = false;
             }
         });
     }
@@ -425,6 +418,7 @@ public class CadencesActivity extends AppCompatActivity {
      */
     public void replayCadence(View view) {
         answerCorrect = false;
+        isReplaying = true;
         playAnswer();
     }
 
@@ -434,10 +428,23 @@ public class CadencesActivity extends AppCompatActivity {
      * @param view The button clicked by the user: perfect, plagal, imperfect, or deceptive.
      */
     public void answerClicked(View view) {
-        setButtonsEnabled(false);
         response = ((Button) view).getText();
-
+        setButtonsEnabled(false);
         displayResult();
-        reset();
+        if (answerCorrect || prefRepeat) {
+            replay.setEnabled(false);
+        }
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (answerCorrect || prefRepeat) {
+                    testUser();
+                } else if (!isReplaying) {
+                    setButtonsEnabled(true);
+                    tv.setText("Try Again!");
+                }
+            }
+        }, 1500);
     }
 }

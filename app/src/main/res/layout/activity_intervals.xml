@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Identify the interval..."
+        android:text="Playing interval..."
         android:id="@+id/insDisplay"
         android:textColor="#ffffff"
         android:layout_alignParentLeft="true"

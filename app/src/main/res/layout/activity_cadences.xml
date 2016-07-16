@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Identify the cadence..."
+        android:text="Playing cadence..."
         android:id="@+id/cadenceText"
         android:textColor="#ffffff"
         android:layout_below="@+id/deceptive"
