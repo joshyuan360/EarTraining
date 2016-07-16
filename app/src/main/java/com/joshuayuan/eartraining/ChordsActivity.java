@@ -96,7 +96,6 @@ public class ChordsActivity extends AppCompatActivity {
         setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
-        replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -159,11 +158,6 @@ public class ChordsActivity extends AppCompatActivity {
         minor.setEnabled(enabled);
         dominant.setEnabled(allowDom && enabled);
         diminished.setEnabled(selections.contains("Dim 7 none") && enabled);
-
-        major.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        minor.setBackgroundColor(enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        dominant.setBackgroundColor(allowDom && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        diminished.setBackgroundColor(selections.contains("Dim 7 none") && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
     }
 
     /**
@@ -192,11 +186,6 @@ public class ChordsActivity extends AppCompatActivity {
         first.setEnabled(allowInvButton("1st Inv") && enabled);
         second.setEnabled(allowInvButton("2nd Inv") && enabled);
         third.setEnabled(allowInvButton("3rd Inv") && enableThird);
-
-        root.setBackgroundColor(allowRoot && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        first.setBackgroundColor(allowInvButton("1st Inv") && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        second.setBackgroundColor(allowInvButton("2nd Inv") && enabled? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
-        third.setBackgroundColor(allowInvButton("3rd Inv") && enableThird? Color.parseColor("#7B00F2FF") : Color.parseColor("#2400F2FF"));
     }
 
     /**
@@ -251,7 +240,6 @@ public class ChordsActivity extends AppCompatActivity {
      */
     private void playAnswer() {
         replay.setEnabled(false);
-        replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
         if (answerCorrect) {
             note1 = (int) (Math.random() * 16) + 1; //1 to 15
         }
@@ -318,7 +306,6 @@ public class ChordsActivity extends AppCompatActivity {
                     mp[i] = null;
                 }
                 replay.setEnabled(true);
-                replay.setBackgroundColor(Color.parseColor("#7B00F2FF"));
             }
         });
     }

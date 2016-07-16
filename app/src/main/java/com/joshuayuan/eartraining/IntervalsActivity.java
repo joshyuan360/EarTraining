@@ -96,7 +96,6 @@ public class IntervalsActivity extends AppCompatActivity {
         setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
-        replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -211,7 +210,6 @@ public class IntervalsActivity extends AppCompatActivity {
      */
     private void playAnswer() {
         replay.setEnabled(false);
-        replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
         if (answerCorrect) {
             note1 = (int) (Math.random() * 16) + 1; //1 to 15
         }
@@ -273,7 +271,6 @@ public class IntervalsActivity extends AppCompatActivity {
                 mp[1].release();
                 mp[1] = null;
                 replay.setEnabled(true);
-                replay.setBackgroundColor(Color.parseColor("#7B00F2FF"));
             }
         });
     }
@@ -348,20 +345,10 @@ public class IntervalsActivity extends AppCompatActivity {
         fifth.setEnabled(allowPerButton("Fifth") && perfect);
         octave.setEnabled(allowPerButton("Octave") && perfect);
 
-        unison.setBackgroundColor(allowPerButton("Unison") && perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        fourth.setBackgroundColor(allowPerButton("Fourth") && perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        fifth.setBackgroundColor(allowPerButton("Fifth") && perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        octave.setBackgroundColor(allowPerButton("Octave") && perfect ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-
         second.setEnabled(allowButton("Second") && other);
         third.setEnabled(other);
         sixth.setEnabled(allowButton("Sixth") && other);
         seventh.setEnabled(allowButton("Seventh") && other);
-
-        second.setBackgroundColor(allowButton("Second") && other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        third.setBackgroundColor(other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        sixth.setBackgroundColor(allowButton("Sixth") && other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        seventh.setBackgroundColor(allowButton("Seventh") && other ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
     }
 
     /**
@@ -373,11 +360,6 @@ public class IntervalsActivity extends AppCompatActivity {
         major.setEnabled(enabled);
         minor.setEnabled(enabled);
         tritone.setEnabled(selections.contains("Tritone") && enabled);
-
-        perfect.setBackgroundColor(allowPerfect && enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        major.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        minor.setBackgroundColor(enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
-        tritone.setBackgroundColor(selections.contains("Tritone") && enabled ? Color.parseColor("#7B00F2FF") : Color.parseColor("#1500F2FF"));
     }
 
     /**
