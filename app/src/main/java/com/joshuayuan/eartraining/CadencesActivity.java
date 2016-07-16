@@ -21,7 +21,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -158,15 +157,15 @@ public class CadencesActivity extends AppCompatActivity {
      */
     private void displayResult() {
         if (response.equals(answer)) {
-            tv.setText("Correct!");
+            tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
         } else {
-            tv.setText("Incorrect...");
+            tv.setText(getResources().getString(R.string.incorrect));
             answerCorrect = false;
             score = 0;
         }
-        hs.setText("" + score);
+        hs.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -180,7 +179,7 @@ public class CadencesActivity extends AppCompatActivity {
         if (pref.getInt("cahs", 0) < score) {
             SharedPreferences.Editor editor = pref.edit();
             editor.putInt("cahs", score);
-            editor.commit();
+            editor.apply();
         }
     }
 
@@ -350,9 +349,9 @@ public class CadencesActivity extends AppCompatActivity {
         setButtonsEnabled(false);
         replay.setEnabled(false);
         if (answerCorrect) {
-            tv.setText("Playing cadence...");
+            tv.setText(getResources().getString(R.string.playing_cadence));
         } else {
-            tv.setText("Replaying...");
+            tv.setText(getResources().getString(R.string.replaying));
         }
 
         if (answerCorrect) {
@@ -406,7 +405,7 @@ public class CadencesActivity extends AppCompatActivity {
                 // set up UI
                 replay.setEnabled(true);
                 setButtonsEnabled(true);
-                tv.setText("Identify the cadence...");
+                tv.setText(getResources().getString(R.string.replaying));
                 isReplaying = false;
             }
         });
@@ -442,7 +441,7 @@ public class CadencesActivity extends AppCompatActivity {
                     testUser();
                 } else if (!isReplaying) {
                     setButtonsEnabled(true);
-                    tv.setText("Try Again!");
+                    tv.setText(getResources().getString(R.string.try_again));
                 }
             }
         }, 1500);

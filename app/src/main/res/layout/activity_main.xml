@@ -110,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/version_1_0"
+        android:text="@string/version"
         android:id="@+id/version"
         android:layout_below="@+id/settings"
         android:layout_alignParentLeft="true"
