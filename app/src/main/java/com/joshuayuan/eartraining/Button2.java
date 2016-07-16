@@ -17,15 +17,15 @@ import android.util.AttributeSet;
 import android.widget.Button;
 
 /**
- * A <code>Button</code> with font Gill Sans MT and text size 12.
+ * A <code>Button</code> with font Gill Sans MT and text size 14.
  */
-public class Button1 extends Button {
-    public Button1(Context context, AttributeSet attrs) {
+public class Button2 extends Button {
+    public Button2(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/GIL.TTF"));
-        setTextSize(13);
+        setTextSize(14);
         setTextColor(Color.parseColor("#FFFFFF"));
         setBackgroundResource(R.drawable.custom_button);
-        setEnabled(false);
+        setEnabled(true);
     }
 }

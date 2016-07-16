@@ -63,8 +63,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/intervalmessage"
         android:id="@+id/linearLayout"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
@@ -76,8 +75,8 @@
             android:text="@string/perfect"
             android:id="@+id/perfect"
             android:onClick="part1Clicked"
-            android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:enabled="false" />
         <com.joshuayuan.eartraining.Button1 android:layout_weight="1"
             android:layout_height="40dp"
@@ -103,9 +102,8 @@
             android:text="@string/tritone"
             android:id="@+id/tritone"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
             android:enabled="false" />
     </LinearLayout>
 
@@ -115,8 +113,7 @@
         android:orientation="horizontal"
         android:id="@+id/linearLayout2"
         android:layout_below="@+id/linearLayout"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
@@ -129,8 +126,8 @@
             android:text="@string/unison"
             android:id="@+id/unison"
             android:onClick="part2Clicked"
-            android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:enabled="false" />
 
         <com.joshuayuan.eartraining.Button1
@@ -163,7 +160,7 @@
             android:id="@+id/fourth"
             android:onClick="part2Clicked"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
             android:enabled="false" />
     </LinearLayout>
 
@@ -173,8 +170,7 @@
         android:orientation="horizontal"
         android:id="@+id/linearLayout3"
         android:layout_below="@+id/linearLayout2"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
@@ -187,8 +183,8 @@
             android:text="@string/fifth"
             android:id="@+id/fifth"
             android:onClick="part2Clicked"
-            android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:enabled="false" />
 
         <com.joshuayuan.eartraining.Button1
@@ -221,7 +217,7 @@
             android:id="@+id/octave"
             android:onClick="part2Clicked"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
             android:enabled="false" />
     </LinearLayout>
 

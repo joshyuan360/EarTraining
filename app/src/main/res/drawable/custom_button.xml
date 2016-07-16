@@ -5,8 +5,8 @@
     <item android:state_enabled="true" >
         <shape>
             <gradient
-                android:startColor="#7B00F2FF"
-                android:endColor="#7B00F2FF" />
+                android:startColor="#c800f2ff"
+                android:endColor="#c800f2ff" />
         </shape>
     </item>
 

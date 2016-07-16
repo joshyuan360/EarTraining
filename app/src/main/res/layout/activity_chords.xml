@@ -42,7 +42,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/score_value"
         android:id="@+id/chordScore"
-        android:textSize="100sp"
+        android:textSize="100dp"
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
@@ -59,143 +59,132 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_below="@+id/chords"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
         android:id="@+id/linearLayout4">
 
         <com.joshuayuan.eartraining.Button1 android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:text="@string/major"
             android:id="@+id/major"
             android:onClick="cpart1Clicked"
             android:enabled="false"
             android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginEnd="5dp"/>
 
         <com.joshuayuan.eartraining.Button1 android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:text="@string/minor"
             android:id="@+id/minor"
             android:onClick="cpart1Clicked"
             android:enabled="false"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_alignLeft="@+id/linearLayout4"
         android:layout_alignStart="@+id/linearLayout4"
+        android:layout_marginTop="10dp"
         android:id="@+id/linearLayout5"
         android:layout_below="@+id/linearLayout4">
 
         <com.joshuayuan.eartraining.Button1
             android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:text="@string/dom_7"
             android:id="@+id/dom7"
             android:onClick="cpart1Clicked"
             android:enabled="false"
             android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginEnd="5dp"/>
 
         <com.joshuayuan.eartraining.Button1
             android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:text="@string/dim_7"
             android:id="@+id/dim7"
             android:onClick="cpart2Clicked"
             android:enabled="false"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_below="@+id/linearLayout5"
         android:layout_alignLeft="@+id/linearLayout5"
         android:layout_alignStart="@+id/linearLayout5"
+        android:layout_marginTop="10dp"
         android:id="@+id/linearLayout6">
 
         <com.joshuayuan.eartraining.Button1
             android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:text="@string/root_pos"
             android:id="@+id/root"
             android:onClick="cpart2Clicked"
             android:enabled="false"
             android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginEnd="5dp" />
 
         <com.joshuayuan.eartraining.Button1
             android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:text="@string/_1st_inv"
             android:id="@+id/first"
             android:onClick="cpart2Clicked"
             android:enabled="false"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginStart="5dp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:id="@+id/linearLayout7"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/linearLayout6"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentLeft="@+id/linearLayout6"
+        android:layout_alignParentStart="@+id/linearLayout6">
 
         <com.joshuayuan.eartraining.Button1
             android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:text="@string/_2nd_inv"
             android:id="@+id/second"
             android:onClick="cpart2Clicked"
             android:enabled="false"
             android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginEnd="5dp" />
 
         <com.joshuayuan.eartraining.Button1
             android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
             android:text="@string/_3rd_inv"
             android:id="@+id/third"
             android:onClick="cpart2Clicked"
             android:enabled="false"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
 
 </RelativeLayout>
