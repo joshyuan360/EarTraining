@@ -19,9 +19,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -64,6 +68,8 @@ public class IntervalsActivity extends AppCompatActivity {
     private boolean prefRepeat;
     /** <code>true</code> if the user wants to be tested on one or more interval(s). */
     private boolean allowPerfect;
+    /** Used to play sound after a specified amount of time. */
+    private Handler handler = new Handler();
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -78,7 +84,12 @@ public class IntervalsActivity extends AppCompatActivity {
         hs = (TextView) findViewById(R.id.chordScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        selections = sharedPrefs.getStringSet("pref_intervals", null);
+        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[] {
+                "Minor Second", "Major Second", "Minor Sixth",
+                "Major Sixth", "Minor Seventh", "Major Seventh",
+                "Perfect Unison", "Perfect Fourth", "Perfect Fifth",
+                "Perfect Octave", "Tritone"}));
+        selections = sharedPrefs.getStringSet("pref_intervals", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
         initializeButtons();
@@ -86,7 +97,7 @@ public class IntervalsActivity extends AppCompatActivity {
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
         replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
-        final Handler handler = new Handler();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -111,15 +122,14 @@ public class IntervalsActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        try {
-            for (int i = 0; i < 2; i++) {
-                if (mp[i] != null && mp[i].isPlaying()) {
-                    mp[i].stop();
-                    mp[i].release();
-                }
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+        for (int i = 0; i < 2; i++) {
+            if (mp[i] != null) {
+                mp[i].release();
+                mp[i] = null;
             }
-        } catch (IllegalStateException e) {
-            //if the internal player engine has not been initialized or has been released, do nothing
         }
     }
 
@@ -259,7 +269,9 @@ public class IntervalsActivity extends AppCompatActivity {
         mp[1].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
                 mp[0].release();
+                mp[0] = null;
                 mp[1].release();
+                mp[1] = null;
                 replay.setEnabled(true);
                 replay.setBackgroundColor(Color.parseColor("#7B00F2FF"));
             }
@@ -283,7 +295,6 @@ public class IntervalsActivity extends AppCompatActivity {
      * After a two second delay, this method disables the first row and starts a new test.
      */
     private void reset() {
-        final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

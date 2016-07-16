@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -57,6 +58,8 @@ public class CadencesActivity extends AppCompatActivity {
     private Set<String> selections;
     /** <code>true</code> if the user wants automatic replays. */
     private boolean prefRepeat;
+    /** Used to play sound after a specified amount of time. */
+    private Handler handler = new Handler();
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -71,7 +74,8 @@ public class CadencesActivity extends AppCompatActivity {
         hs = (TextView) findViewById(R.id.cadenceScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        selections = sharedPrefs.getStringSet("pref_cadences", null);
+        Set<String> defaultSet = new HashSet(Arrays.asList(new String[] { "Imperfect", "Deceptive" }));
+        selections = sharedPrefs.getStringSet("pref_cadences", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
         initializeButtons();
@@ -79,7 +83,6 @@ public class CadencesActivity extends AppCompatActivity {
         replay.setEnabled(false);
         replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
 
-        final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -97,15 +100,14 @@ public class CadencesActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        try {
-            for (int i = 0; i < 8; i++) {
-                if (mp[i] != null && mp[i].isPlaying()) {
-                    mp[i].stop();
-                    mp[i].release();
-                }
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+        for (int i = 0; i < 8; i++) {
+            if (mp[i] != null) {
+                mp[i].release();
+                mp[i] = null;
             }
-        } catch (IllegalStateException e) {
-            //if the internal player engine has not been initialized or has been released, do nothing
         }
     }
 
@@ -194,7 +196,6 @@ public class CadencesActivity extends AppCompatActivity {
      * After a two second delay, this method enables the answer buttons and tests the user again.
      */
     private void reset() {
-        final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -418,6 +419,7 @@ public class CadencesActivity extends AppCompatActivity {
             public void onCompletion(MediaPlayer med) {
                 for (int i = 0; i < 8; i++) {
                     mp[i].release();
+                    mp[i] = null;
                 }
                 replay.setEnabled(true);
                 replay.setBackgroundColor(Color.parseColor("#7B00F2FF"));
