@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Identify the chord..."
+        android:text="Playing chord..."
         android:id="@+id/chInstructions"
         android:textColor="#ffffff"
         android:paddingTop="10dp"

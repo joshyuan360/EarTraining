@@ -71,6 +71,7 @@ public class ChordsActivity extends AppCompatActivity {
     private boolean allowDom;
     /** Used to play sound after a specified amount of time. */
     private Handler handler = new Handler();
+    private boolean isReplaying;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -101,7 +102,6 @@ public class ChordsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 testUser();
-                setFirstRowEnabled(true);
             }
         }, 1500);
 
@@ -239,7 +239,16 @@ public class ChordsActivity extends AppCompatActivity {
      * When playing a new chord, the starting note is pseudo-randomly picked.
      */
     private void playAnswer() {
+        // set up UI
+        setFirstRowEnabled(false);
+        setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
+        if (answerCorrect) {
+            tv.setText("Playing chord...");
+        } else {
+            tv.setText("Replaying...");
+        }
+
         if (answerCorrect) {
             note1 = (int) (Math.random() * 16) + 1; //1 to 15
         }
@@ -302,10 +311,15 @@ public class ChordsActivity extends AppCompatActivity {
         mp[2].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer m) {
                 for (int i = 0; i < 4; i++) {
+                    mp[i].stop();
                     mp[i].release();
                     mp[i] = null;
                 }
+                // set up UI
                 replay.setEnabled(true);
+                setFirstRowEnabled(true);
+                tv.setText("Identify the chord...");
+                isReplaying = false;
             }
         });
     }
@@ -346,24 +360,6 @@ public class ChordsActivity extends AppCompatActivity {
     }
 
     /**
-     * After a two second delay, this method disables the first row and starts a new test.
-     */
-    private void reset() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (answerCorrect) {
-                    tv.setText("Identify the chord...");
-                } else {
-                    tv.setText("Try again!");
-                }
-                setFirstRowEnabled(true);
-                testUser();
-            }
-        }, 2000);
-    }
-
-    /**
      * If the current score is higher than the high score, the new high score is updated
      * in shared preferences.
      * @param score The current score.
@@ -383,6 +379,7 @@ public class ChordsActivity extends AppCompatActivity {
      */
     public void replayChord(View view) {
         answerCorrect = false;
+        isReplaying = true;
         playAnswer();
     }
 
@@ -411,6 +408,19 @@ public class ChordsActivity extends AppCompatActivity {
             setFirstRowEnabled(false);
         }
         displayResult();
-        reset();
+        if (answerCorrect || prefRepeat) {
+            replay.setEnabled(false);
+        }
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (answerCorrect || prefRepeat) {
+                    testUser();
+                } else if (!isReplaying) {
+                    setFirstRowEnabled(true);
+                    tv.setText("Try Again!");
+                }
+            }
+        }, 1500);
     }
 }

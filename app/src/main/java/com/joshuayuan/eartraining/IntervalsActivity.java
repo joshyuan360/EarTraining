@@ -70,6 +70,7 @@ public class IntervalsActivity extends AppCompatActivity {
     private boolean allowPerfect;
     /** Used to play sound after a specified amount of time. */
     private Handler handler = new Handler();
+    private boolean isReplaying;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -101,7 +102,6 @@ public class IntervalsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 testUser();
-                setFirstRowEnabled(true);
             }
         }, 1500);
 
@@ -209,7 +209,16 @@ public class IntervalsActivity extends AppCompatActivity {
      * When playing a new interval, the starting note is pseudo-randomly picked.
      */
     private void playAnswer() {
+        // set up UI
+        setFirstRowEnabled(false);
+        setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
+        if (answerCorrect) {
+            tv.setText("Playing interval...");
+        } else {
+            tv.setText("Replaying...");
+        }
+
         if (answerCorrect) {
             note1 = (int) (Math.random() * 16) + 1; //1 to 15
         }
@@ -257,12 +266,11 @@ public class IntervalsActivity extends AppCompatActivity {
         }
 
         mp[0].start();
-        while (true) {
-            if (!mp[0].isPlaying()) {
+        mp[0].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer med) {
                 mp[1].start();
-                break;
             }
-        }
+        });
 
         mp[1].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
@@ -270,7 +278,12 @@ public class IntervalsActivity extends AppCompatActivity {
                 mp[0] = null;
                 mp[1].release();
                 mp[1] = null;
+
+                // set up UI
                 replay.setEnabled(true);
+                setFirstRowEnabled(true);
+                tv.setText("Identify the cadence...");
+                isReplaying = false;
             }
         });
     }
@@ -286,23 +299,6 @@ public class IntervalsActivity extends AppCompatActivity {
         } else if (prefRepeat) {
             playAnswer();
         }
-    }
-
-    /**
-     * After a two second delay, this method disables the first row and starts a new test.
-     */
-    private void reset() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (answerCorrect)
-                    tv.setText ("Identify the interval...");
-                else
-                    tv.setText("Try again!");
-                setFirstRowEnabled(true);
-                testUser();
-            }
-        }, 1500);
     }
 
     /**
@@ -368,11 +364,11 @@ public class IntervalsActivity extends AppCompatActivity {
      */
     private void displayResult() {
         if (part2.equals("Tritone") && answer2.equals("Tritone")) {
-            tv.setText("Correct! Next one playing...");
+            tv.setText("Correct!");
             answerCorrect = true;
             score++;
         } else if (part1.equals(answer1) && part2.equals(answer2)) {
-            tv.setText("Correct! Next one playing...");
+            tv.setText("Correct!");
             answerCorrect = true;
             score++;
         } else {
@@ -404,6 +400,7 @@ public class IntervalsActivity extends AppCompatActivity {
      */
     public void replayInterval(View view) {
         answerCorrect = false;
+        isReplaying = true;
         playAnswer();
     }
 
@@ -431,11 +428,23 @@ public class IntervalsActivity extends AppCompatActivity {
         part2 = ((Button) view).getText();
         if (part2.equals("Tritone")) {
             part1 = "Tritone";
-            setFirstRowEnabled(false);
         }
+        setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);
-
         displayResult();
-        reset();
+        if (answerCorrect || prefRepeat) {
+            replay.setEnabled(false);
+        }
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (answerCorrect || prefRepeat) {
+                    testUser();
+                } else if (!isReplaying) {
+                    setFirstRowEnabled(true);
+                    tv.setText("Try Again!");
+                }
+            }
+        }, 1500);
     }
 }
