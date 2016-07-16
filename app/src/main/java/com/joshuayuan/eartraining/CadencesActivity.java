@@ -17,6 +17,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +52,7 @@ public class CadencesActivity extends AppCompatActivity {
     private TextView hs;
     /** Contains the sound files required to play the cadence. */
     private final MediaPlayer[] mp = new MediaPlayer[8];
+    private MediaPlayer tonic = new MediaPlayer();
     /** The chords that the user wishes to be tested on. */
     private Set<String> selections;
     /** <code>true</code> if the user wants automatic replays. */
@@ -58,6 +60,7 @@ public class CadencesActivity extends AppCompatActivity {
     /** Used to play sound after a specified amount of time. */
     private Handler handler = new Handler();
     private boolean isReplaying;
+    private int randomShift;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -373,20 +376,33 @@ public class CadencesActivity extends AppCompatActivity {
 
             int minShift = -11 - temp[0];
             int maxShift = 28 - temp[7];
-            int randomShift = minShift + (int) (Math.random() * (maxShift - minShift + 1));
+            randomShift = minShift + (int) (Math.random() * (maxShift - minShift + 1));
 
             for (int i = 0; i < 8; i++) {
                 notes[i] += randomShift;
             }
         }
-
+        //make sure tonic note is between 5 and 16 (inclusive)
+        int tonicId = 1 + randomShift;
+        while (tonicId < 4) {
+            tonicId += 12;
+        }
+        tonic = MediaPlayer.create(this, Utilities.getResourceId(tonicId));
         for (int i = 0; i < 8; i++) {
             mp[i] = MediaPlayer.create (this, Utilities.getResourceId(notes[i]));
         }
-        for (int i = 0; i < 4; i++) {
-            mp[i].start();
-        }
 
+        tonic.start();
+        tonic.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+            public void onCompletion(MediaPlayer med) {
+                tonic.stop();
+                tonic.release();
+                tonic = null;
+                for (int i = 0; i < 4; i++) {
+                    if (mp[i] != null) mp[i].start();
+                }
+            }
+        });
         mp[3].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
                 for (int i = 4; i < 8; i++) {
@@ -394,7 +410,6 @@ public class CadencesActivity extends AppCompatActivity {
                 }
             }
         });
-
         mp[7].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
                 for (int i = 0; i < 8; i++) {
@@ -405,7 +420,7 @@ public class CadencesActivity extends AppCompatActivity {
                 // set up UI
                 replay.setEnabled(true);
                 setButtonsEnabled(true);
-                tv.setText(getResources().getString(R.string.replaying));
+                tv.setText(getResources().getString(R.string.identify_the_cadence));
                 isReplaying = false;
             }
         });
