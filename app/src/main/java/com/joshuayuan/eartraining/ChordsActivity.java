@@ -24,6 +24,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -67,6 +69,9 @@ public class ChordsActivity extends AppCompatActivity {
     private boolean prefRepeat;
     /** <code>true</code> if the user wants to be tested on one or more dominant 7th chord(s). */
     private boolean allowDom;
+    /** Used to play sound after a specified amount of time. */
+    private Handler handler = new Handler();
+
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -80,7 +85,11 @@ public class ChordsActivity extends AppCompatActivity {
         hs = (TextView) findViewById(R.id.chordScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        selections = sharedPrefs.getStringSet("pref_chords", null);
+        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[] {
+                "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
+                "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
+                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", }));
+        selections = sharedPrefs.getStringSet("pref_chords", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
         initializeButtons();
@@ -88,7 +97,7 @@ public class ChordsActivity extends AppCompatActivity {
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
         replay.setBackgroundColor(Color.parseColor("#2400F2FF"));
-        final Handler handler = new Handler();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -113,15 +122,14 @@ public class ChordsActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        try {
-            for (int i = 0; i < 4; i++) {
-                if (mp[i] != null && mp[i].isPlaying()) {
-                    mp[i].stop();
-                    mp[i].release();
-                }
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+        for (int i = 0; i < 4; i++) {
+            if (mp[i] != null) {
+                mp[i].release();
+                mp[i] = null;
             }
-        } catch (IllegalStateException e) {
-            //if the internal player engine has not been initialized or has been released, do nothing
         }
     }
 
@@ -307,6 +315,7 @@ public class ChordsActivity extends AppCompatActivity {
             public void onCompletion(MediaPlayer m) {
                 for (int i = 0; i < 4; i++) {
                     mp[i].release();
+                    mp[i] = null;
                 }
                 replay.setEnabled(true);
                 replay.setBackgroundColor(Color.parseColor("#7B00F2FF"));
@@ -353,7 +362,6 @@ public class ChordsActivity extends AppCompatActivity {
      * After a two second delay, this method disables the first row and starts a new test.
      */
     private void reset() {
-        final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
