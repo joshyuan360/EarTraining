@@ -55,9 +55,7 @@
         android:layout_above="@+id/chordScore"
         android:layout_centerHorizontal="true"
         android:enabled="false"
-        android:onClick="replayInterval"
-        android:textColor="#ffffff"
-        android:background="@drawable/custom_button" />
+        android:onClick="replayInterval" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,10 +75,7 @@
             android:layout_width="match_parent"
             android:text="@string/perfect"
             android:id="@+id/perfect"
-            android:textSize="10dp"
-            android:textColor="#ffffff"
             android:onClick="part1Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -89,10 +84,7 @@
             android:layout_width="match_parent"
             android:text="@string/major"
             android:id="@+id/major"
-            android:textSize="10dp"
-            android:textColor="#ffffff"
             android:onClick="part1Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -101,10 +93,7 @@
             android:layout_width="match_parent"
             android:text="@string/minor"
             android:id="@+id/minor"
-            android:textSize="10dp"
-            android:textColor="#ffffff"
             android:onClick="part1Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -113,8 +102,6 @@
             android:layout_width="match_parent"
             android:text="@string/tritone"
             android:id="@+id/tritone"
-            android:textSize="10dp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
             android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
@@ -141,10 +128,7 @@
             android:layout_width="match_parent"
             android:text="@string/unison"
             android:id="@+id/unison"
-            android:textSize="10sp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -155,10 +139,7 @@
             android:layout_width="match_parent"
             android:text="@string/second"
             android:id="@+id/second"
-            android:textSize="10sp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -169,10 +150,7 @@
             android:layout_width="match_parent"
             android:text="@string/third"
             android:id="@+id/third"
-            android:textSize="10sp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -183,10 +161,7 @@
             android:layout_width="match_parent"
             android:text="@string/fourth"
             android:id="@+id/fourth"
-            android:textSize="10sp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -211,10 +186,7 @@
             android:layout_width="match_parent"
             android:text="@string/fifth"
             android:id="@+id/fifth"
-            android:textSize="10dp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -225,10 +197,7 @@
             android:layout_width="match_parent"
             android:text="@string/sixth"
             android:id="@+id/sixth"
-            android:textSize="10dp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -239,10 +208,7 @@
             android:layout_width="match_parent"
             android:text="@string/seventh"
             android:id="@+id/seventh"
-            android:textSize="10dp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
@@ -253,10 +219,7 @@
             android:layout_width="match_parent"
             android:text="@string/octave"
             android:id="@+id/octave"
-            android:textSize="10dp"
-            android:textColor="#ffffff"
             android:onClick="part2Clicked"
-            android:background="@drawable/custom_button"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:enabled="false" />
