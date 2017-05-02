@@ -30,7 +30,8 @@ public class MyDialogPreference extends DialogPreference {
     @Override
     public void onClick(DialogInterface dialog, int which){
         if (which == DialogInterface.BUTTON_POSITIVE) {
-            Utilities.resetHighScores = true;
+            SharedPreferences prefs = getContext().getSharedPreferences("high scores", Context.MODE_PRIVATE);
+            prefs.edit().putInt("ihs", 0).putInt("chhs", 0).putInt("cahs", 0).apply();
         }
     }
 }

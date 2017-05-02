@@ -10,13 +10,15 @@
  */
 package com.joshuayuan.eartraining;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+
 /**
  * Used in multiple classes within the com.joshuayuan package.
  * @author Joshua Yuan
  */
 public class Utilities {
-    public static boolean resetHighScores = false;
-
     /**
      * Returns the resource ID of the requested note.
      * @param note The note to be played.
@@ -62,7 +64,8 @@ public class Utilities {
         if (note == -8) return R.raw.low8;
         if (note == -9) return R.raw.low9;
         if (note == -10) return R.raw.low10;
-        return R.raw.low11;
+        if (note == -11) return R.raw.low11;
+        return -1000;
     }
 
 }

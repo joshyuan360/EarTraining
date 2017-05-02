@@ -22,6 +22,7 @@ import android.widget.Button;
 public class Button1 extends Button {
     public Button1(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/GIL.TTF"));
         setTextSize(13);
         setTextColor(Color.parseColor("#FFFFFF"));

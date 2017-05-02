@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public class CadencesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Cadences");
         setContentView(R.layout.activity_cadences);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -199,6 +201,36 @@ public class CadencesActivity extends AppCompatActivity {
         }
     }
 
+    private int[] modifiedCadence(int[] cadence) {
+        int bass1 = cadence[0], tenor1 = cadence[1], alto1 = cadence[2], soprano1 = cadence[3];
+        int bass2 = cadence[4], tenor2 = cadence[5], alto2 = cadence[6], soprano2 = cadence[7];
+
+        if (Math.random() < 0.5) { // move bass down an octave
+            int tempLowest = Math.min(bass1 - 12, bass2 - 12);
+            int tempHighest = Math.max(soprano1, soprano2);
+            if (tempHighest - tempLowest < 35) {
+                bass1 -= 12;
+                bass2 -= 12;
+            }
+            //Log.i("et", "bass down");
+        }
+        if (       alto1 - 12 - 2 > bass1 && alto1 - 12 + 2 < tenor1
+                && alto2 - 12 - 2 > bass2 && alto2 - 12 + 2 < tenor2
+                && Math.random() < 0.5) { // move alto down an octave
+            alto1 -= 12;
+            alto2 -= 12;
+            //Log.i("et", "alto down");
+        }
+        if (       bass2 + 12 + 2 < tenor2
+                && bass1 > bass2
+                && Math.random() < 0.5) {
+            bass2 += 12;
+            //Log.i("et", "bass2 up");
+        }
+
+        return new int[]{bass1, tenor1, alto1, soprano1, bass2, tenor2, alto2, soprano2};
+    }
+
     /**
      * Generates a random perfect cadence in C major or C minor.
      * The method generates a variety of Perfect Authentic Cadences and Inauthentic Cadences
@@ -207,13 +239,13 @@ public class CadencesActivity extends AppCompatActivity {
      * All cadences generated follow voice leading rules set by traditional Western music standards.
      * @return A random perfect cadence in C major (50%) or C minor (50%).
      */
-    private int[] randPerfectCadence () {
+    private int[] randPerfectCadence() {
         int minorValues[] = {5, 17, 29};
         // to switch any cadence to minor, subtract 1 from all values equal to 5, 17, or 29
         int[][] majorPerfectCadences =
                 {
                         {8, 8, 15, 24, 1, 8, 17, 25}, // complete 2-3 tonic song, V I
-                        {0, 8, 15, 24, 1, 8, 13, 17}, // incomplete 2-1 tonic song, V6 I
+                        {0, 8, 15, 24, 1, 8, 13, 17}, // incomplete 2-1 tonic song, V6 I HELP
                         {8, 8, 15, 24, 5, 8, 13, 25}, // 5-3 inversion song, V I6
                         {-4, 8, 12, 15, 1, 5, 13, 13}, // incomplete 2-1 tonic song, V I
                         {0, 8, 20, 27, 1, 13, 20, 29}, // 2-3 inversion song, V6 I
@@ -228,6 +260,7 @@ public class CadencesActivity extends AppCompatActivity {
                 };
 
         int randRow = (int)(Math.random() * majorPerfectCadences.length);
+
         if (Math.random() < 0.5) {
             for (int i = 0; i < 3; i++) {
                 for (int j = 4; j < 8; j++) {
@@ -237,6 +270,8 @@ public class CadencesActivity extends AppCompatActivity {
                 }
             }
         }
+
+        majorPerfectCadences[randRow] = modifiedCadence(majorPerfectCadences[randRow]);
 
         return majorPerfectCadences[randRow];
     }
@@ -276,6 +311,8 @@ public class CadencesActivity extends AppCompatActivity {
             }
         }
 
+        majorImperfectCadences[randRow] = modifiedCadence(majorImperfectCadences[randRow]);
+
         return majorImperfectCadences[randRow];
     }
 
@@ -307,6 +344,8 @@ public class CadencesActivity extends AppCompatActivity {
             }
         }
 
+        majorPlagalCadences[randRow] = modifiedCadence(majorPlagalCadences[randRow]);
+
         return majorPlagalCadences[randRow];
     }
 
@@ -325,8 +364,9 @@ public class CadencesActivity extends AppCompatActivity {
                 {
                         {8, 12, 20, 27, 10, 13, 17, 25}, // weak version 1, V vi
                         {8, 12, 18, 27, 10, 13, 17, 25}, // strong version 1, V7 vi
+
                         {-4, 8, 12, 15, -2, 5, 13, 13}, // weak version 2, V vi
-                        {-4, 6, 12, 15, -2, 5, 13, 13} // strong version 2, V7 vi
+                        {-4, 6, 12, 15, -2, 5, 13, 13}, // strong version 2, V7 vi
                 };
 
         int randRow = (int)(Math.random() * majorDeceptiveCadences.length);
@@ -339,7 +379,14 @@ public class CadencesActivity extends AppCompatActivity {
                 }
             }
         }
-
+        if (Math.random() < 0.5) { // change some octaves for more variety
+            majorDeceptiveCadences[randRow][0] -= 12;
+            majorDeceptiveCadences[randRow][4] -= 12;
+            if (Math.random() < 0.5) {
+                majorDeceptiveCadences[randRow][1] -= 12;
+                majorDeceptiveCadences[randRow][5] -= 12;
+            }
+        }
         return majorDeceptiveCadences[randRow];
     }
 
@@ -377,7 +424,7 @@ public class CadencesActivity extends AppCompatActivity {
             int minShift = -11 - temp[0];
             int maxShift = 28 - temp[7];
             randomShift = minShift + (int) (Math.random() * (maxShift - minShift + 1));
-
+            //randomShift = minShift + 2; // bad: -5
             for (int i = 0; i < 8; i++) {
                 notes[i] += randomShift;
             }

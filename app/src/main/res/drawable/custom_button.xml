@@ -3,16 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="true" >
         <shape>
+            <corners android:radius="10dip" />
             <gradient
                 android:startColor="#c800f2ff"
-                android:endColor="#c800f2ff" />
+                android:centerColor="#c800c2cc"
+                android:endColor="#c800f2ff"
+                android:angle="90"/>
         </shape>
     </item>
 
     <item android:state_enabled="false" >
         <shape>
+            <corners android:radius="10dip" />
             <gradient
                 android:endColor="#2400F2FF"
+                android:centerColor="#2400c2cc"
                 android:startColor="#2400F2FF" />
         </shape>
     </item>

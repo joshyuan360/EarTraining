@@ -33,7 +33,7 @@
 
     <CheckBoxPreference
         android:key="pref_repeat"
-        android:summary="Replay when the incorrect answer is selected."
+        android:summary="Replay after an incorrect answer is selected."
         android:title="Automatic Replay"
         android:defaultValue="true"/>
 
