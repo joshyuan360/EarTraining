@@ -4,7 +4,8 @@
     <string name="intervals">- INTERVALS -</string>
     <string name="chords">- CHORDS -</string>
     <string name="cadences">- CADENCES -</string>
-    <string name="high_scores">- HIGH SCORES -</string>
+    <string name="high_scores">HIGH SCORES</string>
+    <string name="high_scores_main">- HIGH SCORES -</string>
     <string name="settings">- SETTINGS -</string>
 
     <string name="perfect">Perfect</string>
@@ -54,7 +55,7 @@
     <string name="select_the_interval_you_hear">Select the interval you hear:</string>
     <string name="select_the_chord_you_hear">Select the chord you hear:</string>
     <string name="ear_training">EAR TRAINING</string>
-    <string name="version">Version 3.0</string>
+    <string name="version"></string>
 
     <string name="intervals_hs">Intervals:</string>
     <string name="chords_hs">Chords:</string>

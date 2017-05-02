@@ -79,6 +79,7 @@ public class ChordsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Chords");
         setContentView(R.layout.activity_chords);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -227,7 +228,7 @@ public class ChordsActivity extends AppCompatActivity {
             answer1 = "Dim 7";
             answer2 = "none";
         }
-        Log.i ("answer", answer1 +  " " + answer2);
+        //Log.i ("answer", answer1 +  " " + answer2);
         String answer = answer1 + " " + answer2;
         if (!answer.equals("Major Root Pos") && !answer.equals("Minor Root Pos") && !selections.contains(answer)) {
             setAnswer();
