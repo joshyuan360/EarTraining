@@ -31,7 +31,7 @@ public class MyDialogPreference extends DialogPreference {
     public void onClick(DialogInterface dialog, int which){
         if (which == DialogInterface.BUTTON_POSITIVE) {
             SharedPreferences prefs = getContext().getSharedPreferences("high scores", Context.MODE_PRIVATE);
-            prefs.edit().putInt("ihs", 0).putInt("chhs", 0).putInt("cahs", 0).apply();
+            prefs.edit().putInt("ihs", 0).putInt("chhs", 0).putInt("cahs", 0).putInt("cphs", 0).apply();
         }
     }
 }

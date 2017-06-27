@@ -60,4 +60,5 @@
     <string name="intervals_hs">Intervals:</string>
     <string name="chords_hs">Chords:</string>
     <string name="cadences_hs">Cadences:</string>
+    <string name="title_activity_chord_progression">ChordProgression</string>
 </resources>

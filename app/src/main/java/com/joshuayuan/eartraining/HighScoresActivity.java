@@ -11,9 +11,7 @@
 package com.joshuayuan.eartraining;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -33,16 +31,19 @@ public class HighScoresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_high_scores2);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        TextView intervals = (TextView) findViewById(R.id.inhs);
-        TextView chords = (TextView) findViewById(R.id.chhs);
-        TextView cadences = (TextView) findViewById(R.id.cahs);
+        TextView intervals = (TextView)findViewById(R.id.inhs);
+        TextView chords = (TextView)findViewById(R.id.chhs);
+        TextView cadences = (TextView)findViewById(R.id.cahs);
+        TextView chordProgressions = (TextView)findViewById(R.id.cphs);
 
         String intervalsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("ihs", 0) + "";
         String chordsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("chhs", 0) + "";
         String cadencesScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("cahs", 0) + "";
+        String chordProgressionsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("cphs", 0) + "";
 
         intervals.setText ("Intervals: " + intervalsScore);
         chords.setText ("Chords: " + chordsScore);
         cadences.setText ("Cadences: " + cadencesScore);
+        chordProgressions.setText("Progressions: " + chordProgressionsScore);
     }
 }
