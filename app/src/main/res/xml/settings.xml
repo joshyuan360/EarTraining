@@ -7,7 +7,7 @@
     <MultiSelectListPreference
         android:key="pref_intervals"
         android:summary="Major and minor third intervals are always included."
-        android:title="Select Intervals"
+        android:title="Intervals"
         android:dialogTitle="Include the following intervals:"
         android:entries="@array/pref_intervals_entries"
         android:entryValues="@array/pref_intervals_entries"
@@ -16,7 +16,7 @@
     <MultiSelectListPreference
         android:key="pref_chords"
         android:summary="Major and minor chords in root position are always included."
-        android:title="Select Chords"
+        android:title="Chords"
         android:dialogTitle="Include the following chords:"
         android:entries="@array/pref_chords_entries"
         android:entryValues="@array/pref_chords_values"
@@ -25,11 +25,20 @@
     <MultiSelectListPreference
         android:key="pref_cadences"
         android:summary="Perfect and plagal cadences are always included."
-        android:title="Select Cadences"
+        android:title="Cadences"
         android:dialogTitle="Include the following cadences:"
         android:entries="@array/pref_cadences_entries"
         android:entryValues="@array/pref_cadences_entries"
         android:defaultValue="@array/pref_cadences_entries" />
+
+    <MultiSelectListPreference
+        android:key="pref_chord_progressions"
+        android:summary="I, IV, and V chords are always included."
+        android:title="Chord Progressions"
+        android:dialogTitle="Include the following chords:"
+        android:entries="@array/pref_chord_progressions_entries"
+        android:entryValues="@array/pref_chord_progressions_values"
+        android:defaultValue="@array/pref_chord_progressions_values" />
 
     <CheckBoxPreference
         android:key="pref_repeat"

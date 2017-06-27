@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/score_value"
-        android:id="@+id/chordScore"
+        android:id="@+id/chordProgressionScore"
         android:textSize="100sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:text="@string/replay"
         android:id="@+id/replay"
-        android:layout_above="@+id/chordScore"
+        android:layout_above="@+id/chordProgressionScore"
         android:layout_centerHorizontal="true"
         android:enabled="false"
         android:onClick="replayInterval" />
