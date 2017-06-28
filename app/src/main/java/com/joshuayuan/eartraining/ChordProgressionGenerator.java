@@ -96,6 +96,7 @@ public class ChordProgressionGenerator {
 
         boolean canMerge(ChordProgression progression) {
             return getChordName(getNumChords() - 1).equals(progression.getChordName(0));
+                    //&& !getChordName(0).equals(progression.getChordName(progression.getNumChords() - 1));
         }
 
         void toMinor() {
@@ -120,11 +121,49 @@ public class ChordProgressionGenerator {
     }
 
     private static void initializeChordProgressions() {
-        chordProgressions.add(new ChordProgression(new String[] { "4r", "5r" }, new int[] { 8, 8, 15, 24, 1, 8, 17, 25 }));
-        chordProgressions.add(new ChordProgression(new String[] { "5r", "4r" }, new int[] { 1, 8, 17, 25, 8, 8, 15, 24 }));
+        chordProgressions.add(new ChordProgression(new String[] { "1r", "4r" }, new int[] { -11, -4, 5, 13, -6, 2, 6, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "1r", "41" }, new int[] { -11, -4, 5, 13, -14, -6, 6, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "11", "41" }, new int[] { -7, 1, 8, 13, -14, 1, 6, 10 }));
+        chordProgressions.add(new ChordProgression(new String[] { "11", "4r" }, new int[] { -7, 1, 8, 13, -6, 1, 6, 10 }));
+
+        chordProgressions.add(new ChordProgression(new String[] { "1r", "5r" }, new int[] { -11, -4, 5, 13, -16, -4, 3, 12 }));
+        chordProgressions.add(new ChordProgression(new String[] { "1r", "51" }, new int[] { -11, -4, 5, 13, -12, -4, 8, 15 }));
+        chordProgressions.add(new ChordProgression(new String[] { "11", "5r" }, new int[] { -7, 1, 8, 13, -4, 3, 8, 12 }));
+        chordProgressions.add(new ChordProgression(new String[] { "11", "5r" }, new int[] { -7, 1, 8, 13, -4, 0, 8, 15 }));
+        chordProgressions.add(new ChordProgression(new String[] { "11", "51" }, new int[] { -7, 1, 8, 13, -12, -4, 8, 15 }));
+
+        chordProgressions.add(new ChordProgression(new String[] { "4r", "1r" }, new int[] { -6, 2, 6, 13, -11, -4, 5, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "41", "11" }, new int[] { -14, -6, 6, 13, -11, -4, 5, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "41", "11" }, new int[] { -14, 1, 6, 10, -7, 1, 8, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "4r", "11" }, new int[] { -6, 1, 6, 10, -7, 1, 8, 13 }));
+
+        chordProgressions.add(new ChordProgression(new String[] { "4r", "5r" }, new int[] { -6, 1, 10, 18, -4, 0, 8, 15 }));
+        chordProgressions.add(new ChordProgression(new String[] { "4r", "51" }, new int[] { -6, 1, 10, 18, -12, 0, 8, 20 }));
+        chordProgressions.add(new ChordProgression(new String[] { "41", "5r" }, new int[] { -13, -6, 6, 13, -15, -4, 3, 12 }));
+        chordProgressions.add(new ChordProgression(new String[] { "41", "5r" }, new int[] { -13, -6, 6, 13, -15, -9, 8, 12 }));
+
+        chordProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { -16, -4, 3, 12, -11, -4, 5, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "51", "1r" }, new int[] { -12, -4, 8, 15, -11, -4, 5, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "5r", "11" }, new int[] { -4, 3, 8, 12, -7, 1, 8, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "5r", "11" }, new int[] { -4, 0, 8, 15, -7, 1, 8, 13 }));
+        chordProgressions.add(new ChordProgression(new String[] { "51", "11" }, new int[] { -12, -4, 8, 15, -7, 1, 8, 13 }));
+
 
         if (includeSixth) { // include chords that LEAD to a sixth chord; chords that begin with a sixth will not merge anyway
+            chordProgressions.add(new ChordProgression(new String[] { "1r", "6r" }, new int[] { -11, -4, 5, 13, -14, -2, 5, 13 }));
+            chordProgressions.add(new ChordProgression(new String[] { "1r", "61" }, new int[] { -11, -4, 5, 13, -11, -2, 5, 10 }));
+            chordProgressions.add(new ChordProgression(new String[] { "11", "6r" }, new int[] { -7, 1, 8, 13, -11, -2, 10, 17 }));
 
+            chordProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { -15, 0, 8, 15, -13, -2, 5, 13 }));
+            chordProgressions.add(new ChordProgression(new String[] { "5r", "61" }, new int[] { -15, 0, 8, 15, -11, 1, 6, 17 }));
+            chordProgressions.add(new ChordProgression(new String[] { "51", "6r" }, new int[] { -12, -4, 3, 8, -14, -7, 1, 10 }));
+
+            chordProgressions.add(new ChordProgression(new String[] { "6r", "4r" }, new int[] { -14, -7, 1, 10, -18, -6, 1, 10 }));
+            chordProgressions.add(new ChordProgression(new String[] { "6r", "41" }, new int[] { -14, -7, 1, 10, -14, -6, 1, 6 }));
+            chordProgressions.add(new ChordProgression(new String[] { "61", "4r" }, new int[] { -11, -2, 10, 17, -6, -2, 13, 18 }));
+            chordProgressions.add(new ChordProgression(new String[] { "61", "4r" }, new int[] { -11, -2, 10, 17, -6, 1, 6, 18 }));
+            chordProgressions.add(new ChordProgression(new String[] { "61", "41" }, new int[] { -11, -2, 10, 17, -14, 1, 6, 18 }));
+            chordProgressions.add(new ChordProgression(new String[] { "61", "41" }, new int[] { -11, -2, 10, 17, -14, -6, 13, 18 }));
         }
     }
 
@@ -136,12 +175,12 @@ public class ChordProgressionGenerator {
         cadentialProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { -4, 8, 12, 15, 1, 5, 13, 13 }));
         cadentialProgressions.add(new ChordProgression(new String[] { "51", "1r" }, new int[] { 0, 8, 20, 27, 1, 13, 20, 29 }));
         // these are actually seventh chord, check syllabus for requirements
-        cadentialProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { -4, 12, 15, 18, 1, 13, 13, 17 }));
-        cadentialProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { 8, 8, 18, 24, 1, 8, 17, 25 }));
-        cadentialProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { -4, 6, 12, 15, 1, 5, 8, 13 }));
-        cadentialProgressions.add(new ChordProgression(new String[] { "51", "1r" }, new int[] { 0, 6, 8, 15, 1, 5, 8, 13 }));
-        cadentialProgressions.add(new ChordProgression(new String[] { "52", "1r" }, new int[] { 3, 6, 8, 12, 1, 5, 8, 13 }));
-        cadentialProgressions.add(new ChordProgression(new String[] { "53", "11" }, new int[] { 6, 15, 20, 24, 5, 13, 20, 25 }));
+//        cadentialProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { -4, 12, 15, 18, 1, 13, 13, 17 }));
+//        cadentialProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { 8, 8, 18, 24, 1, 8, 17, 25 }));
+//        cadentialProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { -4, 6, 12, 15, 1, 5, 8, 13 }));
+//        cadentialProgressions.add(new ChordProgression(new String[] { "51", "1r" }, new int[] { 0, 6, 8, 15, 1, 5, 8, 13 }));
+//        cadentialProgressions.add(new ChordProgression(new String[] { "52", "1r" }, new int[] { 3, 6, 8, 12, 1, 5, 8, 13 }));
+//        cadentialProgressions.add(new ChordProgression(new String[] { "53", "11" }, new int[] { 6, 15, 20, 24, 5, 13, 20, 25 }));
 
         // TODO: must add more cadences here to ensure a cadence is always possible!!
         // *** IMPERFECT CADENCES ***
@@ -153,6 +192,8 @@ public class ChordProgressionGenerator {
         cadentialProgressions.add(new ChordProgression(new String[] { "11", "51" }, new int[] { 5, 13, 20, 25, 0, 8, 20, 27 }));
         cadentialProgressions.add(new ChordProgression(new String[] { "1r", "51" }, new int[] { 1, 8, 17, 25, 0, 8, 20, 27 }));
         cadentialProgressions.add(new ChordProgression(new String[] { "11", "5r" }, new int[] { 5, 13, 20, 25, 8, 12, 20, 27 }));
+        cadentialProgressions.add(new ChordProgression(new String[] { "41", "5r" }, new int[] { -13, -6, 6, 13, -15, -4, 3, 12 }));
+        cadentialProgressions.add(new ChordProgression(new String[] { "41", "5r" }, new int[] { -13, -6, 6, 13, -15, -9, 8, 12 }));
 
         // *** PLAGAL CADENCES ***
         cadentialProgressions.add(new ChordProgression(new String[] { "4r", "1r" }, new int[] { 6, 18, 22, 25, 1, 17, 20, 25 }));
@@ -162,7 +203,7 @@ public class ChordProgressionGenerator {
         cadentialProgressions.add(new ChordProgression(new String[] { "1r", "6r" }, new int[] { 8, 12, 20, 27, 10, 13, 17, 25 }));
         cadentialProgressions.add(new ChordProgression(new String[] { "1r", "6r" }, new int[] { 8, 12, 20, 27, 10, 13, 17, 25 }));
         cadentialProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { -4, 8, 12, 15, -2, 5, 13, 13 }));
-        cadentialProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { -4, 6, 12, 15, -2, 5, 13, 13 })); // TODO: V7 here, what to do?
+        //cadentialProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { -4, 6, 12, 15, -2, 5, 13, 13 })); // TODO: V7 here, what to do?
 
         if (includeCadential) {
 
@@ -174,11 +215,15 @@ public class ChordProgressionGenerator {
         // create a chord progression
         chordProgressionToSend.add(getRandChordProgression(false));
         while (chordProgressionToSend.size() != SEQ_LENGTH - 1) {
+            Log.i("setChordSequence", chordProgressionToSend.get(chordProgressionToSend.size() - 1).getAllChordNames(true).toString());
             chordProgressionToSend.add(getRandChordProgression(chordProgressionToSend.size() == SEQ_LENGTH - 1));
 
             int lastIndex = chordProgressionToSend.size() - 1;
-            if (!chordProgressionToSend.get(lastIndex).canMerge(chordProgressionToSend.get(lastIndex - 1))) {
+            if (!chordProgressionToSend.get(lastIndex - 1).canMerge(chordProgressionToSend.get(lastIndex)) ||
+                    chordProgressionToSend.size() == 4 && chordProgressionToSend.get(3).getChordName(1).contains("6")) {
                 chordProgressionToSend.remove(lastIndex);
+            } else {
+                Log.i("", "");
             }
         }
 
