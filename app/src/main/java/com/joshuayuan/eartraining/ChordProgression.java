@@ -112,7 +112,7 @@ public class ChordProgression extends AppCompatActivity {
      * Chord Progression API handles random chord generation.
      */
     public void setAnswer() {
-        notes = ChordProgressionGenerator.nextChordProgression(); //todo: do not generate chords they don't want (stabilize)
+        notes = ChordProgressionGenerator.nextChordProgression();
         answer = ChordProgressionGenerator.getChordSequence();
     }
 
