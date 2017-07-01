@@ -41,7 +41,7 @@ public class ChordProgressionGenerator {
 
     public static int[] nextChordProgression() {
         do {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 1000; i++) {
                 chordProgressionToSend.clear();
                 setChordSequence();
                 extractNotesAndMetaData();
@@ -124,6 +124,7 @@ public class ChordProgressionGenerator {
         List<ChordProgression> _51_chordProgressions = new ArrayList<>();
         List<ChordProgression> _6r_chordProgressions = new ArrayList<>();
         List<ChordProgression> _61_chordProgressions = new ArrayList<>();
+        List<ChordProgression> _cad_chordProgressions = new ArrayList<>();
 
         _1r_chordProgressions.add(new ChordProgression(new String[] { "1r", "4r" }, new int[] { -11, -4, 5, 13, -6, -2, 6, 13 }));
         _1r_chordProgressions.add(new ChordProgression(new String[] { "1r", "41" }, new int[] { -11, -4, 5, 13, -14, -6, 6, 13 }));
@@ -170,6 +171,24 @@ public class ChordProgressionGenerator {
             _61_chordProgressions.add(new ChordProgression(new String[] { "61", "41" }, new int[] { -11, -2, 10, 5, -14, -6, 13, 6 }));
         }
 
+        if (includeCadential) {
+            _cad_chordProgressions.add(new ChordProgression(new String[] {}, new int[] {}));
+
+            _1r_chordProgressions.add(new ChordProgression(new String[] { "1r", "cc" }, new int[] { -11, -4, 5, 13, -16, -4, 5, 13 }));
+            _11_chordProgressions.add(new ChordProgression(new String[] { "11", "cc" }, new int[] { -7, 1, 8, 13, -4, 5, 8, 13 }));
+            _11_chordProgressions.add(new ChordProgression(new String[] { "11", "cc" }, new int[] { -7, 1, 8, 13, -4, 1, 8, 17 }));
+            _4r_chordProgressions.add(new ChordProgression(new String[] { "4r", "cc" }, new int[] { -6, 1, 10, 18, -4, 1, 8, 17 }));
+            _41_chordProgressions.add(new ChordProgression(new String[] { "41", "cc" }, new int[] { -14, -6, 6, 13, -16, -4, 5, 13 }));
+            _41_chordProgressions.add(new ChordProgression(new String[] { "41", "cc" }, new int[] { -14, -6, 6, 13, -16, -7, 8, 13 }));
+
+            _cad_chordProgressions.add(new ChordProgression(new String[] { "cc", "5r" }, new int[] { -16, -4, 5, 13, -11, -4, 5, 13 }));
+            _cad_chordProgressions.add(new ChordProgression(new String[] { "cc", "5r" }, new int[] { -4, 5, 8, 13, -7, 1, 8, 13 }));
+            _cad_chordProgressions.add(new ChordProgression(new String[] { "cc", "5r" }, new int[] { -4, 1, 8, 17, -7, 1, 8, 13 }));
+            _cad_chordProgressions.add(new ChordProgression(new String[] { "cc", "5r" }, new int[] { -4, 1, 8, 17, -6, 1, 10, 18 }));
+            _cad_chordProgressions.add(new ChordProgression(new String[] { "cc", "5r" }, new int[] { -16, -4, 5, 13, -14, -6, 6, 13 }));
+            _cad_chordProgressions.add(new ChordProgression(new String[] { "cc", "5r" }, new int[] { -16, -7, 8, 13, -14, -6, 6, 13 }));
+        }
+
         chordProgressions.put("1r", _1r_chordProgressions);
         chordProgressions.put("11", _11_chordProgressions);
         chordProgressions.put("4r", _4r_chordProgressions);
@@ -178,6 +197,7 @@ public class ChordProgressionGenerator {
         chordProgressions.put("51", _51_chordProgressions);
         chordProgressions.put("6r", _6r_chordProgressions);
         chordProgressions.put("61", _61_chordProgressions);
+        chordProgressions.put("cc", _cad_chordProgressions);
     }
 
     private static void initializeCadentialProgressions() {
@@ -239,12 +259,14 @@ public class ChordProgressionGenerator {
     private static void setChordSequence() {
         // create a chord progression
         String start = Math.random() < 0.5 ? "1r" : "11";
-        chordProgressionToSend.add(getRandChordProgression(false, start));
+        chordProgressionToSend.add(getRandChordProgression(false, start, false));
 
         for (int i = 0; i < SEQ_LENGTH - 1; i++) {
-            ChordProgression lastChord = chordProgressionToSend.get(chordProgressionToSend.size() - 1);
+            int size = chordProgressionToSend.size();
+            ChordProgression lastChord = chordProgressionToSend.get(size - 1);
             String lastChordName = lastChord.getChordName(1);
-            ChordProgression next = getRandChordProgression(chordProgressionToSend.size() == SEQ_LENGTH - 1, lastChordName);
+            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 1, lastChordName, size == 2);
+
             chordProgressionToSend.add(next);
         }
 
@@ -376,7 +398,7 @@ public class ChordProgressionGenerator {
     }
 
     /** Returns a random two-step chord progression that begins with the specified chord. */
-    private static ChordProgression getRandChordProgression(boolean cadential, String start) {
+    private static ChordProgression getRandChordProgression(boolean cadential, String start, boolean allowRootInv2) {
         List<ChordProgression> tempList;
 
         if (!cadential) {
@@ -388,7 +410,13 @@ public class ChordProgressionGenerator {
             Log.i("123", "hello");
         }
         Random random = new Random();
-        int randIndex = random.nextInt(tempList.size());
+        int randIndex;
+        while (true) {
+            randIndex = random.nextInt(tempList.size());
+            if (!tempList.get(randIndex).getChordName(1).equals("cc") || allowRootInv2) {
+                break;
+            }
+        }
 
         return tempList.get(randIndex);
 
