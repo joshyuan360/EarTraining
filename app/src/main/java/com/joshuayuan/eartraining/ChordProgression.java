@@ -243,7 +243,10 @@ public class ChordProgression extends AppCompatActivity {
             mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
         }
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
-            mp[i].start();
+            if (mp[i] == null) {
+                Log.i("12", "12");
+            }
+            mp[i].start(); //todo: nullpointer exception
         }
         mp[chordNumber * 4 + 3].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
