@@ -41,9 +41,12 @@ public class ChordProgressionGenerator {
 
     public static int[] nextChordProgression() {
         do {
-            chordProgressionToSend.clear();
-            setChordSequence();
-            extractNotesAndMetaData();
+            for (int i = 0; i < 100; i++) {
+                chordProgressionToSend.clear();
+                setChordSequence();
+                extractNotesAndMetaData();
+            }
+
         } while (!modulateNotes());
         return notes;
     }
@@ -214,8 +217,8 @@ public class ChordProgressionGenerator {
         _4r_chordProgressions.add(new ChordProgression(new String[] { "4r", "1r" }, new int[] { 6, 10, 13, 18, 1, 8, 13, 17 }));
 
         // *** DECEPTIVE CADENCES ***
-        _1r_chordProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { 8, 12, 20, 27, 10, 13, 17, 25 }));
-        _1r_chordProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { 8, 12, 20, 27, 10, 13, 17, 25 }));
+        _5r_chordProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { 8, 12, 20, 27, 10, 13, 17, 25 }));
+        _5r_chordProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { 8, 12, 20, 27, 10, 13, 17, 25 }));
         _5r_chordProgressions.add(new ChordProgression(new String[] { "5r", "6r" }, new int[] { -4, 8, 12, 15, -2, 5, 13, 13 }));
 
         if (includeCadential) {
@@ -229,6 +232,7 @@ public class ChordProgressionGenerator {
         cadentialProgressions.put("5r", _5r_chordProgressions);
         cadentialProgressions.put("51", _51_chordProgressions);
         cadentialProgressions.put("6r", _6r_chordProgressions);
+        cadentialProgressions.put("61", _61_chordProgressions);
     } //todo: test these
 
     /** Generate a pseudo-random valid chord progression. */
@@ -380,7 +384,9 @@ public class ChordProgressionGenerator {
         } else {
             tempList = cadentialProgressions.get(start);
         }
-
+        if (tempList == null) {
+            Log.i("123", "hello");
+        }
         Random random = new Random();
         int randIndex = random.nextInt(tempList.size());
 
