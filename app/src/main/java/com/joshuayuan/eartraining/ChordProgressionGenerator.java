@@ -39,11 +39,10 @@ public class ChordProgressionGenerator {
     private static boolean includeCadential;
 
     public static int[] nextChordProgression() {
-        for (int i = 0; i < 200; i++) {
-            chordProgressionToSend.clear();
-            setChordSequence();
-            extractNotesAndMetaData();
-        }
+        chordProgressionToSend.clear();
+        setChordSequence();
+        extractNotesAndMetaData();
+
         modulateNotes();
 
         return notes;

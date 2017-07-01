@@ -268,7 +268,7 @@ public class ChordProgression extends AppCompatActivity {
     public void replayChordProgression(View view) {
         answerCorrect = false;
         isReplaying = true;
-        //replay.setEnabled(false);
+        replay.setEnabled(false);
         playChord();
     }
 
