@@ -20,7 +20,7 @@
         <activity android:name=".IntervalsActivity" />
         <activity android:name=".HighScoresActivity" />
         <activity android:name=".PreferencesActivity" />
-        <activity android:name=".ChordProgression"></activity>
+        <activity android:name=".ChordProgressionActivity"></activity>
     </application>
 
 </manifest>
