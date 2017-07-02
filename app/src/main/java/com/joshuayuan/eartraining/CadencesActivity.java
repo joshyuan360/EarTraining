@@ -32,7 +32,7 @@ import java.util.Set;
  * The score is based on the number of consecutive correct answers.
  * @author Joshua Yuan
  */
-public class CadencesActivity extends AppCompatActivity {
+public class CadencesActivity extends AppCompatActivity { //todo: does it switch between minor and major? check this
     /** A <code>Button</code> object in the cadences activity. */
     private Button perfect, plagal, imperfect, deceptive;
     /** Allows the user to replay the last cadence. */
