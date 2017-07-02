@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view The Chord Progressions button pressed.
      */
     public void openChordProgressions(View view) {
-        Intent intent = new Intent(this, ChordProgression.class);
+        Intent intent = new Intent(this, ChordProgressionActivity.class);
         startActivity(intent);
     }
 
