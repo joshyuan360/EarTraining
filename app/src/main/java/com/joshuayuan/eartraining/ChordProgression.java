@@ -202,9 +202,17 @@ public class ChordProgression extends AppCompatActivity {
             tv.setText(getResources().getString(R.string.replaying));
         }
 
-        for (int i = 0; i < 20; i++) {
-            mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
+        try {
+            for (int i = 0; i < 20; i++) {
+                mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
+                if (mp[i] == null) {
+                    Log.i("mp create", "null value");
+                }
+            }
+        } catch (Exception ex) {
+            Log.i("hi", "ex");
         }
+
 
         firePlayer(0);
     }
