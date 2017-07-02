@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -192,35 +191,25 @@ public class ChordProgressionActivity extends AppCompatActivity {
      * Plays the entire chord progression specified by <code>answer</code>.
      * When playing a new progression, the five chords are pseudo-randomly generated.
      */
-    private void playAll() {
+    private void playAll() { //todo: replaying and try again text!
         // set up UI
         setButtonsEnabled(false);
         replay.setEnabled(false);
         if (answerCorrect) {
-            tv.setText("Playing tonic note and chord progression..."); // TODO: use string resources
+            tv.setText(getResources().getString(R.string.playing_chord_progression));
         } else {
             tv.setText(getResources().getString(R.string.replaying));
         }
 
-        try {
-            for (int i = 0; i < 20; i++) {
-                mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
-                if (mp[i] == null) {
-                    Log.i("mp create", "null value");
-                }
-            }
-        } catch (Exception ex) {
-            Log.i("hi", "ex");
+        for (int i = 0; i < 20; i++) {
+            mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
         }
-
 
         firePlayer(0);
     }
 
     public void firePlayer(final int start) {
-        Log.i("firePlayer", "start: " + start);
         if (start == 20) {
-            tv.setText("Playing each chord individually...");
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -246,19 +235,14 @@ public class ChordProgressionActivity extends AppCompatActivity {
         });
     }
 
-    private void clearMediaplayerMemory() {
-
-    }
-
     public void playChord() {
+        tv.setText(getResources().getString(R.string.playing_each_chord));
+
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
             mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
         }
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
-            if (mp[i] == null) {
-                Log.i("12", "12");
-            }
-            mp[i].start(); //todo: nullpointer exception
+            mp[i].start();
         }
         mp[chordNumber * 4 + 3].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
@@ -269,6 +253,9 @@ public class ChordProgressionActivity extends AppCompatActivity {
                 }
                 setButtonsEnabled(true);
                 replay.setEnabled(true);
+                if (!answerCorrect) {
+                    tv.setText(getResources().getString(R.string.try_again));
+                }
             }
         });
     }
@@ -302,6 +289,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
                         testUser();
                     }
                 } else if (prefRepeat) {
+                    tv.setText(getResources().getString(R.string.replaying));
                     playChord();
                     answerCorrect = false;
                 } else if (!isReplaying) {

@@ -1,7 +1,5 @@
 package com.joshuayuan.eartraining;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +32,7 @@ public class ChordProgressionGenerator {
     /** The array returned by the API call. */
     private static int[] notes = new int[SEQ_LENGTH * 4];
 
-    public static int[] nextChordProgression() {
+    public static int[] nextChordProgression() { //todo: initial message is wrong
         do {
             chordProgressionToSend.clear();
             setChordSequence();
@@ -130,7 +128,6 @@ public class ChordProgressionGenerator {
 
     /** Analyze transitions between sets of chords and adjust as necessary. */
     private static boolean mergeProgression() {
-        Log.i("mergeProgression", "Start merging chords");
         for (int c = 0; c < chordProgressionToSend.size() - 1; c++) {
             int[] source = chordProgressionToSend.get(c).getNotes(true);
             int[] target = chordProgressionToSend.get(c + 1).getNotes(true);
@@ -141,14 +138,13 @@ public class ChordProgressionGenerator {
                 for (int j = 0; j < 4; j++) {
                     if (!modified[j] && mod(source[i] - target[j], 12) == 0) {
                         target[j + 4] += source[i] - target[j];
-                        Log.i("difference", (target[j] - source[i])+"");
                         modified[j] = true;
                         break;
                     }
                 }
             }
 
-            for (boolean b : modified) { //todo: replaying text
+            for (boolean b : modified) {
                 if (b == false) {
                     return false;
                 }
