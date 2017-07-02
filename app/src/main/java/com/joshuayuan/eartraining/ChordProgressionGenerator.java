@@ -19,8 +19,6 @@ import static com.joshuayuan.eartraining.Utilities.MIN_NOTE;
  */
 
 public class ChordProgressionGenerator {
-    // todo: make the test "fair" for each answer, make the general results higher in pitch, keep testing
-    // todo: (critical) the cadential option is never the answer
     // todo: should i play tonic chord once in the very beginning? check syllabus
     private static List<ChordProgression> chordProgressionToSend = new ArrayList<>();
 
@@ -37,12 +35,11 @@ public class ChordProgressionGenerator {
     private static int[] notes = new int[SEQ_LENGTH * 4];
 
     public static int[] nextChordProgression() {
-        for (int i = 0; i < 1000; i++) { //todo: remove stress test for production!
+        do {
             chordProgressionToSend.clear();
             setChordSequence();
             extractNotesAndMetaData();
-            modulateNotes();
-        }
+        } while (!modulateNotes());
 
         return notes;
     }
@@ -56,8 +53,12 @@ public class ChordProgressionGenerator {
         VoiceLeadingRules.initializeChordProgressions(chordProgressions);
         VoiceLeadingRules.initializeCadentialProgressions(cadentialProgressions);
 
-        if (includeSixth) VoiceLeadingRules.includeSixth(chordProgressions);
-        if (includeCadential) VoiceLeadingRules.includeCadential(chordProgressions);
+        if (includeSixth) {
+            VoiceLeadingRules.includeSixth(chordProgressions);
+        }
+        if (includeCadential) {
+            VoiceLeadingRules.includeCadential(chordProgressions);
+        }
     }
 
     /** Generate a pseudo-random valid chord progression. */
@@ -66,10 +67,10 @@ public class ChordProgressionGenerator {
         chordProgressionToSend.add(getRandChordProgression(false, null, false));
 
         // generate chord progression skeleton
-        for (int i = 0; i < SEQ_LENGTH - 1; i++) {
+        for (int i = 0; i < SEQ_LENGTH - 2; i++) {
             int size = chordProgressionToSend.size();
             ChordProgression lastChord = chordProgressionToSend.get(size - 1);
-            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 1, lastChord, size == 2);
+            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == 1);
 
             chordProgressionToSend.add(next);
         }
@@ -91,9 +92,8 @@ public class ChordProgressionGenerator {
         mergeProgression();
     }
 
-    //todo: use one random variable
     /** Find notes out of bound and adjust all notes in that voice. */
-    private static boolean modulateNotes() { // todo: see if cadences will crash for bound reasons
+    private static boolean modulateNotes() {
         int min = notes[0];
         int max = notes[0];
 
@@ -107,20 +107,12 @@ public class ChordProgressionGenerator {
         int maxShift = MAX_NOTE - max;
 
         if (minShift > maxShift) {
-            Log.i("minShift", minShift+"");
-            Log.i("maxShift", maxShift+"");
             return false;
         }
 
         int randomShift = minShift + (int) (Math.random() * (maxShift - minShift + 1));
         for (int i = 0; i < notes.length; i++) {
             notes[i] += randomShift;
-        }
-
-        int[] test = Arrays.copyOf(notes, notes.length);
-        Arrays.sort(test);
-        if (test[0] < MIN_NOTE || test[19] > MAX_NOTE) {
-            Log.i("out of bounds", "error");
         }
 
         return true;
@@ -221,33 +213,30 @@ public class ChordProgressionGenerator {
             if (!cadential) {
                 tempList = chordProgressions.get(prevStart);
                 tempList.removeAll(Collections.singleton(previous.reverse()));
-                if (!allowRootInv2) {
-                    List<ChordProgression> rootInv2 = new ArrayList<>();
-                    for (ChordProgression c : tempList) {
-                        if (c.getChordName(1).equals("cc")) {
-                            rootInv2.add(c);
-                        }
-                    }
-                    tempList.removeAll(rootInv2);
-                }
             } else {
                 tempList = cadentialProgressions.get(prevStart);
             }
         }
 
-        if (tempList == null) {
-            Log.i("123", "hello");
-        }
-        for (int i = 0; i < tempList.size(); i++) {
-            if (tempList.get(i).getChordName(1).equals("cc")) {
-                Log.i("produce", "164");
-            }
+        // deep copy so original array is unaffected by deletion operations
+        List<ChordProgression> listCopy = new ArrayList<>();
+        for (ChordProgression c : tempList) {
+            listCopy.add(c.getClone());
         }
 
+        if (!allowRootInv2) {
+            List<ChordProgression> rootInv2 = new ArrayList<>();
+            for (ChordProgression c : tempList) {
+                if (c.getChordName(1).equals("cc")) {
+                    rootInv2.add(c);
+                }
+            }
+            listCopy.removeAll(rootInv2);
+        }
 
         Random random = new Random();
-        int randIndex = random.nextInt(tempList.size());
+        int randIndex = random.nextInt(listCopy.size());
 
-        return tempList.get(randIndex);
+        return listCopy.get(randIndex);
     }
 }

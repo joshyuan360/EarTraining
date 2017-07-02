@@ -146,6 +146,15 @@ class VoiceLeadingRules {
         _4r_chordProgressions.add(new ChordProgression(new String[] { "4r", "cc" }, new int[] { -6, 1, 10, 18, -4, 1, 8, 17 }));
         _41_chordProgressions.add(new ChordProgression(new String[] { "41", "cc" }, new int[] { -14, -6, 6, 13, -16, -4, 5, 13 }));
         _41_chordProgressions.add(new ChordProgression(new String[] { "41", "cc" }, new int[] { -14, -6, 6, 13, -16, -7, 8, 13 }));
+
+        // duplicate of above to increases chance of landing on a cadential 64 (roughly 1/6 after this addition)
+        _1r_chordProgressions.add(new ChordProgression(new String[] { "1r", "cc" }, new int[] { -11, -4, 5, 13, -16, -4, 5, 13 }));
+        _11_chordProgressions.add(new ChordProgression(new String[] { "11", "cc" }, new int[] { -7, 1, 8, 13, -4, 5, 8, 13 }));
+        _11_chordProgressions.add(new ChordProgression(new String[] { "11", "cc" }, new int[] { -7, 1, 8, 13, -4, 1, 8, 17 }));
+        _4r_chordProgressions.add(new ChordProgression(new String[] { "4r", "cc" }, new int[] { -6, 1, 10, 18, -4, 1, 8, 17 }));
+        _41_chordProgressions.add(new ChordProgression(new String[] { "41", "cc" }, new int[] { -14, -6, 6, 13, -16, -4, 5, 13 }));
+        _41_chordProgressions.add(new ChordProgression(new String[] { "41", "cc" }, new int[] { -14, -6, 6, 13, -16, -7, 8, 13 }));
+
         _cad_chordProgressions.add(new ChordProgression(new String[] { "cc", "5r" }, new int[] { -16, -4, 5, 13, -16, -4, 3, 12 }));
 
         chordProgressions.put("cc", _cad_chordProgressions);
