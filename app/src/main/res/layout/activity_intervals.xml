@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/select_the_interval_you_hear"
+        android:text="@string/select_interval"
         android:id="@+id/intervalmessage"
         android:textSize="18sp"
         android:textColor="#ffffff"
@@ -50,7 +50,7 @@
     <com.joshuayuan.eartraining.Button1
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="@string/replay"
+        android:text="@string/replay_button"
         android:id="@+id/replay"
         android:layout_above="@+id/chordProgressionScore"
         android:layout_centerHorizontal="true"
