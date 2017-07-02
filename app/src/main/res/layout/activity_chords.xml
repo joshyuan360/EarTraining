@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/select_the_chord_you_hear"
+        android:text="@string/select_chord"
         android:id="@+id/chordprogressions"
         android:textColor="#ffffff"
         android:textSize="18sp"
@@ -50,7 +50,7 @@
     <com.joshuayuan.eartraining.Button1
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="@string/replay"
+        android:text="@string/replay_button"
         android:id="@+id/replay"
         android:layout_above="@+id/chordProgressionScore"
         android:layout_centerHorizontal="true"

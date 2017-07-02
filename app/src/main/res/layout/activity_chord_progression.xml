@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/playing_chord"
+        android:text="@string/playing_chord_progression"
         android:id="@+id/chordProgressionText"
         android:textColor="#ffffff"
         android:paddingTop="10dp"
@@ -31,7 +31,7 @@
         android:layout_alignParentTop="true"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:text="Identify the chord in the progression"
+        android:text="@string/identify_chord_in_progression"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ffffff"
         android:textSize="18sp" />
@@ -50,7 +50,7 @@
     <com.joshuayuan.eartraining.Button1
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="@string/replay"
+        android:text="@string/replay_button"
         android:id="@+id/replay"
         android:layout_above="@+id/chordProgressionScore"
         android:layout_centerHorizontal="true"
@@ -76,7 +76,7 @@
             android:layout_weight="1"
             android:enabled="false"
             android:onClick="answerClicked"
-            android:text="I - TONIC" />
+            android:text="@string/tonic_chord" />
 
         <com.joshuayuan.eartraining.Button1
             android:id="@+id/four"
@@ -87,7 +87,7 @@
             android:layout_weight="1"
             android:enabled="false"
             android:onClick="answerClicked"
-            android:text="IV - SUBDOMINANT" />
+            android:text="@string/subdominant_chord" />
     </LinearLayout>
 
     <LinearLayout
@@ -109,7 +109,7 @@
             android:layout_weight="1"
             android:enabled="false"
             android:onClick="answerClicked"
-            android:text="V - DOMINANT" />
+            android:text="@string/dominant_chord" />
 
         <com.joshuayuan.eartraining.Button1
             android:id="@+id/six"
@@ -120,7 +120,7 @@
             android:layout_weight="1"
             android:enabled="false"
             android:onClick="answerClicked"
-            android:text="VI - SUBMEDIANT" />
+            android:text="@string/submediant_chord" />
     </LinearLayout>
 
     <LinearLayout
@@ -140,7 +140,7 @@
             android:layout_weight="1"
             android:enabled="false"
             android:onClick="answerClicked"
-            android:text="1-6-4 CADENTIAL" />
+            android:text="@string/cadential_chord" />
     </LinearLayout>
 
 </RelativeLayout>
