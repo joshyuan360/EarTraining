@@ -185,7 +185,6 @@ public class ChordProgressionActivity extends AppCompatActivity {
             playAll();
         } else if (prefRepeat){
             playAll();
-            //playAnswer(true);
         }
     }
 
