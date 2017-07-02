@@ -281,7 +281,7 @@ public class IntervalsActivity extends AppCompatActivity {
                 // set up UI
                 replay.setEnabled(true);
                 setFirstRowEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_the_interval));
+                tv.setText(getResources().getString(R.string.identify_interval));
                 isReplaying = false;
             }
         });

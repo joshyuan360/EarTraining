@@ -17,12 +17,11 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -278,7 +277,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
                 // set up UI
                 replay.setEnabled(true);
                 setButtonsEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_the_cadence));
+                tv.setText(getResources().getString(R.string.identify_cadence));
                 isReplaying = false;
             }
         });

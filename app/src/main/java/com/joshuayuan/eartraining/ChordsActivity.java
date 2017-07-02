@@ -317,7 +317,7 @@ public class ChordsActivity extends AppCompatActivity {
                 // set up UI
                 replay.setEnabled(true);
                 setFirstRowEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_the_chord));
+                tv.setText(getResources().getString(R.string.identify_chord));
                 isReplaying = false;
             }
         });

@@ -12,7 +12,7 @@ import java.util.List;
  */
 class VoiceLeadingRules {
 
-    static void initializeChordProgressions(HashMap<String, List<ChordProgression>> chordProgressions) { // todo: deal with cadentials and then unit test this
+    static void initializeChordProgressions(HashMap<String, List<ChordProgression>> chordProgressions) {
         List<ChordProgression> _1r_chordProgressions = new ArrayList<>();
         List<ChordProgression> _11_chordProgressions = new ArrayList<>();
         List<ChordProgression> _4r_chordProgressions = new ArrayList<>();
@@ -71,7 +71,6 @@ class VoiceLeadingRules {
         _5r_chordProgressions.add(new ChordProgression(new String[] { "5r", "1r" }, new int[] { -4, 8, 12, 15, 1, 5, 13, 13 }));
         _51_chordProgressions.add(new ChordProgression(new String[] { "51", "1r" }, new int[] { 0, 8, 20, 27, 1, 13, 20, 29 }));
 
-        // TODO: must add more cadences here to ensure a cadence is always possible!! DONE
         // *** IMPERFECT CADENCES ***
         _1r_chordProgressions.add(new ChordProgression(new String[] { "1r", "5r" }, new int[] { 1, 8, 17, 25, -4, 8, 15, 24 }));
         _1r_chordProgressions.add(new ChordProgression(new String[] { "1r", "5r" }, new int[] { 1, 17, 20, 25, -4, 12, 20, 27 }));
@@ -86,6 +85,7 @@ class VoiceLeadingRules {
         _6r_chordProgressions.add(new ChordProgression(new String[] { "6r", "5r" }, new int[] { -14, -2, 5, 13, -16, 0, 8, 15 }));
         _6r_chordProgressions.add(new ChordProgression(new String[] { "6r", "51" }, new int[] { -14, -7, 1, 10, -12, -4, 3, 8 }));
         _61_chordProgressions.add(new ChordProgression(new String[] { "61", "5r" }, new int[] { -11, -2, 10, 17, -16, -4, 12, 15 }));
+
         // *** PLAGAL CADENCES ***
         _4r_chordProgressions.add(new ChordProgression(new String[] { "4r", "1r" }, new int[] { 6, 18, 22, 25, 1, 17, 20, 25 }));
         _4r_chordProgressions.add(new ChordProgression(new String[] { "4r", "1r" }, new int[] { 6, 10, 13, 18, 1, 8, 13, 17 }));
