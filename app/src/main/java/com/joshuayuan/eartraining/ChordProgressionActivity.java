@@ -244,7 +244,14 @@ public class ChordProgressionActivity extends AppCompatActivity {
      * Resources are deleted immediately afterwards.
      */
     public void playChord() {
-        tv.setText(getResources().getString(R.string.playing_each_chord));
+        // set up UI
+        setButtonsEnabled(false);
+        replay.setEnabled(false);
+        if (answerCorrect) {
+            tv.setText(getResources().getString(R.string.playing_each_chord));
+        } else {
+            tv.setText(getResources().getString(R.string.replaying));
+        }
 
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
             mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
@@ -262,7 +269,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
                 setButtonsEnabled(true);
                 replay.setEnabled(true);
                 if (!answerCorrect) {
-                    tv.setText(getResources().getString(R.string.try_again));
+                    tv.setText(getResources().getString(R.string.identify_chord_in_progression));
                 }
             }
         });
@@ -275,7 +282,6 @@ public class ChordProgressionActivity extends AppCompatActivity {
     public void replayChordProgression(View view) {
         answerCorrect = false;
         isReplaying = true;
-        replay.setEnabled(false);
         playChord();
     }
 
@@ -287,8 +293,10 @@ public class ChordProgressionActivity extends AppCompatActivity {
     public void answerClicked(View view) {
         response = ((Button)view).getText();
         setButtonsEnabled(false);
-        replay.setEnabled(false);
         displayResult();
+        if (answerCorrect || prefRepeat) {
+            replay.setEnabled(false);
+        }
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -306,7 +314,8 @@ public class ChordProgressionActivity extends AppCompatActivity {
                     playChord();
                     answerCorrect = false;
                 } else if (!isReplaying) {
-                    tv.setText(getResources().getString(R.string.incorrect));
+                    setButtonsEnabled(true);
+                    tv.setText(getResources().getString(R.string.try_again));
                     answerCorrect = false;
                     score = 0;
                 }
