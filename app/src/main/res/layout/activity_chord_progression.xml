@@ -31,7 +31,7 @@
         android:layout_alignParentTop="true"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:text="@string/identify_chord_in_progression"
+        android:text="@string/select_chord_progressions"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ffffff"
         android:textSize="18sp" />
