@@ -16,23 +16,27 @@ import static com.joshuayuan.eartraining.Utilities.MIN_NOTE;
  * @author Joshua Yuan
  */
 
-public class ChordProgressionGenerator {
-    // todo: should i play tonic chord once in the very beginning? check syllabus
-    private static List<ChordProgression> chordProgressionToSend = new ArrayList<>();
-
+class ChordProgressionGenerator {
     /** Number of chords in the current chord progression. */
     private static int SEQ_LENGTH = 5;
-    /**  Template of legal, non-cadential chord progressions. */
-    private static HashMap<String, List<ChordProgression>> chordProgressions = new HashMap<>();
-    /**  Template of legal, cadential chord progressions. */
-    private static HashMap<String, List<ChordProgression>> cadentialProgressions = new HashMap<>();
 
-    /** API caller can get info about the last played chord progression. */
+    /** ChordProgression sequence to be created and processed. */
+    private static List<ChordProgression> chordProgressionToSend = new ArrayList<>();
+    /** Metadata containing info about the last chord sequence generated. */
     private static String[] chordSequence = new String[SEQ_LENGTH];
     /** The array returned by the API call. */
     private static int[] notes = new int[SEQ_LENGTH * 4];
 
-    public static int[] nextChordProgression() { //todo: initial message is wrong
+    /** Contains list of legal, non-cadential chord progressions. */
+    private static HashMap<String, List<ChordProgression>> chordProgressions = new HashMap<>();
+    /** Contains list of legal, cadential chord progressions. */
+    private static HashMap<String, List<ChordProgression>> cadentialProgressions = new HashMap<>();
+
+    /**
+     * Generates a chord progression following Western music harmony rules.
+     * @return an array of notes representing a chord progression.
+     */
+    static int[] nextChordProgression() {
         do {
             chordProgressionToSend.clear();
             setChordSequence();
@@ -42,9 +46,19 @@ public class ChordProgressionGenerator {
         return notes;
     }
 
-    public static String[] getChordSequence() { return chordSequence; }
+    /**
+     * Get info about the last chord progression.
+     * @return metadata associated with the last chord progression.
+     */
+    static String[] getChordSequence() { return chordSequence; }
 
-    public static void initialize(boolean includeSixth, boolean includeCadential) {
+    /**
+     * Call this before generating a chord progression, and to change the type of chords
+     * taken into consideration for future generations.
+     * @param includeSixth true if VI chords should be considered.
+     * @param includeCadential true if pre-cadential chords should be considered.
+     */
+    static void initialize(boolean includeSixth, boolean includeCadential) {
         chordProgressions.clear();
         cadentialProgressions.clear();
 
@@ -116,6 +130,7 @@ public class ChordProgressionGenerator {
         return true;
     }
 
+    /** Returns the modulus of two integers (always positive). */
     private static int mod(int x, int y)
     {
         int result = x % y;
@@ -143,22 +158,17 @@ public class ChordProgressionGenerator {
                     }
                 }
             }
-
-            for (boolean b : modified) {
-                if (b == false) {
-                    return false;
-                }
-            }
-
         }
+
         return true;
     }
 
-    /** Extract and flatten chord progression metadata for the API caller to use. */
+    /** Extract, flatten, and map chord progression metadata for the API caller. */
     private static void extractNotesAndMetaData() {
         List<String> metaData = new ArrayList<>();
         List<Integer> noteData = new ArrayList<>();
 
+        // extract metadata from ChordProgression objects in current sequence
         for (int i = 0; i < SEQ_LENGTH - 1; i++) {
             ChordProgression c = chordProgressionToSend.get(i);
             metaData.addAll(Arrays.asList(c.getAllChordNames(i == 0)));
@@ -168,6 +178,7 @@ public class ChordProgressionGenerator {
             }
         }
 
+        // map raw value to human-readable string for API caller to process
         for (int i = 0; i < metaData.size(); i++) {
             switch(metaData.get(i).charAt(0)) {
                 case '1':
@@ -186,18 +197,28 @@ public class ChordProgressionGenerator {
                     chordSequence[i] = "1-6-4 CADENTIAL";
             }
         }
+
+        // extract notes from metadata
         for (int i = 0; i < noteData.size(); i++) {
             notes[i] = noteData.get(i);
         }
+
+        // sort each chord in the array from low to high before sending to API caller
         for (int i = 0; i < notes.length; i += 4) {
             Arrays.sort(notes, i, i + 4);
         }
     }
 
-    /** Returns a random two-step chord progression that begins with the specified chord. */
+    /**
+     * @param cadential true if progression must be a valid cadence.
+     * @param previous the last chord generated in the current sequence.
+     * @param allowRootInv2 true if pre-cadential chords should be considered.
+     * @return a random two-step chord progression that begins with the specified chord.
+     */
     private static ChordProgression getRandChordProgression(boolean cadential, ChordProgression previous, boolean allowRootInv2) {
         List<ChordProgression> tempList;
 
+        // get list of all possible chord progressions
         if (previous == null) {
             if (Math.random() < 0.5) {
                 tempList = chordProgressions.get("1r");
@@ -220,6 +241,7 @@ public class ChordProgressionGenerator {
             listCopy.add(c.getClone());
         }
 
+        // ignore all progressions that lead to a pre-cadential chord
         if (!allowRootInv2) {
             List<ChordProgression> rootInv2 = new ArrayList<>();
             for (ChordProgression c : tempList) {
@@ -230,6 +252,7 @@ public class ChordProgressionGenerator {
             listCopy.removeAll(rootInv2);
         }
 
+        // return random chord progression
         Random random = new Random();
         int randIndex = random.nextInt(listCopy.size());
 

@@ -42,16 +42,15 @@ public class ChordProgressionActivity extends AppCompatActivity {
     private TextView hs;
     /** Contains the sound files required to play the cadence. */
     private final MediaPlayer[] mp = new MediaPlayer[20];
-    private MediaPlayer tonic = new MediaPlayer();
     /** The chords that the user wishes to be tested on. */
     private Set<String> selections = new HashSet<>();
     /** <code>true</code> if the user wants automatic replays. */
     private boolean prefRepeat;
     /** Used to play sound after a specified amount of time. */
     private Handler handler = new Handler();
-    private boolean isReplaying;
     /** The index of the next chord that will be played, starting from zero. */
     private int chordNumber = 0;
+    private boolean isReplaying;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -189,9 +188,8 @@ public class ChordProgressionActivity extends AppCompatActivity {
 
     /**
      * Plays the entire chord progression specified by <code>answer</code>.
-     * When playing a new progression, the five chords are pseudo-randomly generated.
      */
-    private void playAll() { //todo: replaying and try again text!
+    private void playAll() {
         // set up UI
         setButtonsEnabled(false);
         replay.setEnabled(false);
@@ -208,6 +206,12 @@ public class ChordProgressionActivity extends AppCompatActivity {
         firePlayer(0);
     }
 
+    /**
+     * Recursive method that continuously fires four MediaPlayer events simultaneously,
+     * one per chord. Resources are deleted after each chord is played to make this operation
+     * as memory efficient as possible.
+     * @param start
+     */
     public void firePlayer(final int start) {
         if (start == 20) {
             handler.postDelayed(new Runnable() {
@@ -235,6 +239,10 @@ public class ChordProgressionActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Creates and fires four MediaPlayer events to play the next chord in the progression.
+     * Resources are deleted immediately afterwards.
+     */
     public void playChord() {
         tv.setText(getResources().getString(R.string.playing_each_chord));
 
@@ -271,6 +279,11 @@ public class ChordProgressionActivity extends AppCompatActivity {
         playChord();
     }
 
+    /**
+     * Sets the value of <code>response</code> after the user has selected a cadence.
+     * The result is displayed, and the activity is reset.
+     * @param view The button clicked by the user: tonic, subdominant, dominant, or submediant.
+     */
     public void answerClicked(View view) {
         response = ((Button)view).getText();
         setButtonsEnabled(false);
