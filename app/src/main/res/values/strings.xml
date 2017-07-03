@@ -62,7 +62,7 @@
     <string name="identify_interval">Identify the interval…</string>
     <string name="identify_chord">Identify the chord…</string>
     <string name="identify_cadence">Identify the cadence…</string>
-    <string name="identify_chord_in_progression">Identify the chord in the progression</string>
+    <string name="identify_chord_in_progression">Identify the chord in the progression…</string>
 
     <string name="replaying">Replaying…</string>
     <string name="correct">Correct!</string>
