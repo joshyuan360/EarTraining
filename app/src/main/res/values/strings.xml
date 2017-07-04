@@ -1,18 +1,20 @@
 <resources>
     <string name="app_name">Ear Training</string>
+    <string name="ear_training_title">EAR TRAINING</string>
 
-    <string name="intervals">- INTERVALS -</string>
-    <string name="chords">- CHORDS -</string>
-    <string name="cadences">- CADENCES -</string>
+    <string name="intervals_menu">- INTERVALS -</string>
+    <string name="chords_menu">- CHORDS -</string>
+    <string name="cadences_menu">- CADENCES -</string>
+    <string name="chord_progressions_menu">- CHORD PROGRESSIONS -</string>
+    <string name="high_scores_menu">- HIGH SCORES -</string>
+    <string name="settings_menu">- SETTINGS -</string>
+
     <string name="high_scores">HIGH SCORES</string>
-    <string name="high_scores_main">- HIGH SCORES -</string>
-    <string name="settings">- SETTINGS -</string>
 
     <string name="perfect">Perfect</string>
     <string name="major">Major</string>
     <string name="minor">Minor</string>
     <string name="tritone">Tritone</string>
-
     <string name="unison">Unison</string>
     <string name="second">Second</string>
     <string name="third">Third</string>
@@ -29,35 +31,44 @@
     <string name="_2nd_inv">2nd Inv</string>
     <string name="_3rd_inv">3rd Inv</string>
 
+    <string name="plagal">Plagal</string>
+    <string name="imperfect">Imperfect</string>
+    <string name="deceptive">Deceptive</string>
+
+    <string name="tonic_chord">I - TONIC</string>
+    <string name="subdominant_chord">IV - SUBDOMINANT</string>
+    <string name="dominant_chord">V - DOMINANT</string>
+    <string name="submediant_chord">VI - SUBMEDIANT</string>
+    <string name="cadential_chord">1-6-4 CADENTIAL</string>
+
+    <string name="score_value">0</string>
+    <string name="score">Score</string>
+
+    <string name="intervals_hs">Intervals:</string>
+    <string name="chords_hs">Chords:</string>
+    <string name="cadences_hs">Cadences:</string>
+    <string name="chord_progressions_hs">Chord Progressions:</string>
+
+    <string name="select_interval">Select the interval you hear:</string>
+    <string name="select_chord">Select the chord you hear:</string>
+    <string name="select_cadence">Select the cadence you hear:</string>
+    <string name="select_chord_progressions">Select the chords you hear:</string>
+
     <string name="playing_interval">Playing interval…</string>
     <string name="playing_chord">Playing chord…</string>
     <string name="playing_cadence">Playing tonic note and cadence…</string>
+    <string name="playing_chord_progression">Playing chord progression starting on tonic…</string>
+    <string name="playing_each_chord">Playing each chord individually…</string>
 
-    <string name="identify_the_interval">Identify the interval…</string>
-    <string name="identify_the_chord">Identify the chord…</string>
-    <string name="identify_the_cadence">Identify the cadence…</string>
+    <string name="identify_interval">Identify the interval…</string>
+    <string name="identify_chord">Identify the chord…</string>
+    <string name="identify_cadence">Identify the cadence…</string>
+    <string name="identify_chord_in_progression">Identify the chord in the progression…</string>
 
     <string name="replaying">Replaying…</string>
     <string name="correct">Correct!</string>
     <string name="incorrect">Incorrect…</string>
     <string name="try_again">Try again!</string>
 
-    <string name="plagal">Plagal</string>
-    <string name="imperfect">Imperfect</string>
-    <string name="deceptive">Deceptive</string>
-
-    <string name="score_value">0</string>
-    <string name="score">Score</string>
-
-    <string name="select_the_cadence_you_hear">Select the cadence you hear:</string>
-    <string name="replay">REPLAY</string>
-
-    <string name="select_the_interval_you_hear">Select the interval you hear:</string>
-    <string name="select_the_chord_you_hear">Select the chord you hear:</string>
-    <string name="ear_training">EAR TRAINING</string>
-    <string name="version"></string>
-
-    <string name="intervals_hs">Intervals:</string>
-    <string name="chords_hs">Chords:</string>
-    <string name="cadences_hs">Cadences:</string>
+    <string name="replay_button">REPLAY</string>
 </resources>

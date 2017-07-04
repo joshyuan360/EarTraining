@@ -43,6 +43,16 @@
         <item>Deceptive</item>
     </string-array>
 
+    <string-array name="pref_chord_progressions_entries">
+        <item>VI - Submediant</item>
+        <item>1-6-4 Cadential</item>
+    </string-array>
+
+    <string-array name="pref_chord_progressions_values">
+        <item>six</item>
+        <item>cadential</item>
+    </string-array>
+
     <string-array name="pref_level_default" >
         <item>one</item>
     </string-array>

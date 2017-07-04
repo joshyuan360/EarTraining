@@ -12,8 +12,8 @@
 
     <com.joshuayuan.eartraining.Button2
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/intervals"
+        android:layout_height="45dp"
+        android:text="@string/intervals_menu"
         android:id="@+id/intervals"
         android:onClick="openIntervals"
         android:layout_below="@+id/title"
@@ -27,8 +27,8 @@
 
     <com.joshuayuan.eartraining.Button2
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/chords"
+        android:layout_height="45dp"
+        android:text="@string/chords_menu"
         android:id="@+id/chords"
         android:layout_below="@+id/intervals"
         android:layout_alignParentLeft="true"
@@ -41,8 +41,8 @@
 
     <com.joshuayuan.eartraining.Button2
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/cadences"
+        android:layout_height="45dp"
+        android:text="@string/cadences_menu"
         android:id="@+id/cadences"
         android:layout_below="@+id/chords"
         android:layout_alignParentLeft="true"
@@ -55,11 +55,25 @@
 
     <com.joshuayuan.eartraining.Button2
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/high_scores_main"
+        android:layout_height="45dp"
+        android:text="@string/chord_progressions_menu"
+        android:id="@+id/chordprogression"
+        android:layout_below="@+id/cadences"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="openChordProgressions"
+        android:layout_marginBottom="10dp"
+        android:textColor="#ffffff" />
+
+    <com.joshuayuan.eartraining.Button2
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="@string/high_scores_menu"
         android:id="@+id/hsButton"
         android:onClick="openHighScores"
-        android:layout_below="@+id/cadences"
+        android:layout_below="@+id/chordprogression"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -69,8 +83,8 @@
 
     <com.joshuayuan.eartraining.Button2
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/settings"
+        android:layout_height="45dp"
+        android:text="@string/settings_menu"
         android:id="@+id/settings"
         android:layout_below="@+id/hsButton"
         android:layout_alignParentLeft="true"
@@ -85,13 +99,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/ear_training"
+        android:text="@string/ear_training_title"
         android:id="@+id/title"
         android:textSize="24sp"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:layout_alignParentTop="true"
         android:shadowColor="#ffffff"
         android:background="#a9000000"
@@ -101,16 +115,4 @@
         android:layout_alignParentEnd="true"
         android:textAlignment="center"
         android:layout_marginBottom="10dp" />
-
-    <com.joshuayuan.eartraining.TextView1
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/version"
-        android:id="@+id/version"
-        android:layout_below="@+id/settings"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#ffffff"
-        android:paddingTop="10dp" />
 </RelativeLayout>

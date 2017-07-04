@@ -13,13 +13,11 @@ package com.joshuayuan.eartraining;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -84,7 +82,7 @@ public class ChordsActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chInstructions);
-        hs = (TextView) findViewById(R.id.chordScore);
+        hs = (TextView) findViewById(R.id.chordProgressionScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[] {
@@ -319,7 +317,7 @@ public class ChordsActivity extends AppCompatActivity {
                 // set up UI
                 replay.setEnabled(true);
                 setFirstRowEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_the_chord));
+                tv.setText(getResources().getString(R.string.identify_chord));
                 isReplaying = false;
             }
         });

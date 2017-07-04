@@ -62,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Begins the chord progression activity.
+     * @param view The Chord Progressions button pressed.
+     */
+    public void openChordProgressions(View view) {
+        Intent intent = new Intent(this, ChordProgressionActivity.class);
+        startActivity(intent);
+    }
+
+    /**
      * Opens the settings window.
      * @param view The Settings button pressed.
      */
