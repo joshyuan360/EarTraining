@@ -11,16 +11,6 @@ class ChordProgression {
     private int[] voiceLeading;
     private String[] chordNames;
 
-    private static int mod(int x, int y)
-    {
-        int result = x % y;
-        if (result < 0)
-        {
-            result += y;
-        }
-        return result;
-    }
-
     ChordProgression getClone() {
         int[] voiceLeadingCopy = Arrays.copyOf(voiceLeading, voiceLeading.length);
         String[] chordNamesCopy = Arrays.copyOf(chordNames, chordNames.length);
@@ -46,11 +36,7 @@ class ChordProgression {
     }
 
     void toMinor() {
-        for (int i = 0; i < voiceLeading.length; i++) {
-            if (mod(voiceLeading[i] - 5, 12) == 0 || mod(voiceLeading[i] + 2, 12) == 0) {
-                voiceLeading[i]--;
-            }
-        }
+        ChordExtensions.toMinor(voiceLeading);
     }
 
     String[] getAllChordNames(boolean includeFirst) {

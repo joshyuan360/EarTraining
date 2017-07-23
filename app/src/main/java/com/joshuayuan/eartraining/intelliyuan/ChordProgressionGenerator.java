@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import static com.joshuayuan.eartraining.intelliyuan.ChordExtensions.mod;
 import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MAX_NOTE;
 import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MIN_NOTE;
 
@@ -128,17 +129,6 @@ public class ChordProgressionGenerator {
         }
 
         return true;
-    }
-
-    /** Returns the modulus of two integers (always positive). */
-    private static int mod(int x, int y)
-    {
-        int result = x % y;
-        if (result < 0)
-        {
-            result += y;
-        }
-        return result;
     }
 
     /** Analyze transitions between sets of chords and adjust as necessary. */

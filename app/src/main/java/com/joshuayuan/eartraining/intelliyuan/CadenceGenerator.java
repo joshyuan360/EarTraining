@@ -35,7 +35,6 @@ public class CadenceGenerator {
      * @return A random perfect cadence in C major (50%) or C minor (50%).
      */
     private static int[] randPerfectCadence() {
-        int minorValues[] = {5, 17, 29};
         // to switch any cadence to minor, subtract 1 from all values equal to 5, 17, or 29
         int[][] majorPerfectCadences =
                 {
@@ -55,15 +54,8 @@ public class CadenceGenerator {
                 };
 
         int randRow = (int)(Math.random() * majorPerfectCadences.length);
-
         if (Math.random() < 0.5) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 4; j < 8; j++) {
-                    if (minorValues[i] == majorPerfectCadences[randRow][j]) {
-                        majorPerfectCadences[randRow][j]--;
-                    }
-                }
-            }
+            ChordExtensions.toMinor(majorPerfectCadences[randRow]);
         }
 
         majorPerfectCadences[randRow] = modifiedCadence(majorPerfectCadences[randRow]);
@@ -80,7 +72,6 @@ public class CadenceGenerator {
      * @return A random imperfect cadence in C major (50%) or C minor (50%).
      */
     private static int[] randImperfectCadence() {
-        int minorValues[] = {5, 17, 29};
         // to switch any cadence to minor, subtract 1 from all values equal to 5, 17, or 29
         int[][] majorImperfectCadences =
                 {
@@ -97,13 +88,7 @@ public class CadenceGenerator {
 
         int randRow = (int)(Math.random() * majorImperfectCadences.length);
         if (Math.random() < 0.5) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 4; j++) {
-                    if (minorValues [i] == majorImperfectCadences[randRow][j]) {
-                        majorImperfectCadences[randRow][j]--;
-                    }
-                }
-            }
+            ChordExtensions.toMinor(majorImperfectCadences[randRow]);
         }
 
         majorImperfectCadences[randRow] = modifiedCadence(majorImperfectCadences[randRow]);
@@ -120,7 +105,6 @@ public class CadenceGenerator {
      * @return A random plagal cadence in C major (50%) or C minor (50%).
      */
     private static int[] randPlagalCadence() {
-        int[] minorValues = {-2, 5, 10, 17, 22, 29};
         // to switch any cadence to minor, subtract 1 from all values equal to -2, 5, 10, 17, 22, 29
         int[][] majorPlagalCadences =
                 {
@@ -130,13 +114,7 @@ public class CadenceGenerator {
 
         int randRow = (int)(Math.random() * majorPlagalCadences.length);
         if (Math.random() < 0.5) {
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (minorValues[i] == majorPlagalCadences[randRow][j]) {
-                        majorPlagalCadences[randRow][j]--;
-                    }
-                }
-            }
+            ChordExtensions.toMinor(majorPlagalCadences[randRow]);
         }
 
         majorPlagalCadences[randRow] = modifiedCadence(majorPlagalCadences[randRow]);
@@ -153,7 +131,6 @@ public class CadenceGenerator {
      * @return A random deceptive cadence in C major (50%) or C minor (50%).
      */
     private static int[] randDeceptiveCadence() {
-        int[] minorValues = {-2, 5, 10, 17, 22, 29};
         // to switch any cadence to minor, subtract 1 from all values equal to -2, 5, 10, 17, 22, 29
         int[][] majorDeceptiveCadences =
                 {
@@ -166,14 +143,9 @@ public class CadenceGenerator {
 
         int randRow = (int)(Math.random() * majorDeceptiveCadences.length);
         if (Math.random() < 0.5) {
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (minorValues [i] == majorDeceptiveCadences[randRow][j]) {
-                        majorDeceptiveCadences[randRow][j]--;
-                    }
-                }
-            }
+            ChordExtensions.toMinor(majorDeceptiveCadences[randRow]);
         }
+
         if (Math.random() < 0.5) { // change some octaves for more variety
             majorDeceptiveCadences[randRow][0] -= 12;
             majorDeceptiveCadences[randRow][4] -= 12;
@@ -182,6 +154,7 @@ public class CadenceGenerator {
                 majorDeceptiveCadences[randRow][5] -= 12;
             }
         }
+
         return majorDeceptiveCadences[randRow];
     }
 
@@ -196,20 +169,17 @@ public class CadenceGenerator {
                 bass1 -= 12;
                 bass2 -= 12;
             }
-            //Log.i("et", "bass down");
         }
         if (       alto1 - 12 - 2 > bass1 && alto1 - 12 + 2 < tenor1
                 && alto2 - 12 - 2 > bass2 && alto2 - 12 + 2 < tenor2
                 && Math.random() < 0.5) { // move alto down an octave
             alto1 -= 12;
             alto2 -= 12;
-            //Log.i("et", "alto down");
         }
         if (       bass2 + 12 + 2 < tenor2
                 && bass1 > bass2
                 && Math.random() < 0.5) {
             bass2 += 12;
-            //Log.i("et", "bass2 up");
         }
 
         return new int[]{bass1, tenor1, alto1, soprano1, bass2, tenor2, alto2, soprano2};
