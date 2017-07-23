@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.intelliyuan;
 
 /**
  * Ear Training API for cadence generation.

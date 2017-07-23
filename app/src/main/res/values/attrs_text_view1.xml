@@ -1,5 +1,5 @@
 <resources>
-    <declare-styleable name="TextView1">
+    <declare-styleable name="InstructionTextView">
         <attr name="exampleString" format="string" />
         <attr name="exampleDimension" format="dimension" />
         <attr name="exampleColor" format="color" />

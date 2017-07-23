@@ -1,4 +1,6 @@
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.intelliyuan;
+
+import com.joshuayuan.eartraining.intelliyuan.ChordProgression;
 
 import java.util.ArrayList;
 import java.util.HashMap;

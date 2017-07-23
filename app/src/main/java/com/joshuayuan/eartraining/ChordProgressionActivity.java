@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.joshuayuan.eartraining.intelliyuan.ChordProgressionGenerator;
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -200,7 +203,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < 20; i++) {
-            mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
+            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
         }
 
         firePlayer(0);
@@ -254,7 +257,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
         }
 
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
-            mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
+            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
         }
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
             mp[i].start();

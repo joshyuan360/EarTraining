@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.joshuayuan.eartraining.HighScoresActivity">
 
-    <com.joshuayuan.eartraining.TextView2
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -28,7 +28,7 @@
         android:paddingTop="10dp"
         android:textStyle="bold" />
 
-    <com.joshuayuan.eartraining.TextView2
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -46,7 +46,7 @@
         android:paddingTop="10dp"
         android:textStyle="bold" />
 
-    <com.joshuayuan.eartraining.TextView2
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -66,7 +66,7 @@
         android:paddingTop="10dp"
         android:textStyle="bold" />
 
-    <com.joshuayuan.eartraining.TextView2
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -85,7 +85,7 @@
         android:paddingTop="10dp"
         android:textStyle="bold" />
 
-    <com.joshuayuan.eartraining.TextView2
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"

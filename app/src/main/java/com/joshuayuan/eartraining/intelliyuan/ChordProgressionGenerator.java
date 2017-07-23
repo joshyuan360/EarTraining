@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.intelliyuan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import static com.joshuayuan.eartraining.Utilities.MAX_NOTE;
-import static com.joshuayuan.eartraining.Utilities.MIN_NOTE;
+import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MAX_NOTE;
+import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MIN_NOTE;
 
 /**
  * Ear Training API for chord progression generator.
@@ -16,7 +16,7 @@ import static com.joshuayuan.eartraining.Utilities.MIN_NOTE;
  * @author Joshua Yuan
  */
 
-class ChordProgressionGenerator {
+public class ChordProgressionGenerator {
     /** Number of chords in the current chord progression. */
     private static int SEQ_LENGTH = 5;
 
@@ -36,7 +36,7 @@ class ChordProgressionGenerator {
      * Generates a chord progression following Western music harmony rules.
      * @return an array of notes representing a chord progression.
      */
-    static int[] nextChordProgression() {
+    public static int[] nextChordProgression() {
         do {
             chordProgressionToSend.clear();
             setChordSequence();
@@ -50,7 +50,7 @@ class ChordProgressionGenerator {
      * Get info about the last chord progression.
      * @return metadata associated with the last chord progression.
      */
-    static String[] getChordSequence() { return chordSequence; }
+    public static String[] getChordSequence() { return chordSequence; }
 
     /**
      * Call this before generating a chord progression, and to change the type of chords
@@ -58,7 +58,7 @@ class ChordProgressionGenerator {
      * @param includeSixth true if VI chords should be considered.
      * @param includeCadential true if pre-cadential chords should be considered.
      */
-    static void initialize(boolean includeSixth, boolean includeCadential) {
+    public static void initialize(boolean includeSixth, boolean includeCadential) {
         chordProgressions.clear();
         cadentialProgressions.clear();
 

@@ -22,6 +22,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.joshuayuan.eartraining.intelliyuan.CadenceGenerator;
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -244,9 +247,9 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         while (tonicId < 4) {
             tonicId += 12;
         }
-        tonic = MediaPlayer.create(this, Utilities.getResourceId(tonicId));
+        tonic = MediaPlayer.create(this, NoteMappings.getResourceId(tonicId));
         for (int i = 0; i < 8; i++) {
-            mp[i] = MediaPlayer.create (this, Utilities.getResourceId(notes[i]));
+            mp[i] = MediaPlayer.create (this, NoteMappings.getResourceId(notes[i]));
         }
 
         tonic.start();

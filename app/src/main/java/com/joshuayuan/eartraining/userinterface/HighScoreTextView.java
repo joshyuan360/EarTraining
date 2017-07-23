@@ -8,7 +8,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.userinterface;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,11 +23,11 @@ import android.view.View;
 import android.widget.TextView;
 
 /**
- * A <code>TextView</code> with font Gill Sans MT.
+ * A <code>TextView</code> with a digital font.
  */
-public class TextView1 extends TextView {
-    public TextView1(Context context, AttributeSet attrs) {
+public class HighScoreTextView extends TextView {
+    public HighScoreTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/GIL.TTF"));
+        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/DIGITAL.TTF"));
     }
 }

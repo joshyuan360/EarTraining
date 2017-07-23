@@ -46,7 +46,7 @@
         android:title="Automatic Replay"
         android:defaultValue="true"/>
 
-    <com.joshuayuan.eartraining.MyDialogPreference
+    <com.joshuayuan.eartraining.userinterface.HighScoreResetPreference
         android:key="reset"
         android:title="Reset High Scores"
         android:dialogTitle="Are you sure you want to reset high scores?"

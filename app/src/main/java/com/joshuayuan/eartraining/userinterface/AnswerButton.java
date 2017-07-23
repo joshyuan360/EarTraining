@@ -8,26 +8,27 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.userinterface;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
+
+import com.joshuayuan.eartraining.R;
 
 /**
- * A <code>TextView</code> with a digital font.
+ * A <code>Button</code> with font Gill Sans MT and text size 12.
  */
-public class TextView2 extends TextView {
-    public TextView2(Context context, AttributeSet attrs) {
+public class AnswerButton extends Button {
+    public AnswerButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/DIGITAL.TTF"));
+
+        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/GIL.TTF"));
+        setTextSize(13);
+        setTextColor(Color.parseColor("#FFFFFF"));
+        setBackgroundResource(R.drawable.custom_button);
+        setEnabled(false);
     }
 }

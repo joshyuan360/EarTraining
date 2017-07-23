@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -294,10 +296,10 @@ public class ChordsActivity extends AppCompatActivity {
             note4 = note3 + 3;
         }
 
-        mp[0] = MediaPlayer.create(this, Utilities.getResourceId(note1));
-        mp[1] = MediaPlayer.create(this, Utilities.getResourceId(note2));
-        mp[2] = MediaPlayer.create(this, Utilities.getResourceId(note3));
-        mp[3] = MediaPlayer.create(this, Utilities.getResourceId(note4));
+        mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
+        mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
+        mp[2] = MediaPlayer.create(this, NoteMappings.getResourceId(note3));
+        mp[3] = MediaPlayer.create(this, NoteMappings.getResourceId(note4));
 
         for (int i = 0; i < 3; i++) {
             mp[i].start();
