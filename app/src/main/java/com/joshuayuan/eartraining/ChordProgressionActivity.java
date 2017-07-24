@@ -28,7 +28,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
     /** A <code>Button</code> object in the cadences activity. */
     private Button one, four, five, six, cadential;
     /** The sequence of chords that are currently being played. */
-    public String[] answer = new String[5 * 4];
+    public String[] answer;
     /** Allows the user to replay the last chord progression. */
     private Button replay;
     /** User input for the last chord played. */
@@ -44,7 +44,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
     /** Displays the user's high score. */
     private TextView hs;
     /** Contains the sound files required to play the cadence. */
-    private final MediaPlayer[] mp = new MediaPlayer[20];
+    private MediaPlayer[] mp;
     /** The chords that the user wishes to be tested on. */
     private Set<String> selections = new HashSet<>();
     /** <code>true</code> if the user wants automatic replays. */
@@ -75,7 +75,10 @@ public class ChordProgressionActivity extends AppCompatActivity {
 
         boolean includeSix = selections.contains("six");
         boolean includeCadential = selections.contains("cadential");
-        ChordProgressionGenerator.initialize(includeSix, includeCadential);
+
+        int seqLength = Integer.parseInt(sharedPrefs.getString("pref_seq_length", "5"));
+        ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential);
+        mp = new MediaPlayer[seqLength * 4];
 
         initializeButtons();
         setButtonsEnabled(false);
@@ -202,7 +205,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
             tv.setText(getResources().getString(R.string.replaying));
         }
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < mp.length; i++) {
             mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
         }
 
@@ -216,7 +219,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
      * @param start
      */
     public void firePlayer(final int start) {
-        if (start == 20) {
+        if (start == mp.length) {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {

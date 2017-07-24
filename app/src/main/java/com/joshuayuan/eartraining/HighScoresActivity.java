@@ -28,7 +28,7 @@ public class HighScoresActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_high_scores2);
+        setContentView(R.layout.activity_high_scores);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         TextView intervals = (TextView)findViewById(R.id.inhs);

@@ -19,14 +19,14 @@ import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MIN_NOTE;
 
 public class ChordProgressionGenerator {
     /** Number of chords in the current chord progression. */
-    private static int SEQ_LENGTH = 5;
+    private static int SEQ_LENGTH;
 
     /** ChordProgression sequence to be created and processed. */
     private static List<ChordProgression> chordProgressionToSend = new ArrayList<>();
     /** Metadata containing info about the last chord sequence generated. */
-    private static String[] chordSequence = new String[SEQ_LENGTH];
+    private static String[] chordSequence;
     /** The array returned by the API call. */
-    private static int[] notes = new int[SEQ_LENGTH * 4];
+    private static int[] notes;
 
     /** Contains list of legal, non-cadential chord progressions. */
     private static HashMap<String, List<ChordProgression>> chordProgressions = new HashMap<>();
@@ -59,7 +59,7 @@ public class ChordProgressionGenerator {
      * @param includeSixth true if VI chords should be considered.
      * @param includeCadential true if pre-cadential chords should be considered.
      */
-    public static void initialize(boolean includeSixth, boolean includeCadential) {
+    public static void initialize(int seqSize, boolean includeSixth, boolean includeCadential) {
         chordProgressions.clear();
         cadentialProgressions.clear();
 
@@ -72,6 +72,10 @@ public class ChordProgressionGenerator {
         if (includeCadential) {
             VoiceLeadingRules.includeCadential(chordProgressions);
         }
+
+        SEQ_LENGTH = seqSize;
+        chordSequence = new String[SEQ_LENGTH];
+        notes = new int[SEQ_LENGTH * 4];
     }
 
     /** Generate a pseudo-random valid chord progression. */
@@ -83,7 +87,7 @@ public class ChordProgressionGenerator {
         for (int i = 0; i < SEQ_LENGTH - 2; i++) {
             int size = chordProgressionToSend.size();
             ChordProgression lastChord = chordProgressionToSend.get(size - 1);
-            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == 1);
+            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == SEQ_LENGTH - 4); // todo: check
 
             chordProgressionToSend.add(next);
         }
@@ -219,7 +223,7 @@ public class ChordProgressionGenerator {
             String prevStart = previous.getChordName(1);
             if (!cadential) {
                 tempList = chordProgressions.get(prevStart);
-                tempList.removeAll(Collections.singleton(previous.reverse()));
+                tempList.removeAll(Collections.singleton(previous.reverse())); // avoid reverse flow
             } else {
                 tempList = cadentialProgressions.get(prevStart);
             }

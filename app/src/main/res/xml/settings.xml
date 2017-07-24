@@ -40,6 +40,15 @@
         android:entryValues="@array/pref_chord_progressions_values"
         android:defaultValue="@array/pref_chord_progressions_values" />
 
+    <ListPreference
+        android:key="pref_seq_length"
+        android:summary="Customize the length of chord progressions."
+        android:title="Set Chord Progression Length"
+        android:dialogTitle="Select an option:"
+        android:entries="@array/pref_seq_length_entries"
+        android:entryValues="@array/pref_seq_length_values"
+        android:defaultValue="5"/>
+
     <CheckBoxPreference
         android:key="pref_repeat"
         android:summary="Replay after an incorrect answer is selected."
@@ -52,6 +61,5 @@
         android:dialogTitle="Are you sure you want to reset high scores?"
         android:positiveButtonText="OK"
         android:negativeButtonText="Cancel" />
-
     </PreferenceCategory>
 </PreferenceScreen>
