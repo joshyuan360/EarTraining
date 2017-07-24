@@ -17,6 +17,7 @@ import android.preference.PreferenceActivity;
 /**
  * The high scores activity displays the user's high scores for the
  * interval, chords, and cadences activity.
+ *
  * @author Joshua Yuan
  */
 public class PreferencesActivity extends PreferenceActivity {

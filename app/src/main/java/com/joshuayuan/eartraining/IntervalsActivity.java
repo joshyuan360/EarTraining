@@ -31,44 +31,81 @@ import java.util.Set;
 /**
  * The interval activity plays an interval and asks the user to identify it.
  * The score is based on the number of consecutive correct answers.
+ *
  * @author Joshua Yuan
  */
 public class IntervalsActivity extends AppCompatActivity {
-    /** User input for perfect, major, or minor. */
-    private CharSequence part1;
-    /** User input for unison, second, third, fourth, fifth, sixth, seventh, or octave. */
-    private CharSequence part2;
-    /** Stores the first part of the correct answer: perfect, major, or minor. */
-    private CharSequence answer1;
-    /** Stores the second part of the correct answer: unison, second, third, fourth, fifth, sixth seventh, or octave. */
-    private CharSequence answer2;
-    /** A <code>Button</code> object in the first row of the interval activity window. */
-    private Button perfect, major, minor, tritone;
-    /** A <code>Button</code> object in the bottom two rows of the interval activity window. */
-    private Button unison, second, third, fourth, fifth, sixth, seventh, octave;
-    /** Allows the user to replay the last interval. */
-    private Button replay;
-    /** <code>true</code> if the correct interval is identified. */
-    private boolean answerCorrect = true;
-    /** True if the interval to be played will be increasing. */
-    private boolean increasing;
-    /** Displays info to the user on screen. */
-    private TextView tv;
-    /** Displays the current score. */
-    private TextView hs;
-    /** The first note of the interval being played. */
-    private int note1;
-    /** The current score of the user in this activity. */
-    private int score;
-    /** The interval sound files to be played. */
+    /**
+     * The interval sound files to be played.
+     */
     private final MediaPlayer[] mp = new MediaPlayer[2];
-    /** The intervals that the user wishes to be tested on. */
+    /**
+     * User input for perfect, major, or minor.
+     */
+    private CharSequence part1;
+    /**
+     * User input for unison, second, third, fourth, fifth, sixth, seventh, or octave.
+     */
+    private CharSequence part2;
+    /**
+     * Stores the first part of the correct answer: perfect, major, or minor.
+     */
+    private CharSequence answer1;
+    /**
+     * Stores the second part of the correct answer: unison, second, third, fourth, fifth, sixth seventh, or octave.
+     */
+    private CharSequence answer2;
+    /**
+     * A <code>Button</code> object in the first row of the interval activity window.
+     */
+    private Button perfect, major, minor, tritone;
+    /**
+     * A <code>Button</code> object in the bottom two rows of the interval activity window.
+     */
+    private Button unison, second, third, fourth, fifth, sixth, seventh, octave;
+    /**
+     * Allows the user to replay the last interval.
+     */
+    private Button replay;
+    /**
+     * <code>true</code> if the correct interval is identified.
+     */
+    private boolean answerCorrect = true;
+    /**
+     * True if the interval to be played will be increasing.
+     */
+    private boolean increasing;
+    /**
+     * Displays info to the user on screen.
+     */
+    private TextView tv;
+    /**
+     * Displays the current score.
+     */
+    private TextView hs;
+    /**
+     * The first note of the interval being played.
+     */
+    private int note1;
+    /**
+     * The current score of the user in this activity.
+     */
+    private int score;
+    /**
+     * The intervals that the user wishes to be tested on.
+     */
     private Set<String> selections;
-    /** <code>true</code> if the user wants automatic replays. */
+    /**
+     * <code>true</code> if the user wants automatic replays.
+     */
     private boolean prefRepeat;
-    /** <code>true</code> if the user wants to be tested on one or more interval(s). */
+    /**
+     * <code>true</code> if the user wants to be tested on one or more interval(s).
+     */
     private boolean allowPerfect;
-    /** Used to play sound after a specified amount of time. */
+    /**
+     * Used to play sound after a specified amount of time.
+     */
     private Handler handler = new Handler();
     private boolean isReplaying;
 
@@ -86,7 +123,7 @@ public class IntervalsActivity extends AppCompatActivity {
         hs = (TextView) findViewById(R.id.chordProgressionScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[] {
+        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{
                 "Minor Second", "Major Second", "Minor Sixth",
                 "Major Sixth", "Minor Seventh", "Major Seventh",
                 "Perfect Unison", "Perfect Fourth", "Perfect Fifth",
@@ -116,8 +153,9 @@ public class IntervalsActivity extends AppCompatActivity {
 
     /**
      * Stops any currently playing sounds when the user exits the activity.
+     *
      * @throws IllegalStateException if the internal player engine has not been
-     * initialized or has been released.
+     *                               initialized or has been released.
      */
     @Override
     protected void onPause() {
@@ -305,6 +343,7 @@ public class IntervalsActivity extends AppCompatActivity {
     /**
      * Determines if the unison, fourth, fifth, or octave button should be enabled
      * based on user settings.
+     *
      * @param option Unison, fourth, fifth, or octave.
      * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
      */
@@ -319,12 +358,13 @@ public class IntervalsActivity extends AppCompatActivity {
 
     /**
      * Determines if the button should be enabled based on user settings.
+     *
      * @param option A button on the interval activities window.
      * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
      */
     private boolean allowButton(String option) {
         for (String s : selections) {
-            if (s.equals (part1 + " " + option)) {
+            if (s.equals(part1 + " " + option)) {
                 return true;
             }
         }
@@ -333,8 +373,9 @@ public class IntervalsActivity extends AppCompatActivity {
 
     /**
      * Enables or disables the bottom two rows of buttons.
+     *
      * @param perfect Controls the unison, fourth, fifth, and octave buttons.
-     * @param other Controls the second, third, sixth, and seventh buttons.
+     * @param other   Controls the second, third, sixth, and seventh buttons.
      */
     private void setBottomRowsEnabled(boolean perfect, boolean other) {
         unison.setEnabled(allowPerButton("Unison") && perfect);
@@ -350,6 +391,7 @@ public class IntervalsActivity extends AppCompatActivity {
 
     /**
      * Enables or disables the first row of buttons.
+     *
      * @param enabled Controls the perfect, major, minor, and tritone buttons.
      */
     private void setFirstRowEnabled(boolean enabled) {
@@ -384,6 +426,7 @@ public class IntervalsActivity extends AppCompatActivity {
     /**
      * If the current score is higher than the high score, the new high score is updated
      * in shared preferences.
+     *
      * @param score The current score.
      */
     private void setHighScores(int score) {
@@ -397,6 +440,7 @@ public class IntervalsActivity extends AppCompatActivity {
 
     /**
      * Replays the last interval for the user.
+     *
      * @param view The REPLAY button pressed.
      */
     public void replayInterval(View view) {
@@ -407,6 +451,7 @@ public class IntervalsActivity extends AppCompatActivity {
 
     /**
      * Sets the value of <code>part1</code> after the user has selected perfect, major, or minor.
+     *
      * @param view The button clicked by the user: perfect, major, or minor.
      */
     public void part1Clicked(View view) {
@@ -422,6 +467,7 @@ public class IntervalsActivity extends AppCompatActivity {
     /**
      * Sets the value of <code>part2</code> after the user has selected an interval.
      * The result is displayed, and the activity is reset.
+     *
      * @param view The button clicked by the user: unison, second, third, fourth, fifth,
      *             sixth, seventh, octave, or tritone.
      */

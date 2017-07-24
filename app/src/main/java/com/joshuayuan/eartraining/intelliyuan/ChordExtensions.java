@@ -2,15 +2,14 @@ package com.joshuayuan.eartraining.intelliyuan;
 
 /**
  * Helper class for Chords.
+ *
  * @author Joshua Yuan
  */
 
 class ChordExtensions {
-    static int mod(int x, int y)
-    {
+    static int mod(int x, int y) {
         int result = x % y;
-        if (result < 0)
-        {
+        if (result < 0) {
             result += y;
         }
         return result;

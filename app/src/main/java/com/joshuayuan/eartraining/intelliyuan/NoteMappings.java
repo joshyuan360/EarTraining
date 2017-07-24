@@ -14,13 +14,16 @@ import com.joshuayuan.eartraining.R;
 
 /**
  * Used in multiple classes within the com.joshuayuan package.
+ *
  * @author Joshua Yuan
  */
 public class NoteMappings {
     static int MAX_NOTE = 28;
     static int MIN_NOTE = -11;
+
     /**
      * Returns the resource ID of the requested note.
+     *
      * @param note The note to be played.
      * @return The integer ID of the note specified by the parameter.
      */

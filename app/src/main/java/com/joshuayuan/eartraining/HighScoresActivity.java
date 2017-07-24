@@ -19,6 +19,7 @@ import android.widget.TextView;
 /**
  * The high scores activity displays the user's high scores for the
  * interval, chords, and cadences activity.
+ *
  * @author Joshua Yuan
  */
 public class HighScoresActivity extends AppCompatActivity {
@@ -31,19 +32,19 @@ public class HighScoresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_high_scores);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        TextView intervals = (TextView)findViewById(R.id.inhs);
-        TextView chords = (TextView)findViewById(R.id.chhs);
-        TextView cadences = (TextView)findViewById(R.id.cahs);
-        TextView chordProgressions = (TextView)findViewById(R.id.cphs);
+        TextView intervals = (TextView) findViewById(R.id.inhs);
+        TextView chords = (TextView) findViewById(R.id.chhs);
+        TextView cadences = (TextView) findViewById(R.id.cahs);
+        TextView chordProgressions = (TextView) findViewById(R.id.cphs);
 
         String intervalsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("ihs", 0) + "";
         String chordsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("chhs", 0) + "";
         String cadencesScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("cahs", 0) + "";
         String chordProgressionsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("cphs", 0) + "";
 
-        intervals.setText ("Intervals: " + intervalsScore);
-        chords.setText ("Chords: " + chordsScore);
-        cadences.setText ("Cadences: " + cadencesScore);
+        intervals.setText("Intervals: " + intervalsScore);
+        chords.setText("Chords: " + chordsScore);
+        cadences.setText("Cadences: " + cadencesScore);
         chordProgressions.setText("Progressions: " + chordProgressionsScore);
     }
 }

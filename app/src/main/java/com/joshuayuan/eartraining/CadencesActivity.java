@@ -32,35 +32,62 @@ import java.util.Set;
 /**
  * The cadences activity plays a cadence and asks the user to identify it.
  * The score is based on the number of consecutive correct answers.
+ *
  * @author Joshua Yuan
  */
 public class CadencesActivity extends AppCompatActivity { //todo: does it switch between minor and major? check this
-    /** A <code>Button</code> object in the cadences activity. */
-    private Button perfect, plagal, imperfect, deceptive;
-    /** Allows the user to replay the last cadence. */
-    private Button replay;
-    /** The current answer to the last cadence played. */
-    private CharSequence answer;
-    /** User input for perfect, plagal, imperfect, or deceptive. */
-    private CharSequence response;
-    /** <code>true</code> if the correct interval is identified. */
-    private boolean answerCorrect = true;
-    /** Displays info to the user on screen. */
-    private TextView tv;
-    /** Contains all of the notes in both chords that are to be played. */
-    private int notes [];
-    /** The current score of the user. */
-    private int score;
-    /** Displays the user's high score. */
-    private TextView hs;
-    /** Contains the sound files required to play the cadence. */
+    /**
+     * Contains the sound files required to play the cadence.
+     */
     private final MediaPlayer[] mp = new MediaPlayer[8];
+    /**
+     * A <code>Button</code> object in the cadences activity.
+     */
+    private Button perfect, plagal, imperfect, deceptive;
+    /**
+     * Allows the user to replay the last cadence.
+     */
+    private Button replay;
+    /**
+     * The current answer to the last cadence played.
+     */
+    private CharSequence answer;
+    /**
+     * User input for perfect, plagal, imperfect, or deceptive.
+     */
+    private CharSequence response;
+    /**
+     * <code>true</code> if the correct interval is identified.
+     */
+    private boolean answerCorrect = true;
+    /**
+     * Displays info to the user on screen.
+     */
+    private TextView tv;
+    /**
+     * Contains all of the notes in both chords that are to be played.
+     */
+    private int notes[];
+    /**
+     * The current score of the user.
+     */
+    private int score;
+    /**
+     * Displays the user's high score.
+     */
+    private TextView hs;
     private MediaPlayer tonic = new MediaPlayer();
-    /** The chords that the user wishes to be tested on. */
+    /**
+     * The chords that the user wishes to be tested on.
+     */
     private Set<String> selections;
-    /** <code>true</code> if the user wants automatic replays. */
+    /**
+     * <code>true</code> if the user wants automatic replays.
+     */
     private boolean prefRepeat;
-    /** Used to play sound after a specified amount of time. */
+    /**
+     * Used to play sound after a specified amount of time.
+     */
     private Handler handler = new Handler();
     private boolean isReplaying;
     private int randomShift;
@@ -79,7 +106,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         hs = (TextView) findViewById(R.id.cadenceScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet(Arrays.asList(new String[] { "Imperfect", "Deceptive" })); //TODO change this
+        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this
         selections = sharedPrefs.getStringSet("pref_cadences", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
@@ -97,8 +124,9 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
 
     /**
      * Stops any currently playing sounds when the user exits the activity.
+     *
      * @throws IllegalStateException if the internal player engine has not been
-     * initialized or has been released.
+     *                               initialized or has been released.
      */
     @Override
     protected void onPause() {
@@ -148,6 +176,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
 
     /**
      * Enables or disables the answer buttons.
+     *
      * @param enabled Controls the perfect, plagal, imperfect, and deceptive buttons.
      */
     private void setButtonsEnabled(boolean enabled) {
@@ -179,6 +208,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
     /**
      * If the current score is higher than the high score, the new high score is updated
      * in shared preferences.
+     *
      * @param score The current score.
      */
     private void setHighScores(int score) {
@@ -249,11 +279,11 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         }
         tonic = MediaPlayer.create(this, NoteMappings.getResourceId(tonicId));
         for (int i = 0; i < 8; i++) {
-            mp[i] = MediaPlayer.create (this, NoteMappings.getResourceId(notes[i]));
+            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
         }
 
         tonic.start();
-        tonic.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+        tonic.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
                 tonic.stop();
                 tonic.release();
@@ -288,6 +318,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
 
     /**
      * Replays the last interval for the user.
+     *
      * @param view The REPLAY button pressed.
      */
     public void replayCadence(View view) {
@@ -299,6 +330,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
     /**
      * Sets the value of <code>response</code> after the user has selected a cadence.
      * The result is displayed, and the activity is reset.
+     *
      * @param view The button clicked by the user: perfect, plagal, imperfect, or deceptive.
      */
     public void answerClicked(View view) {

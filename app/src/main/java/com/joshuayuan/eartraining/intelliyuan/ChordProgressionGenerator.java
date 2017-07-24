@@ -14,27 +14,41 @@ import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MIN_NOTE;
 /**
  * Ear Training API for chord progression generator.
  * Used for chord progression activity.
+ *
  * @author Joshua Yuan
  */
 
 public class ChordProgressionGenerator {
-    /** Number of chords in the current chord progression. */
+    /**
+     * Number of chords in the current chord progression.
+     */
     private static int SEQ_LENGTH;
 
-    /** ChordProgression sequence to be created and processed. */
+    /**
+     * ChordProgression sequence to be created and processed.
+     */
     private static List<ChordProgression> chordProgressionToSend = new ArrayList<>();
-    /** Metadata containing info about the last chord sequence generated. */
+    /**
+     * Metadata containing info about the last chord sequence generated.
+     */
     private static String[] chordSequence;
-    /** The array returned by the API call. */
+    /**
+     * The array returned by the API call.
+     */
     private static int[] notes;
 
-    /** Contains list of legal, non-cadential chord progressions. */
+    /**
+     * Contains list of legal, non-cadential chord progressions.
+     */
     private static HashMap<String, List<ChordProgression>> chordProgressions = new HashMap<>();
-    /** Contains list of legal, cadential chord progressions. */
+    /**
+     * Contains list of legal, cadential chord progressions.
+     */
     private static HashMap<String, List<ChordProgression>> cadentialProgressions = new HashMap<>();
 
     /**
      * Generates a chord progression following Western music harmony rules.
+     *
      * @return an array of notes representing a chord progression.
      */
     public static int[] nextChordProgression() {
@@ -49,14 +63,18 @@ public class ChordProgressionGenerator {
 
     /**
      * Get info about the last chord progression.
+     *
      * @return metadata associated with the last chord progression.
      */
-    public static String[] getChordSequence() { return chordSequence; }
+    public static String[] getChordSequence() {
+        return chordSequence;
+    }
 
     /**
      * Call this before generating a chord progression, and to change the type of chords
      * taken into consideration for future generations.
-     * @param includeSixth true if VI chords should be considered.
+     *
+     * @param includeSixth     true if VI chords should be considered.
      * @param includeCadential true if pre-cadential chords should be considered.
      */
     public static void initialize(int seqSize, boolean includeSixth, boolean includeCadential) {
@@ -78,7 +96,9 @@ public class ChordProgressionGenerator {
         notes = new int[SEQ_LENGTH * 4];
     }
 
-    /** Generate a pseudo-random valid chord progression. */
+    /**
+     * Generate a pseudo-random valid chord progression.
+     */
     private static void setChordSequence() {
         // create a chord progression
         chordProgressionToSend.add(getRandChordProgression(false, null, false));
@@ -109,7 +129,9 @@ public class ChordProgressionGenerator {
         mergeProgression();
     }
 
-    /** Find notes out of bound and adjust all notes in that voice. */
+    /**
+     * Find notes out of bound and adjust all notes in that voice.
+     */
     private static boolean modulateNotes() {
         int min = notes[0];
         int max = notes[0];
@@ -135,7 +157,9 @@ public class ChordProgressionGenerator {
         return true;
     }
 
-    /** Analyze transitions between sets of chords and adjust as necessary. */
+    /**
+     * Analyze transitions between sets of chords and adjust as necessary.
+     */
     private static boolean mergeProgression() {
         for (int c = 0; c < chordProgressionToSend.size() - 1; c++) {
             int[] source = chordProgressionToSend.get(c).getNotes(true);
@@ -157,7 +181,9 @@ public class ChordProgressionGenerator {
         return true;
     }
 
-    /** Extract, flatten, and map chord progression metadata for the API caller. */
+    /**
+     * Extract, flatten, and map chord progression metadata for the API caller.
+     */
     private static void extractNotesAndMetaData() {
         List<String> metaData = new ArrayList<>();
         List<Integer> noteData = new ArrayList<>();
@@ -174,7 +200,7 @@ public class ChordProgressionGenerator {
 
         // map raw value to human-readable string for API caller to process
         for (int i = 0; i < metaData.size(); i++) {
-            switch(metaData.get(i).charAt(0)) {
+            switch (metaData.get(i).charAt(0)) {
                 case '1':
                     chordSequence[i] = "I - TONIC";
                     break;
@@ -204,8 +230,8 @@ public class ChordProgressionGenerator {
     }
 
     /**
-     * @param cadential true if progression must be a valid cadence.
-     * @param previous the last chord generated in the current sequence.
+     * @param cadential     true if progression must be a valid cadence.
+     * @param previous      the last chord generated in the current sequence.
      * @param allowRootInv2 true if pre-cadential chords should be considered.
      * @return a random two-step chord progression that begins with the specified chord.
      */
