@@ -21,6 +21,6 @@ import android.widget.TextView;
 public class InstructionTextView extends TextView {
     public InstructionTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/GIL.TTF"));
+        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Lato-Regular.ttf"));
     }
 }

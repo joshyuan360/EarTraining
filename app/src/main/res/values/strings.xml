@@ -14,7 +14,7 @@
     <string name="perfect">Perfect</string>
     <string name="major">Major</string>
     <string name="minor">Minor</string>
-    <string name="tritone">Tritone</string>
+    <string name="tritone">Aug 4</string>
     <string name="unison">Unison</string>
     <string name="second">Second</string>
     <string name="third">Third</string>
@@ -39,7 +39,7 @@
     <string name="subdominant_chord">IV - SUBDOMINANT</string>
     <string name="dominant_chord">V - DOMINANT</string>
     <string name="submediant_chord">VI - SUBMEDIANT</string>
-    <string name="cadential_chord">1-6-4 CADENTIAL</string>
+    <string name="cadential_chord">CADENTIAL 6-4</string>
 
     <string name="score_value">0</string>
     <string name="score">Score</string>

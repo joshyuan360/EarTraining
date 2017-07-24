@@ -24,7 +24,7 @@ import com.joshuayuan.eartraining.R;
 public class MenuButton extends Button {
     public MenuButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/GIL.TTF"));
+        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Lato-Bold.ttf"));
         setTextSize(14);
         setTextColor(Color.parseColor("#FFFFFF"));
         setBackgroundResource(R.drawable.answer_button);

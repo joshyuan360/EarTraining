@@ -25,7 +25,7 @@ public class AnswerButton extends Button {
     public AnswerButton(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/GIL.TTF"));
+        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Lato-Regular.ttf"));
         setTextSize(13);
         setTextColor(Color.parseColor("#FFFFFF"));
         setBackgroundResource(R.drawable.answer_button);
