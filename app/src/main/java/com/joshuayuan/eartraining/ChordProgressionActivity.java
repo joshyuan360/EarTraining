@@ -343,7 +343,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (answerCorrect) {
-                    if (chordNumber != 4) {
+                    if (chordNumber != answer.length - 1) {
                         chordNumber++;
                         playChord();
                     } else {

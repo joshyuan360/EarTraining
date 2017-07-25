@@ -177,7 +177,7 @@ public class ChordProgressionGenerator {
                 }
             }
         }
-
+        
         return true;
     }
 
@@ -214,7 +214,7 @@ public class ChordProgressionGenerator {
                     chordSequence[i] = "VI - SUBMEDIANT";
                     break;
                 case 'c':
-                    chordSequence[i] = "1-6-4 CADENTIAL";
+                    chordSequence[i] = "CADENTIAL 6-4";
             }
         }
 
