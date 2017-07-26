@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,45 +31,78 @@ import java.util.Set;
 /**
  * The chords activity plays a chord and asks the user to identify it.
  * The score is based on the number of consecutive correct answers.
+ *
  * @author Joshua Yuan
  */
 public class ChordsActivity extends AppCompatActivity {
-    /** A <code>Button</code> object in the first row of the chord activity window. */
+    /**
+     * The sound files required to play the chord.
+     */
+    private final MediaPlayer[] mp = new MediaPlayer[4];
+    /**
+     * A <code>Button</code> object in the first row of the chord activity window.
+     */
     private Button major, minor, dominant, diminished;
-    /** A <code>Button</code> object in the bottom two rows of the chord activity window. */
+    /**
+     * A <code>Button</code> object in the bottom two rows of the chord activity window.
+     */
     private Button root, first, second, third;
-    /** Allows user to replay the last chord. */
+    /**
+     * Allows user to replay the last chord.
+     */
     private Button replay;
-    /** User input for major, minor, dominant, or diminished. */
+    /**
+     * User input for major, minor, dominant, or diminished.
+     */
     private CharSequence part1;
-    /** User input for root pos, 1st inv, 2nd inv, or 3rd inv. */
+    /**
+     * User input for root pos, 1st inv, 2nd inv, or 3rd inv.
+     */
     private CharSequence part2;
-    /** Stores the first part of the correct answer: major, minor, dominant, or diminished. */
+    /**
+     * Stores the first part of the correct answer: major, minor, dominant, or diminished.
+     */
     private CharSequence answer1;
     /**
      * Stores the second part of the correct answer: root pos, 1st inv, 2nd inv, or 3rd inv.
      * If diminished is the answer, this variable is set to "none".
      */
     private CharSequence answer2;
-    /** <code>true</code> if the correct chord is identified. */
+    /**
+     * <code>true</code> if the correct chord is identified.
+     */
     private boolean answerCorrect = true;
-    /** Displays info to the user on screen. */
+    /**
+     * Displays info to the user on screen.
+     */
     private TextView tv;
-    /** Displays the current score. */
+    /**
+     * Displays the current score.
+     */
     private TextView hs;
-    /** The lowest note of the chord being played. */
+    /**
+     * The lowest note of the chord being played.
+     */
     private int note1;
-    /** The current score of the user in this activity. */
+    /**
+     * The current score of the user in this activity.
+     */
     private int score = 0;
-    /** The sound files required to play the chord. */
-    private final MediaPlayer [] mp = new MediaPlayer [4];
-    /** The chords that the user wishes to be tested on. */
+    /**
+     * The chords that the user wishes to be tested on.
+     */
     private Set<String> selections;
-    /** <code>true</code> if the user wants automatic replays. */
+    /**
+     * <code>true</code> if the user wants automatic replays.
+     */
     private boolean prefRepeat;
-    /** <code>true</code> if the user wants to be tested on one or more dominant 7th chord(s). */
+    /**
+     * <code>true</code> if the user wants to be tested on one or more dominant 7th chord(s).
+     */
     private boolean allowDom;
-    /** Used to play sound after a specified amount of time. */
+    /**
+     * Used to play sound after a specified amount of time.
+     */
     private Handler handler = new Handler();
     private boolean isReplaying;
 
@@ -85,10 +120,10 @@ public class ChordsActivity extends AppCompatActivity {
         hs = (TextView) findViewById(R.id.chordProgressionScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[] {
+        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{
                 "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
                 "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
-                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", }));
+                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none",}));
         selections = sharedPrefs.getStringSet("pref_chords", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
@@ -114,8 +149,9 @@ public class ChordsActivity extends AppCompatActivity {
 
     /**
      * Stops any currently playing sounds when the user exits the activity.
+     *
      * @throws IllegalStateException if the internal player engine has not been
-     * initialized or has been released.
+     *                               initialized or has been released.
      */
     @Override
     protected void onPause() {
@@ -150,6 +186,7 @@ public class ChordsActivity extends AppCompatActivity {
 
     /**
      * Enables or disables the first row of buttons.
+     *
      * @param enabled Controls the major, minor, dominant, and diminished buttons.
      */
     private void setFirstRowEnabled(boolean enabled) {
@@ -162,6 +199,7 @@ public class ChordsActivity extends AppCompatActivity {
     /**
      * Determines if the inversion button should be enabled
      * based on user settings.
+     *
      * @param inversion The inversion button.
      * @return <code>true</code> if the button specified by <code>inversion</code> should be enabled.
      */
@@ -176,7 +214,8 @@ public class ChordsActivity extends AppCompatActivity {
 
     /**
      * Enables or disables the bottom two rows of buttons.
-     * @param enabled Controls the root pos, 1st inv, and 2nd inv buttons.
+     *
+     * @param enabled     Controls the root pos, 1st inv, and 2nd inv buttons.
      * @param enableThird Controls the 3rd inv button.
      */
     private void setBottomRowsEnabled(boolean enabled, boolean enableThird) {
@@ -294,16 +333,16 @@ public class ChordsActivity extends AppCompatActivity {
             note4 = note3 + 3;
         }
 
-        mp[0] = MediaPlayer.create(this, Utilities.getResourceId(note1));
-        mp[1] = MediaPlayer.create(this, Utilities.getResourceId(note2));
-        mp[2] = MediaPlayer.create(this, Utilities.getResourceId(note3));
-        mp[3] = MediaPlayer.create(this, Utilities.getResourceId(note4));
+        mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
+        mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
+        mp[2] = MediaPlayer.create(this, NoteMappings.getResourceId(note3));
+        mp[3] = MediaPlayer.create(this, NoteMappings.getResourceId(note4));
 
         for (int i = 0; i < 3; i++) {
             mp[i].start();
         }
 
-        if (answer1.subSequence(0, 1).equals ("D")) {
+        if (answer1.subSequence(0, 1).equals("D")) {
             mp[3].start();
         }
 
@@ -361,6 +400,7 @@ public class ChordsActivity extends AppCompatActivity {
     /**
      * If the current score is higher than the high score, the new high score is updated
      * in shared preferences.
+     *
      * @param score The current score.
      */
     private void setHighScores(int score) {
@@ -374,6 +414,7 @@ public class ChordsActivity extends AppCompatActivity {
 
     /**
      * Replays the last interval for the user.
+     *
      * @param view The REPLAY button pressed.
      */
     public void replayChord(View view) {
@@ -385,6 +426,7 @@ public class ChordsActivity extends AppCompatActivity {
     /**
      * Sets the value of <code>part1</code> after the user has selected
      * major, minor, dominant, or diminished.
+     *
      * @param view The button clicked by the user: major, minor, dominant, or diminished.
      */
     public void cpart1Clicked(View view) {
@@ -396,6 +438,7 @@ public class ChordsActivity extends AppCompatActivity {
     /**
      * Sets the value of <code>part2</code> after the user has selected a chord.
      * The result is displayed, and the activity is reset.
+     *
      * @param view The button clicked by the user:
      *             root pos, 1st inv, 2nd inv, 3rd inv, or diminished.
      */

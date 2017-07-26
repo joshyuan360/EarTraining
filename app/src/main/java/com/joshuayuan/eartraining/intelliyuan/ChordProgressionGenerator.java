@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.intelliyuan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,36 +7,51 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import static com.joshuayuan.eartraining.Utilities.MAX_NOTE;
-import static com.joshuayuan.eartraining.Utilities.MIN_NOTE;
+import static com.joshuayuan.eartraining.intelliyuan.ChordExtensions.mod;
+import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MAX_NOTE;
+import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MIN_NOTE;
 
 /**
  * Ear Training API for chord progression generator.
  * Used for chord progression activity.
+ *
  * @author Joshua Yuan
  */
 
-class ChordProgressionGenerator {
-    /** Number of chords in the current chord progression. */
-    private static int SEQ_LENGTH = 5;
+public class ChordProgressionGenerator {
+    /**
+     * Number of chords in the current chord progression.
+     */
+    private static int SEQ_LENGTH;
 
-    /** ChordProgression sequence to be created and processed. */
+    /**
+     * ChordProgression sequence to be created and processed.
+     */
     private static List<ChordProgression> chordProgressionToSend = new ArrayList<>();
-    /** Metadata containing info about the last chord sequence generated. */
-    private static String[] chordSequence = new String[SEQ_LENGTH];
-    /** The array returned by the API call. */
-    private static int[] notes = new int[SEQ_LENGTH * 4];
+    /**
+     * Metadata containing info about the last chord sequence generated.
+     */
+    private static String[] chordSequence;
+    /**
+     * The array returned by the API call.
+     */
+    private static int[] notes;
 
-    /** Contains list of legal, non-cadential chord progressions. */
+    /**
+     * Contains list of legal, non-cadential chord progressions.
+     */
     private static HashMap<String, List<ChordProgression>> chordProgressions = new HashMap<>();
-    /** Contains list of legal, cadential chord progressions. */
+    /**
+     * Contains list of legal, cadential chord progressions.
+     */
     private static HashMap<String, List<ChordProgression>> cadentialProgressions = new HashMap<>();
 
     /**
      * Generates a chord progression following Western music harmony rules.
+     *
      * @return an array of notes representing a chord progression.
      */
-    static int[] nextChordProgression() {
+    public static int[] nextChordProgression() {
         do {
             chordProgressionToSend.clear();
             setChordSequence();
@@ -48,17 +63,21 @@ class ChordProgressionGenerator {
 
     /**
      * Get info about the last chord progression.
+     *
      * @return metadata associated with the last chord progression.
      */
-    static String[] getChordSequence() { return chordSequence; }
+    public static String[] getChordSequence() {
+        return chordSequence;
+    }
 
     /**
      * Call this before generating a chord progression, and to change the type of chords
      * taken into consideration for future generations.
-     * @param includeSixth true if VI chords should be considered.
+     *
+     * @param includeSixth     true if VI chords should be considered.
      * @param includeCadential true if pre-cadential chords should be considered.
      */
-    static void initialize(boolean includeSixth, boolean includeCadential) {
+    public static void initialize(int seqSize, boolean includeSixth, boolean includeCadential) {
         chordProgressions.clear();
         cadentialProgressions.clear();
 
@@ -71,9 +90,15 @@ class ChordProgressionGenerator {
         if (includeCadential) {
             VoiceLeadingRules.includeCadential(chordProgressions);
         }
+
+        SEQ_LENGTH = seqSize;
+        chordSequence = new String[SEQ_LENGTH];
+        notes = new int[SEQ_LENGTH * 4];
     }
 
-    /** Generate a pseudo-random valid chord progression. */
+    /**
+     * Generate a pseudo-random valid chord progression.
+     */
     private static void setChordSequence() {
         // create a chord progression
         chordProgressionToSend.add(getRandChordProgression(false, null, false));
@@ -82,7 +107,7 @@ class ChordProgressionGenerator {
         for (int i = 0; i < SEQ_LENGTH - 2; i++) {
             int size = chordProgressionToSend.size();
             ChordProgression lastChord = chordProgressionToSend.get(size - 1);
-            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == 1);
+            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == SEQ_LENGTH - 4); // todo: check
 
             chordProgressionToSend.add(next);
         }
@@ -104,7 +129,9 @@ class ChordProgressionGenerator {
         mergeProgression();
     }
 
-    /** Find notes out of bound and adjust all notes in that voice. */
+    /**
+     * Find notes out of bound and adjust all notes in that voice.
+     */
     private static boolean modulateNotes() {
         int min = notes[0];
         int max = notes[0];
@@ -130,18 +157,9 @@ class ChordProgressionGenerator {
         return true;
     }
 
-    /** Returns the modulus of two integers (always positive). */
-    private static int mod(int x, int y)
-    {
-        int result = x % y;
-        if (result < 0)
-        {
-            result += y;
-        }
-        return result;
-    }
-
-    /** Analyze transitions between sets of chords and adjust as necessary. */
+    /**
+     * Analyze transitions between sets of chords and adjust as necessary.
+     */
     private static boolean mergeProgression() {
         for (int c = 0; c < chordProgressionToSend.size() - 1; c++) {
             int[] source = chordProgressionToSend.get(c).getNotes(true);
@@ -163,7 +181,9 @@ class ChordProgressionGenerator {
         return true;
     }
 
-    /** Extract, flatten, and map chord progression metadata for the API caller. */
+    /**
+     * Extract, flatten, and map chord progression metadata for the API caller.
+     */
     private static void extractNotesAndMetaData() {
         List<String> metaData = new ArrayList<>();
         List<Integer> noteData = new ArrayList<>();
@@ -180,21 +200,21 @@ class ChordProgressionGenerator {
 
         // map raw value to human-readable string for API caller to process
         for (int i = 0; i < metaData.size(); i++) {
-            switch(metaData.get(i).charAt(0)) {
+            switch (metaData.get(i).charAt(0)) {
                 case '1':
-                    chordSequence[i] = "I - TONIC";
+                    chordSequence[i] = "I - Tonic";
                     break;
                 case '4':
-                    chordSequence[i] = "IV - SUBDOMINANT";
+                    chordSequence[i] = "IV - Subdominant";
                     break;
                 case '5':
-                    chordSequence[i] = "V - DOMINANT";
+                    chordSequence[i] = "V - Dominant";
                     break;
                 case '6':
-                    chordSequence[i] = "VI - SUBMEDIANT";
+                    chordSequence[i] = "VI - Submediant";
                     break;
                 case 'c':
-                    chordSequence[i] = "1-6-4 CADENTIAL";
+                    chordSequence[i] = "Cadential 6-4";
             }
         }
 
@@ -210,8 +230,8 @@ class ChordProgressionGenerator {
     }
 
     /**
-     * @param cadential true if progression must be a valid cadence.
-     * @param previous the last chord generated in the current sequence.
+     * @param cadential     true if progression must be a valid cadence.
+     * @param previous      the last chord generated in the current sequence.
      * @param allowRootInv2 true if pre-cadential chords should be considered.
      * @return a random two-step chord progression that begins with the specified chord.
      */
@@ -229,7 +249,7 @@ class ChordProgressionGenerator {
             String prevStart = previous.getChordName(1);
             if (!cadential) {
                 tempList = chordProgressions.get(prevStart);
-                tempList.removeAll(Collections.singleton(previous.reverse()));
+                tempList.removeAll(Collections.singleton(previous.reverse())); // avoid reverse flow
             } else {
                 tempList = cadentialProgressions.get(prevStart);
             }

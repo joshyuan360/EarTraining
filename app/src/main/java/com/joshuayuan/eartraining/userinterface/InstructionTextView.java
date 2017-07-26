@@ -8,24 +8,19 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.userinterface;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.TextView;
 
 /**
- * A <code>Button</code> with font Gill Sans MT and text size 14.
+ * A <code>TextView</code> with font Gill Sans MT.
  */
-public class Button2 extends Button {
-    public Button2(Context context, AttributeSet attrs) {
+public class InstructionTextView extends TextView {
+    public InstructionTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/GIL.TTF"));
-        setTextSize(14);
-        setTextColor(Color.parseColor("#FFFFFF"));
-        setBackgroundResource(R.drawable.custom_button);
-        setEnabled(true);
+        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Lato-Regular.ttf"));
     }
 }

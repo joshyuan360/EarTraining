@@ -11,7 +11,7 @@
         <item>Perfect Fourth</item>
         <item>Perfect Fifth</item>
         <item>Perfect Octave</item>
-        <item>Tritone</item>
+        <item>Aug 4</item>
     </string-array>
 
     <string-array name="pref_chords_entries">
@@ -45,12 +45,26 @@
 
     <string-array name="pref_chord_progressions_entries">
         <item>VI - Submediant</item>
-        <item>1-6-4 Cadential</item>
+        <item>Cadential 6-4</item>
     </string-array>
 
     <string-array name="pref_chord_progressions_values">
         <item>six</item>
         <item>cadential</item>
+    </string-array>
+
+    <string-array name="pref_seq_length_entries">
+        <item>Easy - 3</item>
+        <item>Medium - 5</item>
+        <item>Difficult - 10</item>
+        <item>Challenging - 20</item>
+    </string-array>
+
+    <string-array name="pref_seq_length_values">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
     </string-array>
 
     <string-array name="pref_level_default" >

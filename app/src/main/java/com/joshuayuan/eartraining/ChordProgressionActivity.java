@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.joshuayuan.eartraining.intelliyuan.ChordProgressionGenerator;
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,36 +22,65 @@ import java.util.Set;
 /**
  * The chord progression activity plays a chord progression twice as per the
  * RCM syllabus. The score is based on the number of consecutive correct answers.
+ *
  * @author Joshua Yuan
  */
 public class ChordProgressionActivity extends AppCompatActivity {
-    /** A <code>Button</code> object in the cadences activity. */
+    /**
+     * The sequence of chords that are currently being played.
+     */
+    public String[] answer;
+    /**
+     * A <code>Button</code> object in the cadences activity.
+     */
     private Button one, four, five, six, cadential;
-    /** The sequence of chords that are currently being played. */
-    public String[] answer = new String[5 * 4];
-    /** Allows the user to replay the last chord progression. */
+    /**
+     * Allows the user to replay the last chord progression.
+     */
     private Button replay;
-    /** User input for the last chord played. */
+    /**
+     * User input for the last chord played.
+     */
     private CharSequence response;
-    /** <code>true</code> if the correct chord is identified. */
+    /**
+     * <code>true</code> if the correct chord is identified.
+     */
     private boolean answerCorrect = true;
-    /** Displays info to the user on screen. */
+    /**
+     * Displays info to the user on screen.
+     */
     private TextView tv;
-    /** Contains all of the notes in the chord progression that are to be played. */
+    /**
+     * Contains all of the notes in the chord progression that are to be played.
+     */
     private int notes[];
-    /** The current score of the user */
+    /**
+     * The current score of the user
+     */
     private int score;
-    /** Displays the user's high score. */
+    /**
+     * Displays the user's high score.
+     */
     private TextView hs;
-    /** Contains the sound files required to play the cadence. */
-    private final MediaPlayer[] mp = new MediaPlayer[20];
-    /** The chords that the user wishes to be tested on. */
+    /**
+     * Contains the sound files required to play the cadence.
+     */
+    private MediaPlayer[] mp;
+    /**
+     * The chords that the user wishes to be tested on.
+     */
     private Set<String> selections = new HashSet<>();
-    /** <code>true</code> if the user wants automatic replays. */
+    /**
+     * <code>true</code> if the user wants automatic replays.
+     */
     private boolean prefRepeat;
-    /** Used to play sound after a specified amount of time. */
+    /**
+     * Used to play sound after a specified amount of time.
+     */
     private Handler handler = new Handler();
-    /** The index of the next chord that will be played, starting from zero. */
+    /**
+     * The index of the next chord that will be played, starting from zero.
+     */
     private int chordNumber = 0;
     private boolean isReplaying;
 
@@ -66,13 +98,16 @@ public class ChordProgressionActivity extends AppCompatActivity {
         hs = (TextView) findViewById(R.id.chordProgressionScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet(Arrays.asList(new String[] { "six", "cadential" }));
+        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"six", "cadential"}));
         selections = sharedPrefs.getStringSet("pref_chord_progressions", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
         boolean includeSix = selections.contains("six");
         boolean includeCadential = selections.contains("cadential");
-        ChordProgressionGenerator.initialize(includeSix, includeCadential);
+
+        int seqLength = Integer.parseInt(sharedPrefs.getString("pref_seq_length", "5"));
+        ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential);
+        mp = new MediaPlayer[seqLength * 4];
 
         initializeButtons();
         setButtonsEnabled(false);
@@ -88,8 +123,9 @@ public class ChordProgressionActivity extends AppCompatActivity {
 
     /**
      * Stops any currently playing sounds when the user exits the activity.
+     *
      * @throws IllegalStateException if the internal player engine has not been
-     * initialized or has been released.
+     *                               initialized or has been released.
      */
     @Override
     protected void onPause() {
@@ -129,6 +165,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
 
     /**
      * Enables or disables the answer buttons.
+     *
      * @param enabled Controls the perfect, plagal, imperfect, and deceptive buttons.
      */
     private void setButtonsEnabled(boolean enabled) {
@@ -162,6 +199,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
     /**
      * If the current score is higher than the high score, the new high score is updated
      * in shared preferences.
+     *
      * @param score The current score.
      */
     private void setHighScores(int score) {
@@ -181,7 +219,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
         if (answerCorrect) {
             setAnswer();
             playAll();
-        } else if (prefRepeat){
+        } else if (prefRepeat) {
             playAll();
         }
     }
@@ -199,8 +237,8 @@ public class ChordProgressionActivity extends AppCompatActivity {
             tv.setText(getResources().getString(R.string.replaying));
         }
 
-        for (int i = 0; i < 20; i++) {
-            mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
+        for (int i = 0; i < mp.length; i++) {
+            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
         }
 
         firePlayer(0);
@@ -210,10 +248,11 @@ public class ChordProgressionActivity extends AppCompatActivity {
      * Recursive method that continuously fires four MediaPlayer events simultaneously,
      * one per chord. Resources are deleted after each chord is played to make this operation
      * as memory efficient as possible.
+     *
      * @param start
      */
     public void firePlayer(final int start) {
-        if (start == 20) {
+        if (start == mp.length) {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -254,7 +293,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
         }
 
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
-            mp[i] = MediaPlayer.create(this, Utilities.getResourceId(notes[i]));
+            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
         }
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
             mp[i].start();
@@ -271,12 +310,14 @@ public class ChordProgressionActivity extends AppCompatActivity {
                 if (!answerCorrect) {
                     tv.setText(getResources().getString(R.string.identify_chord_in_progression));
                 }
+                isReplaying = false;
             }
         });
     }
 
     /**
      * Replays the last chord progression for the user.
+     *
      * @param view the REPLAY button pressed.
      */
     public void replayChordProgression(View view) {
@@ -288,10 +329,11 @@ public class ChordProgressionActivity extends AppCompatActivity {
     /**
      * Sets the value of <code>response</code> after the user has selected a cadence.
      * The result is displayed, and the activity is reset.
+     *
      * @param view The button clicked by the user: tonic, subdominant, dominant, or submediant.
      */
     public void answerClicked(View view) {
-        response = ((Button)view).getText();
+        response = ((Button) view).getText();
         setButtonsEnabled(false);
         displayResult();
         if (answerCorrect || prefRepeat) {
@@ -302,7 +344,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (answerCorrect) {
-                    if (chordNumber != 4) {
+                    if (chordNumber != answer.length - 1) {
                         chordNumber++;
                         playChord();
                     } else {
