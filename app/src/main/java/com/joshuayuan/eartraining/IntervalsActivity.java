@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -72,10 +73,6 @@ public class IntervalsActivity extends AppCompatActivity {
      */
     private boolean answerCorrect = true;
     /**
-     * True if the interval to be played will be increasing.
-     */
-    private boolean increasing;
-    /**
      * Displays info to the user on screen.
      */
     private TextView tv;
@@ -108,6 +105,8 @@ public class IntervalsActivity extends AppCompatActivity {
      */
     private Handler handler = new Handler();
     private boolean isReplaying;
+    private int testType;
+    private HashMap<String, Integer> intervalToSemitoneGap = new HashMap<>();
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -123,13 +122,16 @@ public class IntervalsActivity extends AppCompatActivity {
         hs = (TextView) findViewById(R.id.chordProgressionScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
                 "Minor Second", "Major Second", "Minor Sixth",
                 "Major Sixth", "Minor Seventh", "Major Seventh",
                 "Perfect Unison", "Perfect Fourth", "Perfect Fifth",
                 "Perfect Octave", "Aug 4"}));
         selections = sharedPrefs.getStringSet("pref_intervals", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+        testType = Integer.parseInt(sharedPrefs.getString("pref_intervals_advanced", "4"));
+
+        initializeMap();
 
         initializeButtons();
         setFirstRowEnabled(false);
@@ -149,6 +151,22 @@ public class IntervalsActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    private void initializeMap() {
+        intervalToSemitoneGap.put("Perfect Unison", 0);
+        intervalToSemitoneGap.put("Minor Second", 1);
+        intervalToSemitoneGap.put("Major Second", 2);
+        intervalToSemitoneGap.put("Minor Third", 3);
+        intervalToSemitoneGap.put("Major Third", 4);
+        intervalToSemitoneGap.put("Perfect Fourth", 5);
+        intervalToSemitoneGap.put("Aug 4 Aug 4", 6);
+        intervalToSemitoneGap.put("Perfect Fifth", 7);
+        intervalToSemitoneGap.put("Minor Sixth", 8);
+        intervalToSemitoneGap.put("Major Sixth", 9);
+        intervalToSemitoneGap.put("Minor Seventh", 10);
+        intervalToSemitoneGap.put("Major Seventh", 11);
+        intervalToSemitoneGap.put("Perfect Octave", 12); // check this one
     }
 
     /**
@@ -243,6 +261,22 @@ public class IntervalsActivity extends AppCompatActivity {
         }
     }
 
+    private boolean getIncreasing() {
+        switch (testType) {
+            case 1: // solid
+            case 2: // increasing
+                return true;
+            case 3: // decreasing
+                return false;
+            default: // increasing or decreasing
+                return Math.random() < 0.5;
+        }
+    }
+
+    private boolean getSolid() {
+        return testType == 1;
+    }
+
     /**
      * Plays the interval specified by <code>answer1</code> and <code>answer2</code>.
      * When playing a new interval, the starting note is pseudo-randomly picked.
@@ -252,51 +286,18 @@ public class IntervalsActivity extends AppCompatActivity {
         setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
+
         if (answerCorrect) {
             tv.setText(getResources().getString(R.string.playing_interval));
+            note1 = (int) (Math.random() * 16) + 1;
         } else {
             tv.setText(getResources().getString(R.string.replaying));
         }
 
-        if (answerCorrect) {
-            note1 = (int) (Math.random() * 16) + 1; //1 to 15
-        }
-        int note2;
-
         CharSequence interval = answer1 + " " + answer2;
-        if (interval.equals("Perfect Unison")) {
-            note2 = note1;
-        } else if (interval.equals("Minor Second")) {
-            note2 = note1 + 1;
-        } else if (interval.equals("Major Second")) {
-            note2 = note1 + 2;
-        } else if (interval.equals("Minor Third")) {
-            note2 = note1 + 3;
-        } else if (interval.equals("Major Third")) {
-            note2 = note1 + 4;
-        } else if (interval.equals("Perfect Fourth")) {
-            note2 = note1 + 5;
-        } else if (interval.equals("Aug 4 Aug 4")) {
-            note2 = note1 + 6;
-        } else if (interval.equals("Perfect Fifth")) {
-            note2 = note1 + 7;
-        } else if (interval.equals("Minor Sixth")) {
-            note2 = note1 + 8;
-        } else if (interval.equals("Major Sixth")) {
-            note2 = note1 + 9;
-        } else if (interval.equals("Minor Seventh")) {
-            note2 = note1 + 10;
-        } else if (interval.equals("Major Seventh")) {
-            note2 = note1 + 11;
-        } else {
-            note2 = note1 + 12;
-        }
+        int note2 = note1 + intervalToSemitoneGap.get(interval.toString());
 
-        if (answerCorrect) {
-            increasing = Math.random() < 0.5;
-        }
-
-        if (increasing) {
+        if (getIncreasing()) {
             mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
             mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
         } else {
@@ -304,17 +305,23 @@ public class IntervalsActivity extends AppCompatActivity {
             mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
         }
 
-        mp[0].start();
-        mp[0].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer med) {
-                mp[1].start();
-            }
-        });
+        if (getSolid()) {
+            mp[0].start();
+            mp[1].start();
+        } else {
+            mp[0].start();
+            mp[0].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer med) {
+                    mp[1].start();
+                }
+            });
+        }
 
         mp[1].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer med) {
                 mp[0].release();
                 mp[0] = null;
+
                 mp[1].release();
                 mp[1] = null;
 
@@ -406,7 +413,7 @@ public class IntervalsActivity extends AppCompatActivity {
      * The score is either incremented (if correct) or reset to zero (if incorrect).
      */
     private void displayResult() {
-        if (part2.equals("Aug 4") && answer2.equals("Aug 4")) { //TODO simplify repeating statements
+        if (part2.equals("Aug 4") && answer2.equals("Aug 4")) {
             tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
@@ -434,7 +441,7 @@ public class IntervalsActivity extends AppCompatActivity {
         if (pref.getInt("ihs", 0) < score) {
             SharedPreferences.Editor editor = pref.edit();
             editor.putInt("ihs", score);
-            editor.commit();
+            editor.apply();
         }
     }
 
