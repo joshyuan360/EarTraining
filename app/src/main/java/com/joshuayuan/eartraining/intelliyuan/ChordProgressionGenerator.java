@@ -177,7 +177,7 @@ public class ChordProgressionGenerator {
                 }
             }
         }
-        
+
         return true;
     }
 
@@ -202,19 +202,19 @@ public class ChordProgressionGenerator {
         for (int i = 0; i < metaData.size(); i++) {
             switch (metaData.get(i).charAt(0)) {
                 case '1':
-                    chordSequence[i] = "I - TONIC";
+                    chordSequence[i] = "I - Tonic";
                     break;
                 case '4':
-                    chordSequence[i] = "IV - SUBDOMINANT";
+                    chordSequence[i] = "IV - Subdominant";
                     break;
                 case '5':
-                    chordSequence[i] = "V - DOMINANT";
+                    chordSequence[i] = "V - Dominant";
                     break;
                 case '6':
-                    chordSequence[i] = "VI - SUBMEDIANT";
+                    chordSequence[i] = "VI - Submediant";
                     break;
                 case 'c':
-                    chordSequence[i] = "CADENTIAL 6-4";
+                    chordSequence[i] = "Cadential 6-4";
             }
         }
 

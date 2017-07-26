@@ -127,7 +127,7 @@ public class IntervalsActivity extends AppCompatActivity {
                 "Minor Second", "Major Second", "Minor Sixth",
                 "Major Sixth", "Minor Seventh", "Major Seventh",
                 "Perfect Unison", "Perfect Fourth", "Perfect Fifth",
-                "Perfect Octave", "Tritone"}));
+                "Perfect Octave", "Aug 4"}));
         selections = sharedPrefs.getStringSet("pref_intervals", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
@@ -197,8 +197,8 @@ public class IntervalsActivity extends AppCompatActivity {
      */
     private void setAnswer() {
         if (Math.random() < 0.1) {
-            answer1 = "Tritone";
-            answer2 = "Tritone";
+            answer1 = "Aug 4";
+            answer2 = "Aug 4";
             if (!selections.contains(answer1)) {
                 setAnswer();
             }
@@ -276,7 +276,7 @@ public class IntervalsActivity extends AppCompatActivity {
             note2 = note1 + 4;
         } else if (interval.equals("Perfect Fourth")) {
             note2 = note1 + 5;
-        } else if (interval.equals("Tritone Tritone")) {
+        } else if (interval.equals("Aug 4 Aug 4")) {
             note2 = note1 + 6;
         } else if (interval.equals("Perfect Fifth")) {
             note2 = note1 + 7;
@@ -398,7 +398,7 @@ public class IntervalsActivity extends AppCompatActivity {
         perfect.setEnabled(allowPerfect && enabled);
         major.setEnabled(enabled);
         minor.setEnabled(enabled);
-        tritone.setEnabled(selections.contains("Tritone") && enabled);
+        tritone.setEnabled(selections.contains("Aug 4") && enabled);
     }
 
     /**
@@ -406,7 +406,7 @@ public class IntervalsActivity extends AppCompatActivity {
      * The score is either incremented (if correct) or reset to zero (if incorrect).
      */
     private void displayResult() {
-        if (part2.equals("Tritone") && answer2.equals("Tritone")) { //TODO simplify repeating statements
+        if (part2.equals("Aug 4") && answer2.equals("Aug 4")) { //TODO simplify repeating statements
             tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
@@ -473,8 +473,8 @@ public class IntervalsActivity extends AppCompatActivity {
      */
     public void part2Clicked(View view) {
         part2 = ((Button) view).getText();
-        if (part2.equals("Tritone")) {
-            part1 = "Tritone";
+        if (part2.equals("Aug 4")) {
+            part1 = "Aug 4";
         }
         setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);

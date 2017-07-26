@@ -310,6 +310,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
                 if (!answerCorrect) {
                     tv.setText(getResources().getString(R.string.identify_chord_in_progression));
                 }
+                isReplaying = false;
             }
         });
     }

@@ -35,11 +35,11 @@
     <string name="imperfect">Imperfect</string>
     <string name="deceptive">Deceptive</string>
 
-    <string name="tonic_chord">I - TONIC</string>
-    <string name="subdominant_chord">IV - SUBDOMINANT</string>
-    <string name="dominant_chord">V - DOMINANT</string>
-    <string name="submediant_chord">VI - SUBMEDIANT</string>
-    <string name="cadential_chord">CADENTIAL 6-4</string>
+    <string name="tonic_chord">I - Tonic</string>
+    <string name="subdominant_chord">IV - Subdominant</string>
+    <string name="dominant_chord">V - Dominant</string>
+    <string name="submediant_chord">VI - Submediant</string>
+    <string name="cadential_chord">Cadential 6-4</string>
 
     <string name="score_value">0</string>
     <string name="score">Score</string>
