@@ -33,7 +33,7 @@
     </string-array>
 
     <string-array name="pref_intervals_advanced_entries">
-        <item>Solid</item>
+        <item>Harmonic Form</item>
         <item>Increasing</item>
         <item>Decreasing</item>
         <item>Increasing and Decreasing</item>
@@ -85,21 +85,31 @@
         <item>cadential</item>
     </string-array>
 
+    <string-array name="pref_progression_tonality_entries">
+        <item>Major</item>
+        <item>Minor</item>
+        <item>Both</item>
+    </string-array>
+
+    <string-array name="pref_progression_tonality_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <string-array name="pref_seq_length_entries">
         <item>Easy - 3</item>
-        <item>Medium - 5</item>
+        <item>Medium - 4</item>
+        <item>Hard - 5</item>
         <item>Difficult - 10</item>
         <item>Challenging - 20</item>
     </string-array>
 
     <string-array name="pref_seq_length_values">
         <item>3</item>
+        <item>4</item>
         <item>5</item>
         <item>10</item>
         <item>20</item>
-    </string-array>
-
-    <string-array name="pref_level_default" >
-        <item>one</item>
     </string-array>
 </resources>

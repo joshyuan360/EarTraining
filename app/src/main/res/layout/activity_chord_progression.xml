@@ -8,9 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.joshuayuan.eartraining.ChordsActivity">
+    tools:context="com.joshuayuan.eartraining.activity.ChordsActivity">
 
-    <com.joshuayuan.eartraining.Presentation.InstructionTextView
+    <com.joshuayuan.eartraining.presentation.InstructionTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -22,7 +22,7 @@
         android:layout_alignLeft="@+id/linearLayout6"
         android:layout_alignStart="@+id/linearLayout6" />
 
-    <com.joshuayuan.eartraining.Presentation.InstructionTextView
+    <com.joshuayuan.eartraining.presentation.InstructionTextView
         android:id="@+id/chordprogressiontitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:textColor="#ffffff"
         android:textSize="18sp" />
 
-    <com.joshuayuan.eartraining.Presentation.HighScoreTextView
+    <com.joshuayuan.eartraining.presentation.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -47,7 +47,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <com.joshuayuan.eartraining.Presentation.AnswerButton
+    <com.joshuayuan.eartraining.presentation.AnswerButton
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="@string/replay_button"
@@ -67,7 +67,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/linearLayout4">
 
-        <com.joshuayuan.eartraining.Presentation.AnswerButton
+        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:id="@+id/one"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -78,7 +78,7 @@
             android:onClick="answerClicked"
             android:text="@string/tonic_chord" />
 
-        <com.joshuayuan.eartraining.Presentation.AnswerButton
+        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:id="@+id/four"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -100,7 +100,7 @@
         android:id="@+id/linearLayout5"
         android:layout_below="@+id/linearLayout4">
 
-        <com.joshuayuan.eartraining.Presentation.AnswerButton
+        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:id="@+id/five"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -111,7 +111,7 @@
             android:onClick="answerClicked"
             android:text="@string/dominant_chord" />
 
-        <com.joshuayuan.eartraining.Presentation.AnswerButton
+        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:id="@+id/six"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -133,7 +133,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/linearLayout6">
 
-        <com.joshuayuan.eartraining.Presentation.AnswerButton
+        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:id="@+id/cadential"
             android:layout_width="match_parent"
             android:layout_height="40dp"

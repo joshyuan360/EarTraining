@@ -8,7 +8,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,7 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.joshuayuan.eartraining.IntelliYuan.NoteMappings;
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+import com.joshuayuan.eartraining.R;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -297,7 +298,7 @@ public class IntervalsActivity extends AppCompatActivity {
         CharSequence interval = answer1 + " " + answer2;
         int note2 = note1 + intervalToSemitoneGap.get(interval.toString());
 
-        if (getIncreasing()) {
+        if (getIncreasing()) { // todo: fix bug where it changes direction sometimes
             mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
             mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
         } else {

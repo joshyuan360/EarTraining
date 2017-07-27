@@ -8,7 +8,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,8 +22,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.joshuayuan.eartraining.IntelliYuan.CadenceGenerator;
-import com.joshuayuan.eartraining.IntelliYuan.NoteMappings;
+import com.joshuayuan.eartraining.intelliyuan.CadenceGenerator;
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+import com.joshuayuan.eartraining.R;
 
 import java.util.Arrays;
 import java.util.HashSet;

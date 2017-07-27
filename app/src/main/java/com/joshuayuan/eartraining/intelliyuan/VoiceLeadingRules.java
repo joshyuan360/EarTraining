@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining.IntelliYuan;
+package com.joshuayuan.eartraining.intelliyuan;
 
 import java.util.ArrayList;
 import java.util.HashMap;

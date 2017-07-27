@@ -8,19 +8,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChordsActivity" />
-        <activity android:name=".CadencesActivity" />
-        <activity android:name=".IntervalsActivity" />
-        <activity android:name=".HighScoresActivity" />
-        <activity android:name=".PreferencesActivity" />
-        <activity android:name=".ChordProgressionActivity"></activity>
+        <activity android:name=".activity.ChordsActivity" />
+        <activity android:name=".activity.CadencesActivity" />
+        <activity android:name=".activity.IntervalsActivity" />
+        <activity android:name=".activity.HighScoresActivity" />
+        <activity android:name=".activity.PreferencesActivity" />
+        <activity android:name=".activity.ChordProgressionActivity"/>
     </application>
 
 </manifest>

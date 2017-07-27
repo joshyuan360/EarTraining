@@ -8,13 +8,15 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
+import com.joshuayuan.eartraining.R;
 
 /**
  * The high scores activity displays the user's high scores for the

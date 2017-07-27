@@ -8,9 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.joshuayuan.eartraining.CadencesActivity">
+    tools:context="com.joshuayuan.eartraining.activity.CadencesActivity">
 
-    <com.joshuayuan.eartraining.Presentation.InstructionTextView
+    <com.joshuayuan.eartraining.presentation.InstructionTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -23,7 +23,7 @@
         android:textColor="#ffffff"
         android:paddingTop="10dp" />
 
-    <com.joshuayuan.eartraining.Presentation.AnswerButton
+    <com.joshuayuan.eartraining.presentation.AnswerButton
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/perfect"
@@ -38,7 +38,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginTop="10dp" />
 
-    <com.joshuayuan.eartraining.Presentation.AnswerButton
+    <com.joshuayuan.eartraining.presentation.AnswerButton
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/plagal"
@@ -53,7 +53,7 @@
         android:enabled="false"
         android:layout_marginTop="10dp" />
 
-    <com.joshuayuan.eartraining.Presentation.AnswerButton
+    <com.joshuayuan.eartraining.presentation.AnswerButton
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/imperfect"
@@ -68,7 +68,7 @@
         android:enabled="false"
         android:layout_marginTop="10dp" />
 
-    <com.joshuayuan.eartraining.Presentation.AnswerButton
+    <com.joshuayuan.eartraining.presentation.AnswerButton
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="@string/deceptive"
@@ -83,7 +83,7 @@
         android:enabled="false"
         android:layout_marginTop="10dp" />
 
-    <com.joshuayuan.eartraining.Presentation.InstructionTextView
+    <com.joshuayuan.eartraining.presentation.InstructionTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -95,7 +95,7 @@
         android:layout_alignParentStart="true"
         android:paddingTop="10dp" />
 
-    <com.joshuayuan.eartraining.Presentation.HighScoreTextView
+    <com.joshuayuan.eartraining.presentation.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -106,7 +106,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <com.joshuayuan.eartraining.Presentation.AnswerButton
+    <com.joshuayuan.eartraining.presentation.AnswerButton
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="@string/replay_button"

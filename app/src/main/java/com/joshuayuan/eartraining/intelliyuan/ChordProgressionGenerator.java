@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining.IntelliYuan;
+package com.joshuayuan.eartraining.intelliyuan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import static com.joshuayuan.eartraining.IntelliYuan.ChordExtensions.mod;
-import static com.joshuayuan.eartraining.IntelliYuan.NoteMappings.MAX_NOTE;
-import static com.joshuayuan.eartraining.IntelliYuan.NoteMappings.MIN_NOTE;
+import static com.joshuayuan.eartraining.intelliyuan.ChordExtensions.mod;
+import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MAX_NOTE;
+import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MIN_NOTE;
 
 /**
  * Ear Training API for chord progression generator.
@@ -45,6 +45,7 @@ public class ChordProgressionGenerator {
      * Contains list of legal, cadential chord progressions.
      */
     private static HashMap<String, List<ChordProgression>> cadentialProgressions = new HashMap<>();
+    private static int tonalityChoice;
 
     /**
      * Generates a chord progression following Western music harmony rules.
@@ -77,7 +78,7 @@ public class ChordProgressionGenerator {
      * @param includeSixth     true if VI chords should be considered.
      * @param includeCadential true if pre-cadential chords should be considered.
      */
-    public static void initialize(int seqSize, boolean includeSixth, boolean includeCadential) {
+    public static void initialize(int seqSize, boolean includeSixth, boolean includeCadential, int tonalityChoice) {
         chordProgressions.clear();
         cadentialProgressions.clear();
 
@@ -90,10 +91,23 @@ public class ChordProgressionGenerator {
         if (includeCadential) {
             VoiceLeadingRules.includeCadential(chordProgressions);
         }
+        ChordProgressionGenerator.tonalityChoice = tonalityChoice;
+
 
         SEQ_LENGTH = seqSize;
         chordSequence = new String[SEQ_LENGTH];
         notes = new int[SEQ_LENGTH * 4];
+    }
+
+    private static boolean getMinor() {
+        switch (tonalityChoice) {
+            case 1:
+                return false;
+            case 2:
+                return true;
+            default:
+                return Math.random() < 0.5;
+        }
     }
 
     /**
@@ -119,7 +133,7 @@ public class ChordProgressionGenerator {
         }
 
         // flip a coin and set progression to minor
-        if (Math.random() < 0.5) {
+        if (getMinor()) {
             for (ChordProgression c : chordProgressionToSend) {
                 c.toMinor();
             }

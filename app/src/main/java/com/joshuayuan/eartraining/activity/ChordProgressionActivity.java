@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,8 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.joshuayuan.eartraining.IntelliYuan.ChordProgressionGenerator;
-import com.joshuayuan.eartraining.IntelliYuan.NoteMappings;
+import com.joshuayuan.eartraining.intelliyuan.ChordProgressionGenerator;
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+import com.joshuayuan.eartraining.R;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -83,6 +84,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
      */
     private int chordNumber = 0;
     private boolean isReplaying;
+    private int tonalityChoice;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -101,12 +103,13 @@ public class ChordProgressionActivity extends AppCompatActivity {
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"six", "cadential"}));
         selections = sharedPrefs.getStringSet("pref_chord_progressions", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+        tonalityChoice = Integer.parseInt(sharedPrefs.getString("pref_progression_tonality", "3"));
 
         boolean includeSix = selections.contains("six");
         boolean includeCadential = selections.contains("cadential");
 
         int seqLength = Integer.parseInt(sharedPrefs.getString("pref_seq_length", "5"));
-        ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential);
+        ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential, tonalityChoice);
         mp = new MediaPlayer[seqLength * 4];
 
         initializeButtons();

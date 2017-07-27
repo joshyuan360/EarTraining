@@ -64,6 +64,15 @@
             android:defaultValue="@array/pref_chord_progressions_values" />
 
         <ListPreference
+            android:key="pref_progression_tonality"
+            android:summary="Choose major, minor, or both."
+            android:title="Select Chord Type"
+            android:dialogTitle="Select an option:"
+            android:entries="@array/pref_progression_tonality_entries"
+            android:entryValues="@array/pref_progression_tonality_values"
+            android:defaultValue="3"/>
+
+        <ListPreference
             android:key="pref_seq_length"
             android:summary="Customize the length of chord progressions."
             android:title="Change Length"
@@ -80,7 +89,7 @@
             android:title="Automatic Replay"
             android:defaultValue="true"/>
 
-        <com.joshuayuan.eartraining.Presentation.HighScoreResetPreference
+        <com.joshuayuan.eartraining.presentation.HighScoreResetPreference
             android:key="reset"
             android:title="Reset High Scores"
             android:dialogTitle="Are you sure you want to reset high scores?"
