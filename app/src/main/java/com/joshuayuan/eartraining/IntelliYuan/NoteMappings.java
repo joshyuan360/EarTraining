@@ -8,7 +8,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining.intelliyuan;
+package com.joshuayuan.eartraining.IntelliYuan;
 
 import com.joshuayuan.eartraining.R;
 

@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining.intelliyuan;
+package com.joshuayuan.eartraining.IntelliYuan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import static com.joshuayuan.eartraining.intelliyuan.ChordExtensions.mod;
-import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MAX_NOTE;
-import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MIN_NOTE;
+import static com.joshuayuan.eartraining.IntelliYuan.ChordExtensions.mod;
+import static com.joshuayuan.eartraining.IntelliYuan.NoteMappings.MAX_NOTE;
+import static com.joshuayuan.eartraining.IntelliYuan.NoteMappings.MIN_NOTE;
 
 /**
  * Ear Training API for chord progression generator.

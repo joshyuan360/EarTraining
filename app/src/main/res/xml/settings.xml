@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="RCM Level Presets">
-
+        <ListPreference
+            android:key="pref_level"
+            android:summary="Select your RCM level."
+            android:title="Conservatory Exam Level"
+            android:dialogTitle="RCM Level:"
+            android:entries="@array/pref_level_entries"
+            android:entryValues="@array/pref_level_values"
+            android:defaultValue="4"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Intervals">
@@ -73,7 +80,7 @@
             android:title="Automatic Replay"
             android:defaultValue="true"/>
 
-        <com.joshuayuan.eartraining.userinterface.HighScoreResetPreference
+        <com.joshuayuan.eartraining.Presentation.HighScoreResetPreference
             android:key="reset"
             android:title="Reset High Scores"
             android:dialogTitle="Are you sure you want to reset high scores?"

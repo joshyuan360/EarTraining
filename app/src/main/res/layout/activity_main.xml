@@ -10,7 +10,7 @@
     tools:context="com.joshuayuan.eartraining.MainActivity"
     android:background="@drawable/menu_background">
 
-    <com.joshuayuan.eartraining.userinterface.MenuButton
+    <com.joshuayuan.eartraining.Presentation.MenuButton
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:text="@string/intervals_menu"
@@ -25,7 +25,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff" />
 
-    <com.joshuayuan.eartraining.userinterface.MenuButton
+    <com.joshuayuan.eartraining.Presentation.MenuButton
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:text="@string/chords_menu"
@@ -39,7 +39,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff" />
 
-    <com.joshuayuan.eartraining.userinterface.MenuButton
+    <com.joshuayuan.eartraining.Presentation.MenuButton
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:text="@string/cadences_menu"
@@ -53,7 +53,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff" />
 
-    <com.joshuayuan.eartraining.userinterface.MenuButton
+    <com.joshuayuan.eartraining.Presentation.MenuButton
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:text="@string/chord_progressions_menu"
@@ -67,7 +67,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff" />
 
-    <com.joshuayuan.eartraining.userinterface.MenuButton
+    <com.joshuayuan.eartraining.Presentation.MenuButton
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:text="@string/high_scores_menu"
@@ -81,7 +81,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff" />
 
-    <com.joshuayuan.eartraining.userinterface.MenuButton
+    <com.joshuayuan.eartraining.Presentation.MenuButton
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:text="@string/settings_menu"
@@ -95,7 +95,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff" />
 
-    <com.joshuayuan.eartraining.userinterface.InstructionTextView
+    <com.joshuayuan.eartraining.Presentation.InstructionTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"

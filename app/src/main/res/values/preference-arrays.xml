@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="pref_level_entries">
+        <item>Level 5</item>
+        <item>Level 6</item>
+        <item>Level 7</item>
+        <item>Level 8</item>
+        <item>Level 9</item>
+        <item>Level 10</item>
+    </string-array>
+
+    <string-array name="pref_level_values">
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
     <string-array name="pref_intervals_entries">
         <item>Minor Second</item>
         <item>Major Second</item>

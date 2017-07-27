@@ -22,8 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.joshuayuan.eartraining.intelliyuan.CadenceGenerator;
-import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+import com.joshuayuan.eartraining.IntelliYuan.CadenceGenerator;
+import com.joshuayuan.eartraining.IntelliYuan.NoteMappings;
 
 import java.util.Arrays;
 import java.util.HashSet;

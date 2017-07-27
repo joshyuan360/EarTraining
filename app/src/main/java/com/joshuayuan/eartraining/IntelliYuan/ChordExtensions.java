@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining.intelliyuan;
+package com.joshuayuan.eartraining.IntelliYuan;
 
 /**
  * Helper class for Chords.

@@ -10,13 +10,14 @@
  */
 package com.joshuayuan.eartraining;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.pm.ActivityInfo;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+
+import com.joshuayuan.eartraining.IntelliYuan.Syllabus;
 
 /**
  * The high scores activity displays the user's high scores for the
@@ -30,23 +31,70 @@ public class PreferencesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Display the fragment as the main content.
-        FragmentManager mFragmentManager = getFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager
-                .beginTransaction();
-        PrefsFragment mPrefsFragment = new PrefsFragment();
-        mFragmentTransaction.replace(android.R.id.content, mPrefsFragment);
-        mFragmentTransaction.commit();
-
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
     }
 
-    public static class PrefsFragment extends PreferenceFragment {
+    public static class SettingsFragment extends PreferenceFragment
+            implements SharedPreferences.OnSharedPreferenceChangeListener {
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
-            // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings);
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            // Set up a listener whenever a key changes
+            getPreferenceScreen().getSharedPreferences()
+                    .registerOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            // Unregister the listener whenever a key changes
+            getPreferenceScreen().getSharedPreferences()
+                    .unregisterOnSharedPreferenceChangeListener(this);
+        }
+
+        public static final String KEY_PREF_SYNC_CONN = "pref_level";
+
+        public static final String PREF_INTERVALS = "pref_intervals";
+        public static final String PREF_INTERVALS_ADVANCED = "pref_intervals_advanced";
+        public static final String PREF_CHORDS = "pref_chords";
+        public static final String PREF_CADENCES = "pref_cadences";
+        public static final String PREF_CHORD_PROGRESSIONS = "pref_chord_progressions";
+        public static final String PREF_SEQ_LENGTH = "pref_seq_length";
+
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                              String key) {
+            if (key.equals(KEY_PREF_SYNC_CONN)) {
+                Context context = getActivity().getApplicationContext();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+                SharedPreferences.Editor editor = prefs.edit();
+
+                int level = Integer.parseInt(prefs.getString("pref_level", "10"));
+
+                editor.remove(PREF_INTERVALS_ADVANCED);
+                editor.remove(PREF_CHORDS);
+                editor.remove(PREF_CADENCES);
+                editor.remove(PREF_CHORD_PROGRESSIONS);
+                editor.remove(PREF_SEQ_LENGTH);
+
+                editor.putStringSet(PREF_INTERVALS, Syllabus.getIntervalsFromLevel(level));
+                editor.putString(PREF_INTERVALS_ADVANCED, Syllabus.getIntervalTypeFromLevel(level));
+                editor.putStringSet(PREF_CHORDS, Syllabus.getChordsFromLevel(level));
+                editor.putStringSet(PREF_CADENCES, Syllabus.getCadencesFromLevel(level));
+                editor.putStringSet(PREF_CHORD_PROGRESSIONS, Syllabus.getProgressionsFromLevel(level));
+                editor.putString(PREF_SEQ_LENGTH, Syllabus.getProgressionLengthFromLevel(level));
+
+                editor.apply();
+            }
         }
     }
 }
