@@ -25,7 +25,7 @@ public class MenuButton extends Button {
     public MenuButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/Lato-Bold.ttf"));
-        setTextSize(14);
+        setTextSize(16);
         setTextColor(Color.parseColor("#FFFFFF"));
         setBackgroundResource(R.drawable.answer_button);
         setEnabled(true);
