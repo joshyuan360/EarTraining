@@ -29,7 +29,15 @@
         <item>Perfect Fourth</item>
         <item>Perfect Fifth</item>
         <item>Perfect Octave</item>
-        <item>Aug 4</item>
+        <item>Augmented Fourth</item>
+
+        <item>Minor Ninth</item>
+        <item>Major Ninth</item>
+        <item>Minor Tenth</item>
+        <item>Major Tenth</item>
+        <item>Perfect Eleventh</item>
+        <item>Augmented Eleventh</item>
+        <item>Perfect Twelfth</item>
     </string-array>
 
     <string-array name="pref_intervals_advanced_entries">

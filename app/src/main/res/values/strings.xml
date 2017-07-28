@@ -14,7 +14,7 @@
     <string name="perfect">Perfect</string>
     <string name="major">Major</string>
     <string name="minor">Minor</string>
-    <string name="tritone">Aug 4</string>
+    <string name="aug">Aug</string>
     <string name="unison">Unison</string>
     <string name="second">Second</string>
     <string name="third">Third</string>
@@ -23,6 +23,10 @@
     <string name="sixth">Sixth</string>
     <string name="seventh">Seventh</string>
     <string name="octave">Octave</string>
+    <string name="ninth">Ninth</string>
+    <string name="tenth">Tenth</string>
+    <string name="eleventh">Eleventh</string>
+    <string name="twelfth">Twelfth</string>
 
     <string name="dom_7">Dom 7</string>
     <string name="dim_7">Dim 7</string>

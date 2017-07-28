@@ -17,7 +17,7 @@ public class Syllabus {
     private static SparseArray<String[]> levelToProgressionsMap;
     private static SparseArray<String> levelToProgressionLengthMap;
     private static SparseArray<String> levelToProgressionTonalityMap;
-
+    // todo: this is piano only, add instrumental (release 6.3???) change the name to make it clear :)
     static {
         levelToIntervalMap = new SparseArray<>();
         levelToIntervalTypeMap = new SparseArray<>();
