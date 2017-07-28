@@ -21,6 +21,6 @@ import android.widget.TextView;
 public class HighScoreTextView extends TextView {
     public HighScoreTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/DIGITAL.TTF"));
+//        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/DIGITAL.TTF"));
     }
 }

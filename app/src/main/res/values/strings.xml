@@ -2,12 +2,12 @@
     <string name="app_name">Ear Training</string>
     <string name="ear_training_title">EAR TRAINING</string>
 
-    <string name="intervals_menu">- INTERVALS -</string>
-    <string name="chords_menu">- CHORDS -</string>
-    <string name="cadences_menu">- CADENCES -</string>
-    <string name="chord_progressions_menu">- CHORD PROGRESSIONS -</string>
-    <string name="high_scores_menu">- HIGH SCORES -</string>
-    <string name="settings_menu">- SETTINGS -</string>
+    <string name="intervals_menu">INTERVALS</string>
+    <string name="chords_menu">CHORDS</string>
+    <string name="cadences_menu">CADENCES</string>
+    <string name="chord_progressions_menu">CHORD PROGRESSIONS</string>
+    <string name="high_scores_menu">HIGH SCORES</string>
+    <string name="settings_menu">SETTINGS</string>
 
     <string name="high_scores">HIGH SCORES</string>
 
@@ -74,5 +74,5 @@
     <string name="incorrect">Incorrect…</string>
     <string name="try_again">Try again!</string>
 
-    <string name="replay_button">REPLAY</string>
+    <string name="replay_button"></string>
 </resources>

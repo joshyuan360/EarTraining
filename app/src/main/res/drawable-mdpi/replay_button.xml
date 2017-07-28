@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="true" android:state_pressed="false" >
+    <item android:state_enabled="true" android:state_pressed="false" android:drawable="@drawable/replay_enabled">
         <shape>
-            <!--<corners android:radius="10dip" />-->
-            <!--<gradient-->
-                <!--android:startColor="#c800f2ff"-->
-                <!--android:centerColor="#c800c2cc"-->
-                <!--android:endColor="#c800f2ff"-->
-                <!--android:angle="90"/>-->
-
             <corners
                 android:radius="3dp">
             </corners>
@@ -19,7 +12,7 @@
         </shape>
     </item>
 
-    <item android:state_pressed="true" >
+    <item android:state_pressed="true" android:drawable="@drawable/replay_pressed">
         <shape>
             <corners
                 android:radius="3dp">
@@ -30,7 +23,7 @@
         </shape>
     </item>
 
-    <item android:state_enabled="false" >
+    <item android:state_enabled="false" android:drawable="@drawable/replay_disabled">
         <shape>
             <corners android:radius="3dp" />
             <solid
