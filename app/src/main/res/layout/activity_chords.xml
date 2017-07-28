@@ -121,6 +121,17 @@
             android:enabled="false"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"/>
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:text="@string/augChord"
+            android:id="@+id/augChord"
+            android:onClick="cpart2Clicked"
+            android:enabled="false"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
 
     <LinearLayout

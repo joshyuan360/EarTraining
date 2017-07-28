@@ -26,7 +26,9 @@ import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
 import com.joshuayuan.eartraining.R;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -127,6 +129,7 @@ public class ChordsActivity extends AppCompatActivity {
                 "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none",}));
         selections = sharedPrefs.getStringSet("pref_chords", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+        initializeIntervalToSemitoneMap();
 
         initializeButtons();
         setFirstRowEnabled(false);
@@ -227,52 +230,44 @@ public class ChordsActivity extends AppCompatActivity {
         third.setEnabled(allowInvButton("3rd Inv") && enableThird);
     }
 
-    /**
-     * Generates a new random chord and stores it in <code>answer1</code> and <code>answer2</code>.
-     * Chances: 25% major, 25% minor, 25% dominant, 25% diminished.
-     * Method is invoked only when the last answer provided is correct.
-     */
     private void setAnswer() {
-        double randNum = Math.random() * 4;
-        if (randNum < 2) {
-            if (randNum < 1) {
-                answer1 = "Major";
-            } else {
-                answer1 = "Minor";
-            }
+        String[] primaryKey = new String[] { "Major", "Minor", "Dom 7", "Dim 7", "Aug" };
+        Random random = new Random();
 
-            double randNum2 = Math.random() * 3;
-            if (randNum2 < 1) {
-                answer2 = "Root Pos";
-            } else if (randNum2 < 2) {
-                answer2 = "1st Inv";
-            } else {
-                answer2 = "2nd Inv";
-            }
-        } else if (randNum < 3) {
-            answer1 = "Dom 7";
+        answer1 = primaryKey[random.nextInt(primaryKey.length)];
 
-            double randNum2 = Math.random() * 4;
-            if (randNum2 < 1) {
-                answer2 = "Root Pos";
-            } else if (randNum2 < 2) {
-                answer2 = "1st Inv";
-            } else if (randNum2 < 3) {
-                answer2 = "2nd Inv";
-            } else {
-                answer2 = "3rd Inv";
-            }
+        String[] nextValue;
+        if (answer1.equals("Major") || answer1.equals("Minor")) {
+            nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv" };
+        } else if (answer1.equals("Dom 7")) {
+            nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv", "3rd Inv" };
         } else {
-            answer1 = "Dim 7";
-            answer2 = "none";
+            nextValue = new String[] { "none" };
         }
-        //Log.i ("answer", answer1 +  " " + answer2);
+
+        answer2 = nextValue[random.nextInt(nextValue.length)];
+
         String answer = answer1 + " " + answer2;
         if (!answer.equals("Major Root Pos") && !answer.equals("Minor Root Pos") && !selections.contains(answer)) {
             setAnswer();
         }
     }
 
+    private HashMap<String, int[]> chordToSemitoneGaps = new HashMap<>();
+    private void initializeIntervalToSemitoneMap() {
+        chordToSemitoneGaps.put("Major Root Pos", new int[] {4, 3});
+        chordToSemitoneGaps.put("Major 1st Inv", new int[] {3, 5});
+        chordToSemitoneGaps.put("Major 2nd Inv", new int[] {5, 4});
+        chordToSemitoneGaps.put("Minor Root Pos", new int[] {3, 4});
+        chordToSemitoneGaps.put("Minor 1st Inv", new int[] {4, 5});
+        chordToSemitoneGaps.put("Minor 2nd Inv", new int[] {5, 3});
+        chordToSemitoneGaps.put("Dom 7 Root Pos", new int[] {4, 3, 3});
+        chordToSemitoneGaps.put("Dom 7 1st Inv", new int[] {3, 3, 2});
+        chordToSemitoneGaps.put("Dom 7 2nd Inv", new int[] {3, 2, 4});
+        chordToSemitoneGaps.put("Dom 7 3rd Inv", new int[] {2, 4, 3});
+        chordToSemitoneGaps.put("Dim 7 none", new int[] {3, 3, 3});
+        chordToSemitoneGaps.put("Aug none", new int[] {4, 4});
+    }
     /**
      * Plays the chord specified by <code>answer1</code> and <code>answer2</code>.
      * When playing a new chord, the starting note is pseudo-randomly picked.
@@ -289,49 +284,17 @@ public class ChordsActivity extends AppCompatActivity {
         }
 
         if (answerCorrect) {
-            note1 = (int) (Math.random() * 16) + 1; //1 to 15
+            note1 = (int) (Math.random() * 15) + 1; //1 to 14
         }
         int note2, note3, note4 = 1;
 
         CharSequence chord = answer1 + " " + answer2;
-        if (chord.equals("Major Root Pos")) {
-            note2 = note1 + 4;
-            note3 = note2 + 3;
-        } else if (chord.equals("Major 1st Inv")) {
-            note2 = note1 + 3;
-            note3 = note2 + 5;
-        } else if (chord.equals("Major 2nd Inv")) {
-            note2 = note1 + 5;
-            note3 = note2 + 4;
-        } else if (chord.equals("Minor Root Pos")) {
-            note2 = note1 + 3;
-            note3 = note2 + 4;
-        } else if (chord.equals("Minor 1st Inv")) {
-            note2 = note1 + 4;
-            note3 = note2 + 5;
-        } else if (chord.equals("Minor 2nd Inv")) {
-            note2 = note1 + 5;
-            note3 = note2 + 3;
-        } else if (chord.equals("Dom 7 Root Pos")) {
-            note2 = note1 + 4;
-            note3 = note2 + 3;
-            note4 = note3 + 3;
-        } else if (chord.equals("Dom 7 1st Inv")) {
-            note2 = note1 + 3;
-            note3 = note2 + 3;
-            note4 = note3 + 2;
-        } else if (chord.equals("Dom 7 2nd Inv")) {
-            note2 = note1 + 3;
-            note3 = note2 + 2;
-            note4 = note3 + 4;
-        } else if (chord.equals("Dom 7 3rd Inv")) {
-            note2 = note1 + 2;
-            note3 = note2 + 4;
-            note4 = note3 + 3;
-        } else { //diminished
-            note2 = note1 + 3;
-            note3 = note2 + 3;
-            note4 = note3 + 3;
+        int[] stepInfo = chordToSemitoneGaps.get(chord.toString());
+
+        note2 = note1 + stepInfo[0];
+        note3 = note2 + stepInfo[1];
+        if (stepInfo.length > 2) {
+            note4 = note3 + stepInfo[2];
         }
 
         mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
@@ -394,6 +357,7 @@ public class ChordsActivity extends AppCompatActivity {
             answerCorrect = false;
             score = 0;
         }
+
         hs.setText(String.valueOf(score));
         setHighScores(score);
     }
@@ -409,7 +373,8 @@ public class ChordsActivity extends AppCompatActivity {
         if (pref.getInt("chhs", 0) < score) {
             SharedPreferences.Editor editor = pref.edit();
             editor.putInt("chhs", score);
-            editor.commit();
+
+            editor.apply();
         }
     }
 
@@ -446,10 +411,12 @@ public class ChordsActivity extends AppCompatActivity {
     public void cpart2Clicked(View view) {
         setBottomRowsEnabled(false, false);
         part2 = ((Button) view).getText();
+
         if (part2.equals("Dim 7")) {
             part1 = "Dim 7";
             setFirstRowEnabled(false);
         }
+
         displayResult();
         if (answerCorrect || prefRepeat) {
             replay.setEnabled(false);

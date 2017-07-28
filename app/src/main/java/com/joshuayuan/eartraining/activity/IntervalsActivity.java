@@ -37,7 +37,7 @@ import java.util.Set;
  *
  * @author Joshua Yuan
  */
-public class IntervalsActivity extends AppCompatActivity {
+public class IntervalsActivity extends AppCompatActivity { //todo: change resource value of augmented fourth to aug 4 for backward compatibility
     /**
      * The interval sound files to be played.
      */

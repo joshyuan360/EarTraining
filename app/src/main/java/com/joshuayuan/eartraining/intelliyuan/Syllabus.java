@@ -70,7 +70,7 @@ public class Syllabus {
 
         levelToIntervalMap.append(7, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
         levelToIntervalTypeMap.append(7, "4");
-        levelToChordsMap.append(7, new String[] { "Dom 7 Root Pos", "Dim 7 none" }); // todo: chords needs augmented
+        levelToChordsMap.append(7, new String[] { "Dom 7 Root Pos", "Dim 7 none", "Aug none" }); // todo: chords needs augmented
         levelToCadencesMap.append(7, new String [] { });
         levelToProgressionsMap.append(7, new String[] { "six" });
         levelToProgressionLengthMap.append(7, "3" );
@@ -78,7 +78,7 @@ public class Syllabus {
 
         levelToIntervalMap.append(8, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug 4", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
         levelToIntervalTypeMap.append(8, "4");
-        levelToChordsMap.append(8, new String[] { "Dom 7 Root Pos", "Dim 7 none" });
+        levelToChordsMap.append(8, new String[] { "Dom 7 Root Pos", "Dim 7 none", "Aug none" });
         levelToCadencesMap.append(8, new String [] { });
         levelToProgressionsMap.append(8, new String[] { "six" });
         levelToProgressionLengthMap.append(8, "4" );
@@ -86,7 +86,7 @@ public class Syllabus {
 
         levelToIntervalMap.append(9, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug 4", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
         levelToIntervalTypeMap.append(9, "4");
-        levelToChordsMap.append(9, new String[] { "Dom 7 Root Pos", "Dim 7 none" });
+        levelToChordsMap.append(9, new String[] { "Dom 7 Root Pos", "Dim 7 none", "Aug none" });
         levelToCadencesMap.append(9, new String [] { });
         levelToProgressionsMap.append(9, new String[] { "six" });
         levelToProgressionLengthMap.append(9, "4" );
@@ -94,7 +94,7 @@ public class Syllabus {
         //todo: add 9th intervals (go up to 12 for a balanced UI)
         levelToIntervalMap.append(10, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug 4", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
         levelToIntervalTypeMap.append(10, "4");
-        levelToChordsMap.append(10, new String[] { "Dom 7 Root Pos", "Dim 7 none" }); // todo: add four note  (release 6.3)
+        levelToChordsMap.append(10, new String[] { "Dom 7 Root Pos", "Dim 7 none", "Aug none" }); // todo: add four note  (release 6.3)
         levelToCadencesMap.append(10, new String [] { });
         levelToProgressionsMap.append(10, new String[] { "six", "Cadential 6-4"});
         levelToProgressionLengthMap.append(10, "5" );
