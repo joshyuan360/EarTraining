@@ -98,7 +98,7 @@ public class Syllabus {
         levelToCadencesMap.append(10, new String [] { });
         levelToProgressionsMap.append(10, new String[] { "six", "Cadential 6-4"});
         levelToProgressionLengthMap.append(10, "5" );
-        levelToProgressionTonalityMap.append(10, "3");
+        levelToProgressionTonalityMap.append(10, "3"); // todo: add cadences info for syllabus
     }
 
     public static Set<String> getIntervalsFromLevel(int level) {

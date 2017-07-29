@@ -11,7 +11,9 @@
 package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -25,6 +27,14 @@ import com.joshuayuan.eartraining.R;
  * @author Joshua Yuan
  */
 public class HighScoresActivity extends AppCompatActivity {
+    // do not change these; they will affect existing app users
+    public static final String HIGH_SCORES_KEY = "high scores";
+
+    public static final String INTERVALS_SCORE_KEY = "ihs";
+    public static final String CHORDS_SCORE_KEY = "chhs";
+    public static final String CADENCES_SCORE_KEY = "cahs";
+    public static final String PROGRESSIONS_SCORE_KEY = "cphs";
+
     /**
      * Displays the user's high scores for the interval, chords, and cadences activity.
      */
@@ -39,14 +49,13 @@ public class HighScoresActivity extends AppCompatActivity {
         TextView cadences = (TextView) findViewById(R.id.cahs);
         TextView chordProgressions = (TextView) findViewById(R.id.cphs);
 
-        String intervalsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("ihs", 0) + "";
-        String chordsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("chhs", 0) + "";
-        String cadencesScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("cahs", 0) + "";
-        String chordProgressionsScore = getSharedPreferences("high scores", Context.MODE_PRIVATE).getInt("cphs", 0) + "";
+        SharedPreferences highScoresPref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
 
-        intervals.setText("Intervals: " + intervalsScore);
-        chords.setText("Chords: " + chordsScore);
-        cadences.setText("Cadences: " + cadencesScore);
-        chordProgressions.setText("Progressions: " + chordProgressionsScore);
+        Resources res = getResources();
+
+        intervals.setText(String.format(res.getString(R.string.intervals_hs), highScoresPref.getInt(INTERVALS_SCORE_KEY, 0)));
+        chords.setText(String.format(res.getString(R.string.chords_hs), highScoresPref.getInt(CHORDS_SCORE_KEY, 0)));
+        cadences.setText(String.format(res.getString(R.string.cadences_hs), highScoresPref.getInt(CADENCES_SCORE_KEY, 0)));
+        chordProgressions.setText(String.format(res.getString(R.string.chord_progressions_hs), highScoresPref.getInt(PROGRESSIONS_SCORE_KEY, 0)));
     }
 }

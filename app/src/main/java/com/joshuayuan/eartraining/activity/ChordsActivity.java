@@ -31,6 +31,11 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.CHORDS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
+
 /**
  * The chords activity plays a chord and asks the user to identify it.
  * The score is based on the number of consecutive correct answers.
@@ -124,16 +129,16 @@ public class ChordsActivity extends AppCompatActivity {
         currentScore = (TextView) findViewById(R.id.intervalScore);
         highScore = (TextView) findViewById(R.id.chordHighScore);
 
-        pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        highScore.setText(String.valueOf(pref.getInt("chhs", 0)));
+        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt(CHORDS_SCORE_KEY, 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{
                 "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
                 "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
                 "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad"}));
-        selections = sharedPrefs.getStringSet("pref_chords", defaultSet);
-        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+        selections = sharedPrefs.getStringSet(PREF_CHORDS, defaultSet);
+        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
         initializeIntervalToSemitoneMap();
 
         initializeButtons();
@@ -379,14 +384,14 @@ public class ChordsActivity extends AppCompatActivity {
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        int hs = pref.getInt("chhs", 0);
+        int hs = pref.getInt(CHORDS_SCORE_KEY, 0);
 
         if (hs < score) {
             hs = score;
 
             SharedPreferences.Editor editor = pref.edit();
 
-            editor.putInt("chhs", hs);
+            editor.putInt(CHORDS_SCORE_KEY, hs);
             editor.apply();
         }
 

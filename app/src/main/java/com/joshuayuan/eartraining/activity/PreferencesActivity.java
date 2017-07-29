@@ -72,6 +72,8 @@ public class PreferencesActivity extends AppCompatActivity {
         public static final String PREF_PROGRESSION_TONALITY = "pref_progression_tonality";
         public static final String PREF_SEQ_LENGTH = "pref_seq_length";
 
+        public static final String PREF_REPEAT = "pref_repeat";
+
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                               String key) {
             if (key.equals(PREF_LEVEL)) {

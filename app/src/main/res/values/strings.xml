@@ -49,10 +49,10 @@
 
     <string name="score_value">0</string>
 
-    <string name="intervals_hs">Intervals:</string>
-    <string name="chords_hs">Chords:</string>
-    <string name="cadences_hs">Cadences:</string>
-    <string name="chord_progressions_hs">Chord Progressions:</string>
+    <string name="intervals_hs">Intervals: %1$d</string>
+    <string name="chords_hs">Chords: %1$d</string>
+    <string name="cadences_hs">Cadences: %1$d</string>
+    <string name="chord_progressions_hs">Progressions: %1$d</string>
 
     <string name="select_interval">Select the interval you hear:</string>
     <string name="select_chord">Select the chord you hear:</string>

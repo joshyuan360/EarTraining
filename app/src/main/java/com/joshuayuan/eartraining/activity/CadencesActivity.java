@@ -30,6 +30,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.CADENCES_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CADENCES;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
+
 /**
  * The cadences activity plays a cadence and asks the user to identify it.
  * The score is based on the number of consecutive correct answers.
@@ -108,13 +113,13 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         currentScore = (TextView) findViewById(R.id.cadenceScore);
         highScore = (TextView) findViewById(R.id.cadenceHighestScore);
 
-        pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        highScore.setText(String.valueOf(pref.getInt("cahs", 0)));
+        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt(CADENCES_SCORE_KEY, 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this
-        selections = sharedPrefs.getStringSet("pref_cadences", defaultSet);
-        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+        selections = sharedPrefs.getStringSet(PREF_CADENCES, defaultSet);
+        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
 
         initializeButtons();
         setButtonsEnabled(false);
@@ -218,14 +223,14 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        int hs = pref.getInt("cahs", 0);
+        int hs = pref.getInt(CADENCES_SCORE_KEY, 0);
 
         if (hs < score) {
             hs = score;
 
             SharedPreferences.Editor editor = pref.edit();
 
-            editor.putInt("cahs", hs);
+            editor.putInt(CADENCES_SCORE_KEY, hs);
             editor.apply();
         }
 

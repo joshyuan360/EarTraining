@@ -20,6 +20,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.PROGRESSIONS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORD_PROGRESSIONS;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_PROGRESSION_TONALITY;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_SEQ_LENGTH;
+
 /**
  * The chord progression activity plays a chord progression twice as per the
  * RCM syllabus. The score is based on the number of consecutive correct answers.
@@ -101,18 +108,18 @@ public class ChordProgressionActivity extends AppCompatActivity {
         currentScore = (TextView) findViewById(R.id.intervalScore);
         highScore = (TextView) findViewById(R.id.chordHighestProgressionScore);
 
-        pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        highScore.setText(String.valueOf(pref.getInt("cphs", 0)));
+        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt(PROGRESSIONS_SCORE_KEY, 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"six", "cadential"}));
-        selections = sharedPrefs.getStringSet("pref_chord_progressions", defaultSet);
-        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+        selections = sharedPrefs.getStringSet(PREF_CHORD_PROGRESSIONS, defaultSet);
+        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
 
-        int seqLength = Integer.parseInt(sharedPrefs.getString("pref_seq_length", "5"));
+        int seqLength = Integer.parseInt(sharedPrefs.getString(PREF_SEQ_LENGTH, "5"));
         boolean includeSix = selections.contains("six");
         boolean includeCadential = selections.contains("cadential");
-        int tonalityChoice = Integer.parseInt(sharedPrefs.getString("pref_progression_tonality", "3"));
+        int tonalityChoice = Integer.parseInt(sharedPrefs.getString(PREF_PROGRESSION_TONALITY, "3"));
 
         ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential, tonalityChoice);
         mp = new MediaPlayer[seqLength * 4];
@@ -211,14 +218,14 @@ public class ChordProgressionActivity extends AppCompatActivity {
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        int hs = pref.getInt("cphs", 0);
+        int hs = pref.getInt(PROGRESSIONS_SCORE_KEY, 0);
 
         if (hs < score) {
             hs = score;
 
             SharedPreferences.Editor editor = pref.edit();
 
-            editor.putInt("cphs", hs);
+            editor.putInt(PROGRESSIONS_SCORE_KEY, hs);
             editor.apply();
         }
 
