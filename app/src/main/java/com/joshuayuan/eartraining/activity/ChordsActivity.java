@@ -82,7 +82,7 @@ public class ChordsActivity extends AppCompatActivity {
     /**
      * Displays the current score.
      */
-    private TextView hs;
+    private TextView currentScore, highScore;
     /**
      * The lowest note of the chord being played.
      */
@@ -108,6 +108,7 @@ public class ChordsActivity extends AppCompatActivity {
      */
     private Handler handler = new Handler();
     private boolean isReplaying;
+    SharedPreferences pref;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -120,7 +121,11 @@ public class ChordsActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chInstructions);
-        hs = (TextView) findViewById(R.id.intervalScore);
+        currentScore = (TextView) findViewById(R.id.intervalScore);
+        highScore = (TextView) findViewById(R.id.chordHighScore);
+
+        pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt("chhs", 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{
@@ -363,7 +368,7 @@ public class ChordsActivity extends AppCompatActivity {
             score = 0;
         }
 
-        hs.setText(String.valueOf(score));
+        currentScore.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -374,13 +379,18 @@ public class ChordsActivity extends AppCompatActivity {
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        SharedPreferences pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        if (pref.getInt("chhs", 0) < score) {
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putInt("chhs", score);
+        int hs = pref.getInt("chhs", 0);
 
+        if (hs < score) {
+            hs = score;
+
+            SharedPreferences.Editor editor = pref.edit();
+
+            editor.putInt("chhs", hs);
             editor.apply();
         }
+
+        highScore.setText(String.valueOf(hs));
     }
 
     /**

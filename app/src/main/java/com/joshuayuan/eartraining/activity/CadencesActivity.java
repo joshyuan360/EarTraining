@@ -76,7 +76,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
     /**
      * Displays the user's high score.
      */
-    private TextView hs;
+    private TextView currentScore, highScore;
     private MediaPlayer tonic = new MediaPlayer();
     /**
      * The chords that the user wishes to be tested on.
@@ -92,6 +92,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
     private Handler handler = new Handler();
     private boolean isReplaying;
     private int randomShift;
+    SharedPreferences pref;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -104,7 +105,11 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.cadenceText);
-        hs = (TextView) findViewById(R.id.cadenceScore);
+        currentScore = (TextView) findViewById(R.id.cadenceScore);
+        highScore = (TextView) findViewById(R.id.cadenceHighestScore);
+
+        pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt("cahs", 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this
@@ -202,7 +207,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
             answerCorrect = false;
             score = 0;
         }
-        hs.setText(String.valueOf(score));
+        currentScore.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -213,12 +218,18 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        SharedPreferences pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        if (pref.getInt("cahs", 0) < score) {
+        int hs = pref.getInt("cahs", 0);
+
+        if (hs < score) {
+            hs = score;
+
             SharedPreferences.Editor editor = pref.edit();
-            editor.putInt("cahs", score);
+
+            editor.putInt("cahs", hs);
             editor.apply();
         }
+
+        highScore.setText(String.valueOf(hs));
     }
 
     /**

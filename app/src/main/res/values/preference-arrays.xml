@@ -40,6 +40,28 @@
         <item>Perfect Twelfth</item>
     </string-array>
 
+    <string-array name="pref_intervals_values">
+        <item>Minor Second</item>
+        <item>Major Second</item>
+        <item>Minor Sixth</item>
+        <item>Major Sixth</item>
+        <item>Minor Seventh</item>
+        <item>Major Seventh</item>
+        <item>Perfect Unison</item>
+        <item>Perfect Fourth</item>
+        <item>Perfect Fifth</item>
+        <item>Perfect Octave</item>
+        <item>Aug 4</item>
+
+        <item>Minor Ninth</item>
+        <item>Major Ninth</item>
+        <item>Minor Tenth</item>
+        <item>Major Tenth</item>
+        <item>Perfect Eleventh</item>
+        <item>Aug 11</item>
+        <item>Perfect Twelfth</item>
+    </string-array>
+
     <string-array name="pref_intervals_advanced_entries">
         <item>Harmonic Form</item>
         <item>Increasing</item>

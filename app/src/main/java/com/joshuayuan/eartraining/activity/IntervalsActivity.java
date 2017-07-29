@@ -38,79 +38,35 @@ import java.util.Set;
  * @author Joshua Yuan
  */
 public class IntervalsActivity extends AppCompatActivity { //todo: change resource value of augmented fourth to aug 4 for backward compatibility
-    /**
-     * The interval sound files to be played.
-     */
     private final MediaPlayer[] mp = new MediaPlayer[2];
-    /**
-     * User input for perfect, major, or minor.
-     */
     private CharSequence part1;
-    /**
-     * User input for unison, second, third, fourth, fifth, sixth, seventh, or octave.
-     */
     private CharSequence part2;
-    /**
-     * Stores the first part of the correct answer: perfect, major, or minor.
-     */
     private CharSequence answer1;
-    /**
-     * Stores the second part of the correct answer: unison, second, third, fourth, fifth, sixth seventh, or octave.
-     */
     private CharSequence answer2;
-    /**
-     * A <code>Button</code> object in the first row of the interval activity window.
-     */
+
     private Button perfect, major, minor, aug;
-    /**
-     * A <code>Button</code> object in the bottom two rows of the interval activity window.
-     */
     private Button unison, second, third, fourth, fifth, sixth, seventh, octave, ninth, tenth, eleventh, twelfth;
-    /**
-     * Allows the user to replay the last interval.
-     */
     private Button replay;
-    /**
-     * <code>true</code> if the correct interval is identified.
-     */
+
     private boolean answerCorrect = true;
-    /**
-     * Displays info to the user on screen.
-     */
     private TextView tv;
-    /**
-     * Displays the current score.
-     */
-    private TextView hs;
-    /**
-     * The first note of the interval being played.
-     */
+    private TextView currentScore, highScore;
+
     private int note1;
-    /**
-     * The current score of the user in this activity.
-     */
     private int score;
-    /**
-     * The intervals that the user wishes to be tested on.
-     */
+
     private Set<String> selections;
-    /**
-     * <code>true</code> if the user wants automatic replays.
-     */
+
     private boolean prefRepeat;
-    /**
-     * <code>true</code> if the user wants to be tested on one or more interval(s).
-     */
     private boolean allowPerfect, allowAug;
-    /**
-     * Used to play sound after a specified amount of time.
-     */
+
     private Handler handler = new Handler();
     private boolean isReplaying;
     private boolean increasing;
     private int testType;
-    private HashMap<String, Integer> intervalToSemitoneGap = new HashMap<>();
 
+    private HashMap<String, Integer> intervalToSemitoneGap = new HashMap<>();
+    SharedPreferences pref;
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -122,7 +78,11 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.insDisplay);
-        hs = (TextView) findViewById(R.id.intervalScore);
+        currentScore = (TextView) findViewById(R.id.intervalScore);
+        highScore = (TextView) findViewById(R.id.intervalHighScore);
+
+        pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt("ihs", 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
@@ -395,8 +355,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
     }
 
     private void setAugRowsEnabled(boolean enabled) {
-        fourth.setEnabled(allowAugButton("Fourth") && enabled);
-        eleventh.setEnabled(allowAugButton("Eleventh") && enabled);
+        fourth.setEnabled(allowAugButton("4") && enabled);
     }
 
     private void setFirstRowEnabled(boolean enabled) {
@@ -420,7 +379,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
             answerCorrect = false;
             score = 0;
         }
-        hs.setText(String.valueOf(score));
+        currentScore.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -431,12 +390,18 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        SharedPreferences pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        if (pref.getInt("ihs", 0) < score) {
+        int hs = pref.getInt("ihs", 0);
+
+        if (hs < score) {
+            hs = score;
+
             SharedPreferences.Editor editor = pref.edit();
-            editor.putInt("ihs", score);
+
+            editor.putInt("ihs", hs);
             editor.apply();
         }
+
+        highScore.setText(String.valueOf(hs));
     }
 
     /**

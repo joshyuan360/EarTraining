@@ -62,7 +62,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
     /**
      * Displays the user's high score.
      */
-    private TextView hs;
+    private TextView currentScore, highScore;
     /**
      * Contains the sound files required to play the cadence.
      */
@@ -84,7 +84,8 @@ public class ChordProgressionActivity extends AppCompatActivity {
      */
     private int chordNumber = 0;
     private boolean isReplaying;
-    private int tonalityChoice;
+    SharedPreferences pref;
+
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -97,18 +98,22 @@ public class ChordProgressionActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chordProgressionText);
-        hs = (TextView) findViewById(R.id.intervalScore);
+        currentScore = (TextView) findViewById(R.id.intervalScore);
+        highScore = (TextView) findViewById(R.id.chordHighestProgressionScore);
+
+        pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt("cphs", 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"six", "cadential"}));
         selections = sharedPrefs.getStringSet("pref_chord_progressions", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
-        tonalityChoice = Integer.parseInt(sharedPrefs.getString("pref_progression_tonality", "3"));
-
-        boolean includeSix = selections.contains("six");
-        boolean includeCadential = selections.contains("cadential");
 
         int seqLength = Integer.parseInt(sharedPrefs.getString("pref_seq_length", "5"));
+        boolean includeSix = selections.contains("six");
+        boolean includeCadential = selections.contains("cadential");
+        int tonalityChoice = Integer.parseInt(sharedPrefs.getString("pref_progression_tonality", "3"));
+
         ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential, tonalityChoice);
         mp = new MediaPlayer[seqLength * 4];
 
@@ -195,7 +200,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
             answerCorrect = false;
             score = 0;
         }
-        hs.setText(String.valueOf(score));
+        currentScore.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -206,12 +211,18 @@ public class ChordProgressionActivity extends AppCompatActivity {
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        SharedPreferences pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        if (pref.getInt("cphs", 0) < score) {
+        int hs = pref.getInt("cphs", 0);
+
+        if (hs < score) {
+            hs = score;
+
             SharedPreferences.Editor editor = pref.edit();
-            editor.putInt("cphs", score);
+
+            editor.putInt("cphs", hs);
             editor.apply();
         }
+
+        highScore.setText(String.valueOf(hs));
     }
 
     /**

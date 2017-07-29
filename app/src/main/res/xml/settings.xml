@@ -18,8 +18,8 @@
             android:title="Select Intervals"
             android:dialogTitle="Include the following intervals:"
             android:entries="@array/pref_intervals_entries"
-            android:entryValues="@array/pref_intervals_entries"
-            android:defaultValue="@array/pref_intervals_entries" />
+            android:entryValues="@array/pref_intervals_values"
+            android:defaultValue="@array/pref_intervals_values" />
 
         <ListPreference
             android:key="pref_intervals_advanced"
