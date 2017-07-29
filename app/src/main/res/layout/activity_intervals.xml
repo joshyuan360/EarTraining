@@ -15,8 +15,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:paddingTop="10dp"
-        android:text="@string/select_interval"
-        android:id="@+id/intervalmessage"
+        android:text="@string/playing_interval"
+        android:id="@+id/insDisplay"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/black" />
 
@@ -31,23 +31,11 @@
         android:onClick="replayInterval"
         android:text="@string/replay_button" />
 
-    <com.joshuayuan.eartraining.presentation.InstructionTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/playing_interval"
-        android:id="@+id/insDisplay"
-        android:textColor="#ffffff"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingTop="10dp"
-        android:layout_below="@+id/linearLayout4" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/intervalmessage"
+        android:layout_below="@+id/insDisplay"
         android:id="@+id/linearLayout"
         android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"

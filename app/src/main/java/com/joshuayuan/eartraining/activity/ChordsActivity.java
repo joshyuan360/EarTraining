@@ -45,7 +45,7 @@ public class ChordsActivity extends AppCompatActivity {
     /**
      * A <code>Button</code> object in the first row of the chord activity window.
      */
-    private Button major, minor, dominant, diminished;
+    private Button major, minor, dominant, diminished, augmented;
     /**
      * A <code>Button</code> object in the bottom two rows of the chord activity window.
      */
@@ -102,7 +102,7 @@ public class ChordsActivity extends AppCompatActivity {
     /**
      * <code>true</code> if the user wants to be tested on one or more dominant 7th chord(s).
      */
-    private boolean allowDom;
+    private boolean allowDom, allowDim, allowAug;
     /**
      * Used to play sound after a specified amount of time.
      */
@@ -126,7 +126,7 @@ public class ChordsActivity extends AppCompatActivity {
         Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{
                 "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
                 "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
-                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none",}));
+                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad"}));
         selections = sharedPrefs.getStringSet("pref_chords", defaultSet);
         prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
         initializeIntervalToSemitoneMap();
@@ -146,7 +146,10 @@ public class ChordsActivity extends AppCompatActivity {
         for (String s : selections) {
             if (s.contains("Dom")) {
                 allowDom = true;
-                break;
+            } else if (s.contains("Dim")) {
+                allowDim = true;
+            } else if (s.contains("Aug")) {
+                allowAug = true;
             }
         }
     }
@@ -179,6 +182,7 @@ public class ChordsActivity extends AppCompatActivity {
         minor = (Button) findViewById(R.id.minor);
         dominant = (Button) findViewById(R.id.dom7);
         diminished = (Button) findViewById(R.id.dim7);
+        augmented = (Button) findViewById(R.id.augChord);
 
         root = (Button) findViewById(R.id.root);
         first = (Button) findViewById(R.id.first);
@@ -197,7 +201,8 @@ public class ChordsActivity extends AppCompatActivity {
         major.setEnabled(enabled);
         minor.setEnabled(enabled);
         dominant.setEnabled(allowDom && enabled);
-        diminished.setEnabled(selections.contains("Dim 7 none") && enabled);
+        diminished.setEnabled(allowDim && enabled);
+        augmented.setEnabled(allowAug && enabled);
     }
 
     /**
@@ -344,7 +349,7 @@ public class ChordsActivity extends AppCompatActivity {
      * The score is either incremented (if correct) or reset to zero (if incorrect).
      */
     private void displayResult() {
-        if (answer1.equals("Dim 7") && part2.equals("Dim 7")) {
+        if (answer1.equals("Dim 7") && part2.equals("Dim 7") || answer1.equals("Aug") && part2.equals("Aug")) {
             tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
@@ -412,8 +417,8 @@ public class ChordsActivity extends AppCompatActivity {
         setBottomRowsEnabled(false, false);
         part2 = ((Button) view).getText();
 
-        if (part2.equals("Dim 7")) {
-            part1 = "Dim 7";
+        if (part2.equals("Dim 7") || part2.equals("Aug")) {
+            part1 = part2;
             setFirstRowEnabled(false);
         }
 

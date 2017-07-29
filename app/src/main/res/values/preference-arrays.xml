@@ -64,6 +64,7 @@
         <item>Dominant 7th - 2nd Inv.</item>
         <item>Dominant 7th - 3rd Inv.</item>
         <item>Diminished 7th</item>
+        <item>Augmented Triad</item>
     </string-array>
 
     <string-array name="pref_chords_values">
@@ -76,6 +77,7 @@
         <item>Dom 7 2nd Inv</item>
         <item>Dom 7 3rd Inv</item>
         <item>Dim 7 none</item>
+        <item>Augmented Triad</item>
     </string-array>
 
     <string-array name="pref_cadences_entries">
