@@ -22,8 +22,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/black" />
 
-
-
     <com.joshuayuan.eartraining.presentation.ReplayButton
         android:id="@+id/replay"
         android:layout_width="43dp"
@@ -98,7 +96,9 @@
             android:onClick="cpart2Clicked"
             android:enabled="false"
             android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"/>
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
             android:layout_weight="1"
@@ -202,13 +202,13 @@
             android:layout_weight="1"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:text="Score:"
-            android:textSize="20dp"
+            android:text="@string/score"
+            android:textSize="20sp"
             android:textColor="@color/colorPrimary"
-            android:gravity="right"/>
+            android:gravity="end"/>
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
-            android:id="@+id/chordProgressionScore"
+            android:id="@+id/intervalScore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -216,7 +216,7 @@
             android:layout_weight="1"
             android:text="@string/score_value"
             android:textColor="@color/colorPrimary"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -235,10 +235,10 @@
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:gravity="right"
-            android:text="High Score:"
+            android:gravity="end"
+            android:text="@string/high_scores"
             android:textColor="@color/colorPrimary"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
             android:id="@+id/chordHighestProgressionScore"
@@ -249,17 +249,6 @@
             android:layout_weight="1"
             android:text="@string/score_value"
             android:textColor="@color/colorPrimary"
-            android:textSize="20dp" />
-
+            android:textSize="20sp" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/music_notes"
-        android:layout_above="@+id/linearLayout8"
-        android:layout_below="@+id/linearLayout7" />
-
-
 </RelativeLayout>

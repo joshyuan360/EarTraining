@@ -122,7 +122,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.insDisplay);
-        hs = (TextView) findViewById(R.id.chordProgressionScore);
+        hs = (TextView) findViewById(R.id.intervalScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{

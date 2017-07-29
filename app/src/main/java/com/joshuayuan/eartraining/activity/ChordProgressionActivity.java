@@ -97,7 +97,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chordProgressionText);
-        hs = (TextView) findViewById(R.id.chordProgressionScore);
+        hs = (TextView) findViewById(R.id.intervalScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"six", "cadential"}));

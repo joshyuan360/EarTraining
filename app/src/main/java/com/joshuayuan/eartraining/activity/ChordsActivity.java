@@ -120,7 +120,7 @@ public class ChordsActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chInstructions);
-        hs = (TextView) findViewById(R.id.chordProgressionScore);
+        hs = (TextView) findViewById(R.id.intervalScore);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{

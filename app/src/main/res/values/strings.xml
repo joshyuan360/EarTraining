@@ -9,7 +9,8 @@
     <string name="high_scores_menu">HIGH SCORES</string>
     <string name="settings_menu">SETTINGS</string>
 
-    <string name="high_scores">HIGH SCORES</string>
+    <string name="score">Score:</string>
+    <string name="high_scores">High Score:</string>
 
     <string name="perfect">Perfect</string>
     <string name="major">Major</string>
@@ -47,7 +48,6 @@
     <string name="cadential_chord">Cadential 6-4</string>
 
     <string name="score_value">0</string>
-    <string name="score">Score</string>
 
     <string name="intervals_hs">Intervals:</string>
     <string name="chords_hs">Chords:</string>
@@ -62,7 +62,7 @@
     <string name="playing_interval">Playing interval…</string>
     <string name="playing_chord">Playing chord…</string>
     <string name="playing_cadence">Playing tonic note and cadence…</string>
-    <string name="playing_chord_progression">Playing chord progression starting on tonic…</string>
+    <string name="playing_chord_progression">Playing progression starting on tonic…</string>
     <string name="playing_each_chord">Playing each chord individually…</string>
 
     <string name="identify_interval">Identify the interval…</string>
