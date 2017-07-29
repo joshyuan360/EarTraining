@@ -17,7 +17,10 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -87,6 +90,37 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         currentScore = (TextView) findViewById(R.id.intervalScore);
         highScore = (TextView) findViewById(R.id.intervalHighScore);
 
+        loadPreferences();
+
+        initializeMap();
+
+        initializeButtons();
+        setAllRowsEnabled(false);
+        replay.setEnabled(false);
+
+        for (String s : selections) {
+            if (s.startsWith("Perfect")) {
+                allowPerfect = true;
+            } else if (s.startsWith("Aug")) {
+                allowAug = true;
+            }
+        }
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                testUser();
+            }
+        }, 1500);
+    }
+
+    private void loadPreferences() {
         pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
         highScore.setText(String.valueOf(pref.getInt(INTERVALS_SCORE_KEY, 0)));
 
@@ -101,27 +135,16 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         selections = sharedPrefs.getStringSet(PREF_INTERVALS, defaultSet);
         prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
         testType = Integer.parseInt(sharedPrefs.getString(PREF_INTERVALS_ADVANCED, "4"));
+    }
 
-        initializeMap();
-
-        initializeButtons();
-        setAllRowsEnabled(false);
-        replay.setEnabled(false);
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                testUser();
-            }
-        }, 1500);
-
-        for (String s : selections) {
-            if (s.startsWith("Perfect")) {
-                allowPerfect = true;
-            } else if (s.startsWith("Aug")) {
-                allowAug = true;
-            }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initializeMap() {

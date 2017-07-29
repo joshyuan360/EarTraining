@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_level_entries">
+        <item>Level 1</item>
+        <item>Level 2</item>
+        <item>Level 3</item>
+        <item>Level 4</item>
         <item>Level 5</item>
         <item>Level 6</item>
         <item>Level 7</item>
@@ -10,6 +14,10 @@
     </string-array>
 
     <string-array name="pref_level_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
         <item>5</item>
         <item>6</item>
         <item>7</item>
@@ -63,10 +71,10 @@
     </string-array>
 
     <string-array name="pref_intervals_advanced_entries">
-        <item>Harmonic Form</item>
+        <item>Harmonic</item>
         <item>Increasing</item>
         <item>Decreasing</item>
-        <item>Increasing and Decreasing</item>
+        <item>Increasing or Decreasing</item>
     </string-array>
 
     <string-array name="pref_intervals_advanced_values">
@@ -77,14 +85,14 @@
     </string-array>
 
     <string-array name="pref_chords_entries">
-        <item>Major - 1st Inv.</item>
-        <item>Major - 2nd Inv.</item>
-        <item>Minor - 1st Inv.</item>
-        <item>Minor - 2nd Inv.</item>
-        <item>Dominant 7th - Root Pos.</item>
-        <item>Dominant 7th - 1st Inv.</item>
-        <item>Dominant 7th - 2nd Inv.</item>
-        <item>Dominant 7th - 3rd Inv.</item>
+        <item>Major - 1st Inversion</item>
+        <item>Major - 2nd Inversion</item>
+        <item>Minor - 1st Inversion</item>
+        <item>Minor - 2nd Inversion</item>
+        <item>Dominant 7th - Root Position</item>
+        <item>Dominant 7th - 1st Inversion</item>
+        <item>Dominant 7th - 2nd Inversion</item>
+        <item>Dominant 7th - 3rd Inversion</item>
         <item>Diminished 7th</item>
         <item>Augmented Triad</item>
     </string-array>
@@ -120,7 +128,7 @@
     <string-array name="pref_progression_tonality_entries">
         <item>Major</item>
         <item>Minor</item>
-        <item>Both</item>
+        <item>Major or Minor</item>
     </string-array>
 
     <string-array name="pref_progression_tonality_values">

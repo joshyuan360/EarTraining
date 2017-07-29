@@ -17,7 +17,9 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -113,17 +115,17 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         currentScore = (TextView) findViewById(R.id.cadenceScore);
         highScore = (TextView) findViewById(R.id.cadenceHighestScore);
 
-        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
-        highScore.setText(String.valueOf(pref.getInt(CADENCES_SCORE_KEY, 0)));
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this
-        selections = sharedPrefs.getStringSet(PREF_CADENCES, defaultSet);
-        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
+        loadPreference();
 
         initializeButtons();
         setButtonsEnabled(false);
         replay.setEnabled(false);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -131,6 +133,27 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
                 testUser();
             }
         }, 1500);
+
+    }
+
+    private void loadPreference() {
+        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt(CADENCES_SCORE_KEY, 0)));
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this
+        selections = sharedPrefs.getStringSet(PREF_CADENCES, defaultSet);
+        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

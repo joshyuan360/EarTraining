@@ -17,7 +17,9 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -129,29 +131,13 @@ public class ChordsActivity extends AppCompatActivity {
         currentScore = (TextView) findViewById(R.id.intervalScore);
         highScore = (TextView) findViewById(R.id.chordHighScore);
 
-        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
-        highScore.setText(String.valueOf(pref.getInt(CHORDS_SCORE_KEY, 0)));
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{
-                "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
-                "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
-                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad"}));
-        selections = sharedPrefs.getStringSet(PREF_CHORDS, defaultSet);
-        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
+        loadPreference();
         initializeIntervalToSemitoneMap();
 
         initializeButtons();
         setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                testUser();
-            }
-        }, 1500);
 
         for (String s : selections) {
             if (s.contains("Dom")) {
@@ -162,6 +148,42 @@ public class ChordsActivity extends AppCompatActivity {
                 allowAug = true;
             }
         }
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                testUser();
+            }
+        }, 1500);
+    }
+
+    private void loadPreference() {
+        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt(CHORDS_SCORE_KEY, 0)));
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
+                "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
+                "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
+                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad"}));
+        selections = sharedPrefs.getStringSet(PREF_CHORDS, defaultSet);
+        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

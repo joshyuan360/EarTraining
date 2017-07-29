@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="RCM Level Presets">
+    <PreferenceCategory android:title="RCM Piano Level Presets">
+        <CheckBoxPreference
+            android:key="pref_preset"
+            android:summary="Automatically adjust all settings based on performance level."
+            android:title="Use Piano Level Presets"
+            android:defaultValue="false"/>
+
         <ListPreference
             android:key="pref_level"
-            android:summary="Select your RCM level."
-            android:title="Conservatory Exam Level"
+            android:summary="Select your level."
+            android:title="Piano Exam Level"
             android:dialogTitle="RCM Level:"
             android:entries="@array/pref_level_entries"
             android:entryValues="@array/pref_level_values"
-            android:defaultValue="4"/>
+            android:enabled="false"
+            android:defaultValue="10"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Intervals">
@@ -23,7 +30,7 @@
 
         <ListPreference
             android:key="pref_intervals_advanced"
-            android:summary="Choose solid, broken, increasing, or decreasing."
+            android:summary="Choose harmonic, increasing, or decreasing."
             android:title="Interval Type"
             android:dialogTitle="Interval Type:"
             android:entries="@array/pref_intervals_advanced_entries"
@@ -66,8 +73,8 @@
         <ListPreference
             android:key="pref_progression_tonality"
             android:summary="Choose major, minor, or both."
-            android:title="Select Chord Type"
-            android:dialogTitle="Select an option:"
+            android:title="Select Tonality"
+            android:dialogTitle="Chord progression tonality:"
             android:entries="@array/pref_progression_tonality_entries"
             android:entryValues="@array/pref_progression_tonality_values"
             android:defaultValue="3"/>
@@ -76,7 +83,7 @@
             android:key="pref_seq_length"
             android:summary="Customize the length of chord progressions."
             android:title="Change Length"
-            android:dialogTitle="Select an option:"
+            android:dialogTitle="Chord progression length:"
             android:entries="@array/pref_seq_length_entries"
             android:entryValues="@array/pref_seq_length_values"
             android:defaultValue="5"/>

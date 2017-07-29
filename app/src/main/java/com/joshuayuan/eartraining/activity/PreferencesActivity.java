@@ -15,9 +15,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
-import com.joshuayuan.eartraining.intelliyuan.Syllabus;
+import com.joshuayuan.eartraining.syllabus.PianoSyllabus;
 import com.joshuayuan.eartraining.R;
 
 /**
@@ -31,10 +34,26 @@ public class PreferencesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle("Settings");
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static class SettingsFragment extends PreferenceFragment
@@ -63,6 +82,7 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         public static final String PREF_LEVEL = "pref_level";
+        public static final String PREF_PRESET = "pref_preset";
 
         public static final String PREF_INTERVALS = "pref_intervals";
         public static final String PREF_INTERVALS_ADVANCED = "pref_intervals_advanced";
@@ -84,15 +104,29 @@ public class PreferencesActivity extends AppCompatActivity {
 
                 int level = Integer.parseInt(prefs.getString(PREF_LEVEL, "10"));
 
-                editor.putStringSet(PREF_INTERVALS, Syllabus.getIntervalsFromLevel(level));
-                editor.putString(PREF_INTERVALS_ADVANCED, Syllabus.getIntervalTypeFromLevel(level));
-                editor.putStringSet(PREF_CHORDS, Syllabus.getChordsFromLevel(level));
-                editor.putStringSet(PREF_CADENCES, Syllabus.getCadencesFromLevel(level));
-                editor.putStringSet(PREF_CHORD_PROGRESSIONS, Syllabus.getProgressionsFromLevel(level));
-                editor.putString(PREF_PROGRESSION_TONALITY, Syllabus.getProgressionTonalityFromLevel(level));
-                editor.putString(PREF_SEQ_LENGTH, Syllabus.getProgressionLengthFromLevel(level));
+                editor.putStringSet(PREF_INTERVALS, PianoSyllabus.getIntervalsFromLevel(level));
+                editor.putString(PREF_INTERVALS_ADVANCED, PianoSyllabus.getIntervalTypeFromLevel(level));
+                editor.putStringSet(PREF_CHORDS, PianoSyllabus.getChordsFromLevel(level));
+                editor.putStringSet(PREF_CADENCES, PianoSyllabus.getCadencesFromLevel(level));
+                editor.putStringSet(PREF_CHORD_PROGRESSIONS, PianoSyllabus.getProgressionsFromLevel(level));
+                editor.putString(PREF_PROGRESSION_TONALITY, PianoSyllabus.getProgressionTonalityFromLevel(level));
+                editor.putString(PREF_SEQ_LENGTH, PianoSyllabus.getProgressionLengthFromLevel(level));
 
                 editor.apply();
+            } else if (key.equals(PREF_PRESET)) {
+                boolean isEnabled = sharedPreferences.getBoolean(key, true);
+
+                PreferenceScreen preferenceScreen = getPreferenceScreen();
+
+                preferenceScreen.findPreference(PREF_LEVEL).setEnabled(isEnabled);
+
+                preferenceScreen.findPreference(PREF_INTERVALS).setEnabled(!isEnabled);
+                preferenceScreen.findPreference(PREF_INTERVALS_ADVANCED).setEnabled(!isEnabled);
+                preferenceScreen.findPreference(PREF_CHORDS).setEnabled(!isEnabled);
+                preferenceScreen.findPreference(PREF_CADENCES).setEnabled(!isEnabled);
+                preferenceScreen.findPreference(PREF_CHORD_PROGRESSIONS).setEnabled(!isEnabled);
+                preferenceScreen.findPreference(PREF_PROGRESSION_TONALITY).setEnabled(!isEnabled);
+                preferenceScreen.findPreference(PREF_SEQ_LENGTH).setEnabled(!isEnabled);
             }
         }
     }

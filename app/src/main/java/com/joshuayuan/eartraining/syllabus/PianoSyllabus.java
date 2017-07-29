@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining.intelliyuan;
+package com.joshuayuan.eartraining.syllabus;
 
 import android.util.SparseArray;
 
@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * RCM syllabus requirements.
+ * RCM piano syllabus requirements.
  */
-public class Syllabus {
+public class PianoSyllabus {
     private static SparseArray<String[]> levelToIntervalMap;
     private static SparseArray<String> levelToIntervalTypeMap;
     private static SparseArray<String[]> levelToChordsMap;
@@ -94,7 +94,7 @@ public class Syllabus {
         //todo: add 9th intervals (go up to 12 for a balanced UI)
         levelToIntervalMap.append(10, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug 4", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
         levelToIntervalTypeMap.append(10, "4");
-        levelToChordsMap.append(10, new String[] { "Dom 7 Root Pos", "Dim 7 none", "Aug none" }); // todo: add four note  (release 6.3)
+        levelToChordsMap.append(10, new String[] { "Dom 7 Root Pos", "Dim 7 none", "Aug none" }); // todo: add four note chords (release 6.3)
         levelToCadencesMap.append(10, new String [] { });
         levelToProgressionsMap.append(10, new String[] { "six", "Cadential 6-4"});
         levelToProgressionLengthMap.append(10, "5" );

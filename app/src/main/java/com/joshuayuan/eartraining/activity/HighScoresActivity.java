@@ -15,7 +15,9 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.joshuayuan.eartraining.R;
@@ -57,5 +59,21 @@ public class HighScoresActivity extends AppCompatActivity {
         chords.setText(String.format(res.getString(R.string.chords_hs), highScoresPref.getInt(CHORDS_SCORE_KEY, 0)));
         cadences.setText(String.format(res.getString(R.string.cadences_hs), highScoresPref.getInt(CADENCES_SCORE_KEY, 0)));
         chordProgressions.setText(String.format(res.getString(R.string.chord_progressions_hs), highScoresPref.getInt(PROGRESSIONS_SCORE_KEY, 0)));
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
