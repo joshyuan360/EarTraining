@@ -63,6 +63,8 @@ public class PreferencesActivity extends AppCompatActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings);
+
+            setPresetRequested();
         }
 
         @Override
@@ -114,20 +116,23 @@ public class PreferencesActivity extends AppCompatActivity {
 
                 editor.apply();
             } else if (key.equals(PREF_PRESET)) {
-                boolean isEnabled = sharedPreferences.getBoolean(key, true);
-
-                PreferenceScreen preferenceScreen = getPreferenceScreen();
-
-                preferenceScreen.findPreference(PREF_LEVEL).setEnabled(isEnabled);
-
-                preferenceScreen.findPreference(PREF_INTERVALS).setEnabled(!isEnabled);
-                preferenceScreen.findPreference(PREF_INTERVALS_ADVANCED).setEnabled(!isEnabled);
-                preferenceScreen.findPreference(PREF_CHORDS).setEnabled(!isEnabled);
-                preferenceScreen.findPreference(PREF_CADENCES).setEnabled(!isEnabled);
-                preferenceScreen.findPreference(PREF_CHORD_PROGRESSIONS).setEnabled(!isEnabled);
-                preferenceScreen.findPreference(PREF_PROGRESSION_TONALITY).setEnabled(!isEnabled);
-                preferenceScreen.findPreference(PREF_SEQ_LENGTH).setEnabled(!isEnabled);
+                setPresetRequested();
             }
+        }
+
+        private void setPresetRequested() {
+            boolean isRequested = getPreferenceManager().getSharedPreferences().getBoolean(PREF_PRESET, false);
+            PreferenceScreen preferenceScreen = getPreferenceScreen();
+
+            preferenceScreen.findPreference(PREF_LEVEL).setEnabled(isRequested);
+
+            preferenceScreen.findPreference(PREF_INTERVALS).setEnabled(!isRequested);
+            preferenceScreen.findPreference(PREF_INTERVALS_ADVANCED).setEnabled(!isRequested);
+            preferenceScreen.findPreference(PREF_CHORDS).setEnabled(!isRequested);
+            preferenceScreen.findPreference(PREF_CADENCES).setEnabled(!isRequested);
+            preferenceScreen.findPreference(PREF_CHORD_PROGRESSIONS).setEnabled(!isRequested);
+            preferenceScreen.findPreference(PREF_PROGRESSION_TONALITY).setEnabled(!isRequested);
+            preferenceScreen.findPreference(PREF_SEQ_LENGTH).setEnabled(!isRequested);
         }
     }
 }

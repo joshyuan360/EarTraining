@@ -14,7 +14,6 @@
             android:dialogTitle="RCM Level:"
             android:entries="@array/pref_level_entries"
             android:entryValues="@array/pref_level_values"
-            android:enabled="false"
             android:defaultValue="10"/>
     </PreferenceCategory>
 

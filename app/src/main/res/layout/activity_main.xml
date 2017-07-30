@@ -67,20 +67,6 @@
         android:textColor="#ffffff" />
 
     <com.joshuayuan.eartraining.presentation.MenuButton
-        android:id="@+id/hsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/chordprogression"
-        android:layout_marginBottom="10dp"
-        android:onClick="openHighScores"
-        android:text="@string/high_scores_menu"
-        android:textColor="#ffffff" />
-
-    <com.joshuayuan.eartraining.presentation.MenuButton
         android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -88,7 +74,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/hsButton"
+        android:layout_below="@+id/chordprogression"
         android:layout_marginBottom="10dp"
         android:onClick="openSettings"
         android:text="@string/settings_menu"
