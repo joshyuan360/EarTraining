@@ -35,6 +35,7 @@ public class PreferencesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Settings");
+
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
@@ -87,8 +88,9 @@ public class PreferencesActivity extends AppCompatActivity {
         public static final String PREF_PRESET = "pref_preset";
 
         public static final String PREF_INTERVALS = "pref_intervals";
-        public static final String PREF_INTERVALS_ADVANCED = "pref_intervals_advanced";
+        public static final String PREF_INTERVALS_ADVANCED = "pref_interval_type";
         public static final String PREF_CHORDS = "pref_chords";
+        public static final String PREF_CHORDS_ADVANCED = "pref_chord_type";
         public static final String PREF_CADENCES = "pref_cadences";
         public static final String PREF_CHORD_PROGRESSIONS = "pref_chord_progressions";
         public static final String PREF_PROGRESSION_TONALITY = "pref_progression_tonality";
@@ -99,25 +101,37 @@ public class PreferencesActivity extends AppCompatActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                               String key) {
             if (key.equals(PREF_LEVEL)) {
-                Context context = getActivity().getApplicationContext();
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-                SharedPreferences.Editor editor = prefs.edit();
-
-                int level = Integer.parseInt(prefs.getString(PREF_LEVEL, "10"));
-
-                editor.putStringSet(PREF_INTERVALS, PianoSyllabus.getIntervalsFromLevel(level));
-                editor.putString(PREF_INTERVALS_ADVANCED, PianoSyllabus.getIntervalTypeFromLevel(level));
-                editor.putStringSet(PREF_CHORDS, PianoSyllabus.getChordsFromLevel(level));
-                editor.putStringSet(PREF_CADENCES, PianoSyllabus.getCadencesFromLevel(level));
-                editor.putStringSet(PREF_CHORD_PROGRESSIONS, PianoSyllabus.getProgressionsFromLevel(level));
-                editor.putString(PREF_PROGRESSION_TONALITY, PianoSyllabus.getProgressionTonalityFromLevel(level));
-                editor.putString(PREF_SEQ_LENGTH, PianoSyllabus.getProgressionLengthFromLevel(level));
-
-                editor.apply();
+                customizeUserSettings();
             } else if (key.equals(PREF_PRESET)) {
+                boolean isRequested = getPreferenceManager().getSharedPreferences().getBoolean(PREF_PRESET, false);
+                if (isRequested) {
+                    customizeUserSettings();
+                } else {
+                    setPreferenceScreen(null);
+                    addPreferencesFromResource(R.xml.settings);
+                }
                 setPresetRequested();
             }
+        }
+
+        private void customizeUserSettings() {
+            Context context = getActivity().getApplicationContext();
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            SharedPreferences.Editor editor = prefs.edit();
+
+            int level = Integer.parseInt(prefs.getString(PREF_LEVEL, "10"));
+
+            editor.putStringSet(PREF_INTERVALS, PianoSyllabus.getIntervalsFromLevel(level));
+            editor.putString(PREF_INTERVALS_ADVANCED, PianoSyllabus.getIntervalTypeFromLevel(level));
+            editor.putStringSet(PREF_CHORDS, PianoSyllabus.getChordsFromLevel(level));
+            editor.putString(PREF_CHORDS_ADVANCED, PianoSyllabus.getChordTypeFromLevel(level));
+            editor.putStringSet(PREF_CADENCES, PianoSyllabus.getCadencesFromLevel(level));
+            editor.putStringSet(PREF_CHORD_PROGRESSIONS, PianoSyllabus.getProgressionsFromLevel(level));
+            editor.putString(PREF_PROGRESSION_TONALITY, PianoSyllabus.getProgressionTonalityFromLevel(level));
+            editor.putString(PREF_SEQ_LENGTH, PianoSyllabus.getProgressionLengthFromLevel(level));
+
+            editor.apply();
         }
 
         private void setPresetRequested() {
@@ -129,6 +143,7 @@ public class PreferencesActivity extends AppCompatActivity {
             preferenceScreen.findPreference(PREF_INTERVALS).setEnabled(!isRequested);
             preferenceScreen.findPreference(PREF_INTERVALS_ADVANCED).setEnabled(!isRequested);
             preferenceScreen.findPreference(PREF_CHORDS).setEnabled(!isRequested);
+            preferenceScreen.findPreference(PREF_CHORDS_ADVANCED).setEnabled(!isRequested);
             preferenceScreen.findPreference(PREF_CADENCES).setEnabled(!isRequested);
             preferenceScreen.findPreference(PREF_CHORD_PROGRESSIONS).setEnabled(!isRequested);
             preferenceScreen.findPreference(PREF_PROGRESSION_TONALITY).setEnabled(!isRequested);

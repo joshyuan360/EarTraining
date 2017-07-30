@@ -72,9 +72,9 @@
 
     <string-array name="pref_intervals_advanced_entries">
         <item>Harmonic</item>
-        <item>Increasing</item>
-        <item>Decreasing</item>
-        <item>Increasing or Decreasing</item>
+        <item>Ascending</item>
+        <item>Descending</item>
+        <item>Ascending or Descending</item>
     </string-array>
 
     <string-array name="pref_intervals_advanced_values">
@@ -82,6 +82,16 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+    </string-array>
+
+    <string-array name="pref_chords_advanced_entries">
+        <item>Solid</item>
+        <item>Broken</item>
+    </string-array>
+
+    <string-array name="pref_chords_advanced_values">
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="pref_chords_entries">
@@ -95,6 +105,14 @@
         <item>Dominant 7th - 3rd Inversion</item>
         <item>Diminished 7th</item>
         <item>Augmented Triad</item>
+        <item>Major 7th - Root Position</item>
+        <item>Major 7th - 1st Inversion</item>
+        <item>Major 7th - 2nd Inversion</item>
+        <item>Major 7th - 3rd Inversion</item>
+        <item>Minor 7th - Root Position</item>
+        <item>Minor 7th - 1st Inversion</item>
+        <item>Minor 7th - 2nd Inversion</item>
+        <item>Minor 7th - 3rd Inversion</item>
     </string-array>
 
     <string-array name="pref_chords_values">
@@ -108,6 +126,14 @@
         <item>Dom 7 3rd Inv</item>
         <item>Dim 7 none</item>
         <item>Augmented Triad</item>
+        <item>Major 7 Root Pos</item>
+        <item>Major 7 1st Inv</item>
+        <item>Major 7 2nd Inv</item>
+        <item>Major 7 3rd Inv</item>
+        <item>Minor 7 Root Pos</item>
+        <item>Minor 7 1st Inv</item>
+        <item>Minor 7 2nd Inv</item>
+        <item>Minor 7 3rd Inv</item>
     </string-array>
 
     <string-array name="pref_cadences_entries">

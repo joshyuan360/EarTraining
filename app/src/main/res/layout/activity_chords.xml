@@ -112,12 +112,45 @@
             android:layout_marginStart="5dp"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/linearLayout5"
+        android:layout_alignLeft="@+id/linearLayout5"
+        android:layout_alignStart="@+id/linearLayout5"
+        android:layout_marginTop="10dp"
+        android:id="@+id/linearLayout6">
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:id="@+id/majmaj7"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="cpart1Clicked"
+            android:text="@string/majmaj7" />
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:text="@string/minmin7"
+            android:id="@+id/minmin7"
+            android:onClick="cpart1Clicked"
+            android:enabled="false"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp" />
+    </LinearLayout>
+
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#d1cbc4"
-        android:layout_below="@+id/linearLayout5"
+        android:layout_below="@+id/linearLayout6"
         android:layout_marginTop="10dp"/>
 
     <LinearLayout
@@ -125,10 +158,10 @@
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_below="@+id/line"
-        android:layout_alignLeft="@+id/linearLayout5"
-        android:layout_alignStart="@+id/linearLayout5"
+        android:layout_alignLeft="@+id/linearLayout6"
+        android:layout_alignStart="@+id/linearLayout6"
         android:layout_marginTop="10dp"
-        android:id="@+id/linearLayout6">
+        android:id="@+id/linearLayout7">
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
             android:layout_weight="1"
@@ -157,11 +190,11 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:id="@+id/linearLayout7"
+        android:id="@+id/linearLayout8"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/linearLayout6"
-        android:layout_alignParentLeft="@+id/linearLayout6"
-        android:layout_alignParentStart="@+id/linearLayout6">
+        android:layout_below="@+id/linearLayout7"
+        android:layout_alignParentLeft="@+id/linearLayout7"
+        android:layout_alignParentStart="@+id/linearLayout7">
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
             android:layout_weight="1"

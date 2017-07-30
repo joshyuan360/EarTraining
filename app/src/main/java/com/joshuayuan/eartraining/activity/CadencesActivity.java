@@ -132,7 +132,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
             public void run() {
                 testUser();
             }
-        }, 1500);
+        }, 1000);
 
     }
 
@@ -141,7 +141,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         highScore.setText(String.valueOf(pref.getInt(CADENCES_SCORE_KEY, 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this
+        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this (6.3)
         selections = sharedPrefs.getStringSet(PREF_CADENCES, defaultSet);
         prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
     }

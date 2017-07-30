@@ -113,7 +113,7 @@ public class ChordProgressionGenerator {
     /**
      * Generate a pseudo-random valid chord progression.
      */
-    private static void setChordSequence() {
+    private static void setChordSequence() { // TODO: OPTIMIZE THIS
         // create a chord progression
         chordProgressionToSend.add(getRandChordProgression(false, null, false));
 
@@ -121,7 +121,7 @@ public class ChordProgressionGenerator {
         for (int i = 0; i < SEQ_LENGTH - 2; i++) {
             int size = chordProgressionToSend.size();
             ChordProgression lastChord = chordProgressionToSend.get(size - 1);
-            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == SEQ_LENGTH - 4); // todo: check
+            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == SEQ_LENGTH - 4);
 
             chordProgressionToSend.add(next);
         }

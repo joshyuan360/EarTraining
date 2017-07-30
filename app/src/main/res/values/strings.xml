@@ -32,6 +32,8 @@
     <string name="dom_7">Dom 7</string>
     <string name="dim_7">Dim 7</string>
     <string name="augChord">Aug</string>
+    <string name="majmaj7">Major 7</string>
+    <string name="minmin7">Minor 7</string>
     <string name="root_pos">Root Pos</string>
     <string name="_1st_inv">1st Inv</string>
     <string name="_2nd_inv">2nd Inv</string>

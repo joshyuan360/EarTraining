@@ -46,7 +46,7 @@ import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFr
  *
  * @author Joshua Yuan
  */
-public class IntervalsActivity extends AppCompatActivity { //todo: change resource value of augmented fourth to aug 4 for backward compatibility
+public class IntervalsActivity extends AppCompatActivity {
     private final MediaPlayer[] mp = new MediaPlayer[2];
     private CharSequence part1;
     private CharSequence part2;
@@ -117,7 +117,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
             public void run() {
                 testUser();
             }
-        }, 1500);
+        }, 1000);
     }
 
     private void loadPreferences() {
@@ -154,7 +154,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         intervalToSemitoneGap.put("Minor Third", 3);
         intervalToSemitoneGap.put("Major Third", 4);
         intervalToSemitoneGap.put("Perfect Fourth", 5);
-        intervalToSemitoneGap.put("Aug Fourth", 6);
+        intervalToSemitoneGap.put("Aug 4", 6);
         intervalToSemitoneGap.put("Perfect Fifth", 7);
         intervalToSemitoneGap.put("Minor Sixth", 8);
         intervalToSemitoneGap.put("Major Sixth", 9);
@@ -166,7 +166,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         intervalToSemitoneGap.put("Minor Tenth", 15);
         intervalToSemitoneGap.put("Major Tenth", 16);
         intervalToSemitoneGap.put("Perfect Eleventh", 17);
-        intervalToSemitoneGap.put("Aug Eleventh", 18);
+        intervalToSemitoneGap.put("Aug 11", 18);
         intervalToSemitoneGap.put("Perfect Twelfth", 19);
     }
 
@@ -232,7 +232,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         } else if (answer1.equals("Major") || answer1.equals("Minor")) {
             nextValue = new String[] { "Second", "Third", "Sixth", "Seventh", "Ninth", "Tenth" };
         } else {
-            nextValue = new String[] { "Fourth", "Eleventh" };
+            nextValue = new String[] { "4", "11" };
         }
 
         answer2 = nextValue[random.nextInt(nextValue.length)];
@@ -251,7 +251,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
             case 3: // decreasing
                 return false;
             default: // increasing or decreasing
-                return answerCorrect ? Math.random() < 0.5 : increasing; // todo: this might not work first time
+                return answerCorrect ? Math.random() < 0.5 : increasing;
         }
     }
 
@@ -282,7 +282,7 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         int note2 = note1 + intervalToSemitoneGap.get(interval.toString());
 
         increasing = getIncreasing();
-        if (increasing) { // todo: fix bug where it changes direction sometimes
+        if (increasing) {
             mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
             mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
         } else {
@@ -369,6 +369,8 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
         fourth.setEnabled(allowPerfectButton("Fourth") && enabled);
         fifth.setEnabled(allowPerfectButton("Fifth") && enabled);
         octave.setEnabled(allowPerfectButton("Octave") && enabled);
+
+        eleventh.setEnabled(allowPerfectButton("Eleventh") && enabled);
         twelfth.setEnabled(allowPerfectButton("Twelfth") && enabled);
     }
 
@@ -380,11 +382,11 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
 
         ninth.setEnabled(allowMajorMinorButton("Ninth") && enabled);
         tenth.setEnabled(allowMajorMinorButton("Tenth") && enabled);
-        eleventh.setEnabled(allowMajorMinorButton("Eleventh") && enabled);
     }
 
     private void setAugRowsEnabled(boolean enabled) {
         fourth.setEnabled(allowAugButton("4") && enabled);
+        eleventh.setEnabled(allowAugButton("11") && enabled);
     }
 
     private void setFirstRowEnabled(boolean enabled) {
@@ -399,7 +401,8 @@ public class IntervalsActivity extends AppCompatActivity { //todo: change resour
      * The score is either incremented (if correct) or reset to zero (if incorrect).
      */
     private void displayResult() {
-        if (part1.equals(answer1) && part2.equals(answer2)) {
+        if (part1.equals(answer1) &&
+                (part2.equals(answer2) || part2.equals("Fourth") && answer2.equals("4") || part2.equals("Eleventh") && answer2.equals("11"))) {
             tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;

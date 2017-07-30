@@ -36,6 +36,7 @@ import java.util.Set;
 import static com.joshuayuan.eartraining.activity.HighScoresActivity.CHORDS_SCORE_KEY;
 import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS_ADVANCED;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
 
 /**
@@ -45,74 +46,26 @@ import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFr
  * @author Joshua Yuan
  */
 public class ChordsActivity extends AppCompatActivity {
-    /**
-     * The sound files required to play the chord.
-     */
     private final MediaPlayer[] mp = new MediaPlayer[4];
-    /**
-     * A <code>Button</code> object in the first row of the chord activity window.
-     */
-    private Button major, minor, dominant, diminished, augmented;
-    /**
-     * A <code>Button</code> object in the bottom two rows of the chord activity window.
-     */
+    private Button major, minor, dominant, diminished, augmented, major7, minor7;
     private Button root, first, second, third;
-    /**
-     * Allows user to replay the last chord.
-     */
     private Button replay;
-    /**
-     * User input for major, minor, dominant, or diminished.
-     */
-    private CharSequence part1;
-    /**
-     * User input for root pos, 1st inv, 2nd inv, or 3rd inv.
-     */
-    private CharSequence part2;
-    /**
-     * Stores the first part of the correct answer: major, minor, dominant, or diminished.
-     */
-    private CharSequence answer1;
-    /**
-     * Stores the second part of the correct answer: root pos, 1st inv, 2nd inv, or 3rd inv.
-     * If diminished is the answer, this variable is set to "none".
-     */
-    private CharSequence answer2;
-    /**
-     * <code>true</code> if the correct chord is identified.
-     */
+
+    private CharSequence part1, part2;
+    private CharSequence answer1, answer2;
+
     private boolean answerCorrect = true;
-    /**
-     * Displays info to the user on screen.
-     */
+
     private TextView tv;
-    /**
-     * Displays the current score.
-     */
     private TextView currentScore, highScore;
-    /**
-     * The lowest note of the chord being played.
-     */
+
     private int note1;
-    /**
-     * The current score of the user in this activity.
-     */
     private int score = 0;
-    /**
-     * The chords that the user wishes to be tested on.
-     */
     private Set<String> selections;
-    /**
-     * <code>true</code> if the user wants automatic replays.
-     */
-    private boolean prefRepeat;
-    /**
-     * <code>true</code> if the user wants to be tested on one or more dominant 7th chord(s).
-     */
-    private boolean allowDom, allowDim, allowAug;
-    /**
-     * Used to play sound after a specified amount of time.
-     */
+
+    private boolean prefRepeat, prefSolid;
+    private boolean allowDom, allowDim, allowAug, allowMaj7, allowMin7;
+
     private Handler handler = new Handler();
     private boolean isReplaying;
     SharedPreferences pref;
@@ -146,6 +99,10 @@ public class ChordsActivity extends AppCompatActivity {
                 allowDim = true;
             } else if (s.contains("Aug")) {
                 allowAug = true;
+            } else if (s.contains("Major 7")) {
+                allowMaj7 = true;
+            } else if (s.contains("Minor 7")) {
+                allowMin7 = true;
             }
         }
 
@@ -160,7 +117,7 @@ public class ChordsActivity extends AppCompatActivity {
             public void run() {
                 testUser();
             }
-        }, 1500);
+        }, 1000);
     }
 
     private void loadPreference() {
@@ -171,9 +128,13 @@ public class ChordsActivity extends AppCompatActivity {
         Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
                 "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
                 "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
-                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad"}));
+                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad",
+                "Major 7 Root Pos", "Major 7 1st Inv", "Major 7 2nd Inv", "Major 7 3rd Inv",
+                "Minor 7 Root Pos", "Minor 7 1st Inv", "Minor 7 2nd Inv", "Minor 7 3rd Inv"
+        }));
         selections = sharedPrefs.getStringSet(PREF_CHORDS, defaultSet);
         prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
+        prefSolid = sharedPrefs.getString(PREF_CHORDS_ADVANCED, "1").equals("1");
     }
 
     @Override
@@ -216,6 +177,9 @@ public class ChordsActivity extends AppCompatActivity {
         diminished = (Button) findViewById(R.id.dim7);
         augmented = (Button) findViewById(R.id.augChord);
 
+        major7 = (Button) findViewById(R.id.majmaj7);
+        minor7 = (Button) findViewById(R.id.minmin7);
+
         root = (Button) findViewById(R.id.root);
         first = (Button) findViewById(R.id.first);
         second = (Button) findViewById(R.id.second);
@@ -235,6 +199,8 @@ public class ChordsActivity extends AppCompatActivity {
         dominant.setEnabled(allowDom && enabled);
         diminished.setEnabled(allowDim && enabled);
         augmented.setEnabled(allowAug && enabled);
+        major7.setEnabled(allowMaj7 && enabled);
+        minor7.setEnabled(allowMin7 && enabled);
     }
 
     /**
@@ -268,7 +234,7 @@ public class ChordsActivity extends AppCompatActivity {
     }
 
     private void setAnswer() {
-        String[] primaryKey = new String[] { "Major", "Minor", "Dom 7", "Dim 7", "Aug" };
+        String[] primaryKey = new String[] { "Major", "Minor", "Dom 7", "Dim 7", "Aug", "Major 7", "Minor 7" };
         Random random = new Random();
 
         answer1 = primaryKey[random.nextInt(primaryKey.length)];
@@ -276,7 +242,7 @@ public class ChordsActivity extends AppCompatActivity {
         String[] nextValue;
         if (answer1.equals("Major") || answer1.equals("Minor")) {
             nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv" };
-        } else if (answer1.equals("Dom 7")) {
+        } else if (answer1.toString().contains("7")) {
             nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv", "3rd Inv" };
         } else {
             nextValue = new String[] { "none" };
@@ -304,6 +270,16 @@ public class ChordsActivity extends AppCompatActivity {
         chordToSemitoneGaps.put("Dom 7 3rd Inv", new int[] {2, 4, 3});
         chordToSemitoneGaps.put("Dim 7 none", new int[] {3, 3, 3});
         chordToSemitoneGaps.put("Aug none", new int[] {4, 4});
+
+        chordToSemitoneGaps.put("Major 7 Root Pos", new int[] {4, 3, 4});
+        chordToSemitoneGaps.put("Major 7 1st Inv", new int[] {3, 4, 1});
+        chordToSemitoneGaps.put("Major 7 2nd Inv", new int[] {4, 1, 4});
+        chordToSemitoneGaps.put("Major 7 3rd Inv", new int[] {1, 4, 3});
+
+        chordToSemitoneGaps.put("Minor 7 Root Pos", new int[] {3, 4, 3});
+        chordToSemitoneGaps.put("Minor 7 1st Inv", new int[] {4, 3, 2});
+        chordToSemitoneGaps.put("Minor 7 2nd Inv", new int[] {3, 2, 3});
+        chordToSemitoneGaps.put("Minor 7 3rd Inv", new int[] {2, 3, 4});
     }
     /**
      * Plays the chord specified by <code>answer1</code> and <code>answer2</code>.
@@ -334,20 +310,31 @@ public class ChordsActivity extends AppCompatActivity {
             note4 = note3 + stepInfo[2];
         }
 
+        boolean fourNote = answer1.toString().contains("7");
+
         mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
         mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
         mp[2] = MediaPlayer.create(this, NoteMappings.getResourceId(note3));
         mp[3] = MediaPlayer.create(this, NoteMappings.getResourceId(note4));
 
-        for (int i = 0; i < 3; i++) {
-            mp[i].start();
+        int length = fourNote ? 4 : 3;
+        if (prefSolid) {
+            for (int i = 0; i < length; i++) {
+                mp[i].start();
+            }
+        } else {
+            for (int i = 0; i < length; i++) {
+                final int copy = i;
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mp[copy].start();
+                    }
+                }, i * 500);
+            }
         }
 
-        if (answer1.subSequence(0, 1).equals("D")) {
-            mp[3].start();
-        }
-
-        mp[2].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mp[length - 1].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer m) {
                 for (int i = 0; i < 4; i++) {
                     mp[i].stop();
@@ -440,7 +427,7 @@ public class ChordsActivity extends AppCompatActivity {
     public void cpart1Clicked(View view) {
         setFirstRowEnabled(false);
         part1 = ((Button) view).getText();
-        setBottomRowsEnabled(true, part1.equals("Dom 7"));
+        setBottomRowsEnabled(true, part1.toString().contains("7"));
     }
 
     /**

@@ -141,7 +141,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
             public void run() {
                 testUser();
             }
-        }, 1500);
+        }, 1000);
     }
 
     @Override
