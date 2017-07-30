@@ -44,58 +44,24 @@ import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFr
  * @author Joshua Yuan
  */
 public class CadencesActivity extends AppCompatActivity { //todo: does it switch between minor and major? check this
-    /**
-     * Contains the sound files required to play the cadence.
-     */
     private final MediaPlayer[] mp = new MediaPlayer[8];
-    /**
-     * A <code>Button</code> object in the cadences activity.
-     */
+
     private Button perfect, plagal, imperfect, deceptive;
-    /**
-     * Allows the user to replay the last cadence.
-     */
     private Button replay;
-    /**
-     * The current answer to the last cadence played.
-     */
+
     private CharSequence answer;
-    /**
-     * User input for perfect, plagal, imperfect, or deceptive.
-     */
     private CharSequence response;
-    /**
-     * <code>true</code> if the correct interval is identified.
-     */
+
     private boolean answerCorrect = true;
-    /**
-     * Displays info to the user on screen.
-     */
     private TextView tv;
-    /**
-     * Contains all of the notes in both chords that are to be played.
-     */
     private int notes[];
-    /**
-     * The current score of the user.
-     */
     private int score;
-    /**
-     * Displays the user's high score.
-     */
+
     private TextView currentScore, highScore;
     private MediaPlayer tonic = new MediaPlayer();
-    /**
-     * The chords that the user wishes to be tested on.
-     */
     private Set<String> selections;
-    /**
-     * <code>true</code> if the user wants automatic replays.
-     */
     private boolean prefRepeat;
-    /**
-     * Used to play sound after a specified amount of time.
-     */
+
     private Handler handler = new Handler();
     private boolean isReplaying;
     private int randomShift;

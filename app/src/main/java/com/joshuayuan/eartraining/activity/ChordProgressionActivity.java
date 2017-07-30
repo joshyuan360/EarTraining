@@ -36,65 +36,27 @@ import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFr
  * @author Joshua Yuan
  */
 public class ChordProgressionActivity extends AppCompatActivity {
-    /**
-     * The sequence of chords that are currently being played.
-     */
     public String[] answer;
-    /**
-     * A <code>Button</code> object in the cadences activity.
-     */
+
     private Button one, four, five, six, cadential;
-    /**
-     * Allows the user to replay the last chord progression.
-     */
     private Button replay;
-    /**
-     * User input for the last chord played.
-     */
+
     private CharSequence response;
-    /**
-     * <code>true</code> if the correct chord is identified.
-     */
     private boolean answerCorrect = true;
-    /**
-     * Displays info to the user on screen.
-     */
     private TextView tv;
-    /**
-     * Contains all of the notes in the chord progression that are to be played.
-     */
+
     private int notes[];
-    /**
-     * The current score of the user
-     */
     private int score;
-    /**
-     * Displays the user's high score.
-     */
     private TextView currentScore, highScore;
-    /**
-     * Contains the sound files required to play the cadence.
-     */
+
     private MediaPlayer[] mp;
-    /**
-     * The chords that the user wishes to be tested on.
-     */
     private Set<String> selections = new HashSet<>();
-    /**
-     * <code>true</code> if the user wants automatic replays.
-     */
     private boolean prefRepeat;
-    /**
-     * Used to play sound after a specified amount of time.
-     */
     private Handler handler = new Handler();
-    /**
-     * The index of the next chord that will be played, starting from zero.
-     */
+
     private int chordNumber = 0;
     private boolean isReplaying;
     SharedPreferences pref;
-
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -326,7 +288,13 @@ public class ChordProgressionActivity extends AppCompatActivity {
         setButtonsEnabled(false);
         replay.setEnabled(false);
         if (answerCorrect) {
-            tv.setText(getResources().getString(R.string.playing_each_chord));
+            String text;
+            if (chordNumber == 0) {
+                text = getResources().getString(R.string.playing_first_chord);
+            } else {
+                text = String.format(getResources().getString(R.string.playing_each_chord), chordNumber + 1);
+            }
+            tv.setText(text);
         } else {
             tv.setText(getResources().getString(R.string.replaying));
         }
@@ -346,9 +314,13 @@ public class ChordProgressionActivity extends AppCompatActivity {
                 }
                 setButtonsEnabled(true);
                 replay.setEnabled(true);
-                if (!answerCorrect) {
-                    tv.setText(getResources().getString(R.string.identify_chord_in_progression));
+                String text;
+                if (chordNumber == 0) {
+                    text = getResources().getString(R.string.identify_tonic_in_progression);
+                } else {
+                    text = String.format(getResources().getString(R.string.identify_chord_in_progression), chordNumber + 1);
                 }
+                tv.setText(text);
                 isReplaying = false;
             }
         });

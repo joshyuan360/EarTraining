@@ -219,6 +219,17 @@ public class ChordsActivity extends AppCompatActivity {
         return false;
     }
 
+    private boolean allowRoot() {
+        if (part1 == null) return false;
+        if (part1.equals("Major") || part1.equals("Minor")) return true;
+        for (String s : selections) {
+            if (s.contains(part1) && s.contains("Root")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Enables or disables the bottom two rows of buttons.
      *
@@ -226,8 +237,7 @@ public class ChordsActivity extends AppCompatActivity {
      * @param enableThird Controls the 3rd inv button.
      */
     private void setBottomRowsEnabled(boolean enabled, boolean enableThird) {
-        boolean allowRoot = part1 != null && !(part1.equals("Dom 7") && !selections.contains("Dom 7 Root Pos"));
-        root.setEnabled(allowRoot && enabled);
+        root.setEnabled(allowRoot() && enabled); // todo: fix bug here
         first.setEnabled(allowInvButton("1st Inv") && enabled);
         second.setEnabled(allowInvButton("2nd Inv") && enabled);
         third.setEnabled(allowInvButton("3rd Inv") && enableThird);
@@ -242,7 +252,7 @@ public class ChordsActivity extends AppCompatActivity {
         String[] nextValue;
         if (answer1.equals("Major") || answer1.equals("Minor")) {
             nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv" };
-        } else if (answer1.toString().contains("7")) {
+        } else if (answer1.equals("Dom 7") || answer1.equals("Major 7") || answer1.equals("Minor 7")) {
             nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv", "3rd Inv" };
         } else {
             nextValue = new String[] { "none" };

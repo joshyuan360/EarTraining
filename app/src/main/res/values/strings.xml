@@ -64,13 +64,15 @@
     <string name="playing_interval">Playing interval…</string>
     <string name="playing_chord">Playing chord…</string>
     <string name="playing_cadence">Playing tonic note and cadence…</string>
-    <string name="playing_chord_progression">Playing progression starting on tonic…</string>
-    <string name="playing_each_chord">Playing each chord individually…</string>
+    <string name="playing_chord_progression">Playing chord progression…</string>
+    <string name="playing_each_chord">Playing chord #%1d…</string>
+    <string name="playing_first_chord">Playing chord #1 (tonic)…</string>
 
     <string name="identify_interval">Identify the interval…</string>
     <string name="identify_chord">Identify the chord…</string>
     <string name="identify_cadence">Identify the cadence…</string>
-    <string name="identify_chord_in_progression">Identify the chord in the progression…</string>
+    <string name="identify_chord_in_progression">Identify chord #%1d…</string>
+    <string name="identify_tonic_in_progression">Identify chord #1 (tonic)…</string>
 
     <string name="replaying">Replaying…</string>
     <string name="correct">Correct!</string>

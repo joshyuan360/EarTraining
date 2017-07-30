@@ -70,26 +70,26 @@
         <item>Perfect Twelfth</item>
     </string-array>
 
-    <string-array name="pref_intervals_advanced_entries">
+    <string-array name="pref_interval_type_entries">
         <item>Harmonic</item>
         <item>Ascending</item>
         <item>Descending</item>
         <item>Ascending or Descending</item>
     </string-array>
 
-    <string-array name="pref_intervals_advanced_values">
+    <string-array name="pref_interval_type_values">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
     </string-array>
 
-    <string-array name="pref_chords_advanced_entries">
+    <string-array name="pref_chord_type_entries">
         <item>Solid</item>
         <item>Broken</item>
     </string-array>
 
-    <string-array name="pref_chords_advanced_values">
+    <string-array name="pref_chord_type_values">
         <item>1</item>
         <item>2</item>
     </string-array>
@@ -125,7 +125,7 @@
         <item>Dom 7 2nd Inv</item>
         <item>Dom 7 3rd Inv</item>
         <item>Dim 7 none</item>
-        <item>Augmented Triad</item>
+        <item>Aug none</item>
         <item>Major 7 Root Pos</item>
         <item>Major 7 1st Inv</item>
         <item>Major 7 2nd Inv</item>

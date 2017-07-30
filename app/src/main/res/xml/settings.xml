@@ -32,8 +32,8 @@
             android:summary="Choose harmonic, increasing, or decreasing."
             android:title="Interval Type"
             android:dialogTitle="Interval Type:"
-            android:entries="@array/pref_intervals_advanced_entries"
-            android:entryValues="@array/pref_intervals_advanced_values"
+            android:entries="@array/pref_interval_type_entries"
+            android:entryValues="@array/pref_interval_type_values"
             android:defaultValue="4"/>
     </PreferenceCategory>
 
@@ -52,8 +52,8 @@
             android:summary="Choose solid or broken."
             android:title="Chord Type"
             android:dialogTitle="Chord Type:"
-            android:entries="@array/pref_chords_advanced_entries"
-            android:entryValues="@array/pref_chords_advanced_values"
+            android:entries="@array/pref_chord_type_entries"
+            android:entryValues="@array/pref_chord_type_values"
             android:defaultValue="1"/>
     </PreferenceCategory>
 

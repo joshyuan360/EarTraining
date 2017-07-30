@@ -86,7 +86,7 @@ public class ChordProgressionGenerator {
         VoiceLeadingRules.initializeCadentialProgressions(cadentialProgressions);
 
         if (includeSixth) {
-            VoiceLeadingRules.includeSixth(chordProgressions);
+            VoiceLeadingRules.includeSixth(chordProgressions, cadentialProgressions);
         }
         if (includeCadential) {
             VoiceLeadingRules.includeCadential(chordProgressions);
