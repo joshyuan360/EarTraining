@@ -1,4 +1,4 @@
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,17 +7,27 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.joshuayuan.eartraining.intelliyuan.ChordProgressionGenerator;
 import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+import com.joshuayuan.eartraining.R;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.PROGRESSIONS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORD_PROGRESSIONS;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_PROGRESSION_TONALITY;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_SEQ_LENGTH;
 
 /**
  * The chord progression activity plays a chord progression twice as per the
@@ -26,63 +36,27 @@ import java.util.Set;
  * @author Joshua Yuan
  */
 public class ChordProgressionActivity extends AppCompatActivity {
-    /**
-     * The sequence of chords that are currently being played.
-     */
     public String[] answer;
-    /**
-     * A <code>Button</code> object in the cadences activity.
-     */
+
     private Button one, four, five, six, cadential;
-    /**
-     * Allows the user to replay the last chord progression.
-     */
     private Button replay;
-    /**
-     * User input for the last chord played.
-     */
+
     private CharSequence response;
-    /**
-     * <code>true</code> if the correct chord is identified.
-     */
     private boolean answerCorrect = true;
-    /**
-     * Displays info to the user on screen.
-     */
     private TextView tv;
-    /**
-     * Contains all of the notes in the chord progression that are to be played.
-     */
+
     private int notes[];
-    /**
-     * The current score of the user
-     */
     private int score;
-    /**
-     * Displays the user's high score.
-     */
-    private TextView hs;
-    /**
-     * Contains the sound files required to play the cadence.
-     */
+    private TextView currentScore, highScore;
+
     private MediaPlayer[] mp;
-    /**
-     * The chords that the user wishes to be tested on.
-     */
     private Set<String> selections = new HashSet<>();
-    /**
-     * <code>true</code> if the user wants automatic replays.
-     */
     private boolean prefRepeat;
-    /**
-     * Used to play sound after a specified amount of time.
-     */
     private Handler handler = new Handler();
-    /**
-     * The index of the next chord that will be played, starting from zero.
-     */
+
     private int chordNumber = 0;
     private boolean isReplaying;
+    SharedPreferences pref;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -95,30 +69,51 @@ public class ChordProgressionActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chordProgressionText);
-        hs = (TextView) findViewById(R.id.chordProgressionScore);
+        currentScore = (TextView) findViewById(R.id.intervalScore);
+        highScore = (TextView) findViewById(R.id.chordHighestProgressionScore);
+
+        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt(PROGRESSIONS_SCORE_KEY, 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"six", "cadential"}));
-        selections = sharedPrefs.getStringSet("pref_chord_progressions", defaultSet);
-        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+        selections = sharedPrefs.getStringSet(PREF_CHORD_PROGRESSIONS, defaultSet);
+        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
 
+        int seqLength = Integer.parseInt(sharedPrefs.getString(PREF_SEQ_LENGTH, "5"));
         boolean includeSix = selections.contains("six");
         boolean includeCadential = selections.contains("cadential");
+        int tonalityChoice = Integer.parseInt(sharedPrefs.getString(PREF_PROGRESSION_TONALITY, "3"));
 
-        int seqLength = Integer.parseInt(sharedPrefs.getString("pref_seq_length", "5"));
-        ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential);
+        ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential, tonalityChoice);
         mp = new MediaPlayer[seqLength * 4];
 
         initializeButtons();
         setButtonsEnabled(false);
         replay.setEnabled(false);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 testUser();
             }
-        }, 1500);
+        }, 1000);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -192,7 +187,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
             answerCorrect = false;
             score = 0;
         }
-        hs.setText(String.valueOf(score));
+        currentScore.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -203,12 +198,18 @@ public class ChordProgressionActivity extends AppCompatActivity {
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        SharedPreferences pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        if (pref.getInt("cphs", 0) < score) {
+        int hs = pref.getInt(PROGRESSIONS_SCORE_KEY, 0);
+
+        if (hs < score) {
+            hs = score;
+
             SharedPreferences.Editor editor = pref.edit();
-            editor.putInt("cphs", score);
+
+            editor.putInt(PROGRESSIONS_SCORE_KEY, hs);
             editor.apply();
         }
+
+        highScore.setText(String.valueOf(hs));
     }
 
     /**
@@ -287,7 +288,13 @@ public class ChordProgressionActivity extends AppCompatActivity {
         setButtonsEnabled(false);
         replay.setEnabled(false);
         if (answerCorrect) {
-            tv.setText(getResources().getString(R.string.playing_each_chord));
+            String text;
+            if (chordNumber == 0) {
+                text = getResources().getString(R.string.playing_first_chord);
+            } else {
+                text = String.format(getResources().getString(R.string.playing_each_chord), chordNumber + 1);
+            }
+            tv.setText(text);
         } else {
             tv.setText(getResources().getString(R.string.replaying));
         }
@@ -307,9 +314,13 @@ public class ChordProgressionActivity extends AppCompatActivity {
                 }
                 setButtonsEnabled(true);
                 replay.setEnabled(true);
-                if (!answerCorrect) {
-                    tv.setText(getResources().getString(R.string.identify_chord_in_progression));
+                String text;
+                if (chordNumber == 0) {
+                    text = getResources().getString(R.string.identify_tonic_in_progression);
+                } else {
+                    text = String.format(getResources().getString(R.string.identify_chord_in_progression), chordNumber + 1);
                 }
+                tv.setText(text);
                 isReplaying = false;
             }
         });

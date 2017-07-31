@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="pref_level_entries">
+        <item>Level 1</item>
+        <item>Level 2</item>
+        <item>Level 3</item>
+        <item>Level 4</item>
+        <item>Level 5</item>
+        <item>Level 6</item>
+        <item>Level 7</item>
+        <item>Level 8</item>
+        <item>Level 9</item>
+        <item>Level 10</item>
+    </string-array>
+
+    <string-array name="pref_level_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
     <string-array name="pref_intervals_entries">
         <item>Minor Second</item>
         <item>Major Second</item>
@@ -11,19 +37,82 @@
         <item>Perfect Fourth</item>
         <item>Perfect Fifth</item>
         <item>Perfect Octave</item>
+        <item>Augmented Fourth</item>
+
+        <item>Minor Ninth</item>
+        <item>Major Ninth</item>
+        <item>Minor Tenth</item>
+        <item>Major Tenth</item>
+        <item>Perfect Eleventh</item>
+        <item>Augmented Eleventh</item>
+        <item>Perfect Twelfth</item>
+    </string-array>
+
+    <string-array name="pref_intervals_values">
+        <item>Minor Second</item>
+        <item>Major Second</item>
+        <item>Minor Sixth</item>
+        <item>Major Sixth</item>
+        <item>Minor Seventh</item>
+        <item>Major Seventh</item>
+        <item>Perfect Unison</item>
+        <item>Perfect Fourth</item>
+        <item>Perfect Fifth</item>
+        <item>Perfect Octave</item>
         <item>Aug 4</item>
+
+        <item>Minor Ninth</item>
+        <item>Major Ninth</item>
+        <item>Minor Tenth</item>
+        <item>Major Tenth</item>
+        <item>Perfect Eleventh</item>
+        <item>Aug 11</item>
+        <item>Perfect Twelfth</item>
+    </string-array>
+
+    <string-array name="pref_interval_type_entries">
+        <item>Harmonic</item>
+        <item>Ascending</item>
+        <item>Descending</item>
+        <item>Ascending or Descending</item>
+    </string-array>
+
+    <string-array name="pref_interval_type_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="pref_chord_type_entries">
+        <item>Solid</item>
+        <item>Broken</item>
+    </string-array>
+
+    <string-array name="pref_chord_type_values">
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="pref_chords_entries">
-        <item>Major - 1st Inv.</item>
-        <item>Major - 2nd Inv.</item>
-        <item>Minor - 1st Inv.</item>
-        <item>Minor - 2nd Inv.</item>
-        <item>Dominant 7th - Root Pos.</item>
-        <item>Dominant 7th - 1st Inv.</item>
-        <item>Dominant 7th - 2nd Inv.</item>
-        <item>Dominant 7th - 3rd Inv.</item>
+        <item>Major - 1st Inversion</item>
+        <item>Major - 2nd Inversion</item>
+        <item>Minor - 1st Inversion</item>
+        <item>Minor - 2nd Inversion</item>
+        <item>Dominant 7th - Root Position</item>
+        <item>Dominant 7th - 1st Inversion</item>
+        <item>Dominant 7th - 2nd Inversion</item>
+        <item>Dominant 7th - 3rd Inversion</item>
         <item>Diminished 7th</item>
+        <item>Augmented Triad</item>
+        <item>Major 7th - Root Position</item>
+        <item>Major 7th - 1st Inversion</item>
+        <item>Major 7th - 2nd Inversion</item>
+        <item>Major 7th - 3rd Inversion</item>
+        <item>Minor 7th - Root Position</item>
+        <item>Minor 7th - 1st Inversion</item>
+        <item>Minor 7th - 2nd Inversion</item>
+        <item>Minor 7th - 3rd Inversion</item>
     </string-array>
 
     <string-array name="pref_chords_values">
@@ -36,6 +125,15 @@
         <item>Dom 7 2nd Inv</item>
         <item>Dom 7 3rd Inv</item>
         <item>Dim 7 none</item>
+        <item>Aug none</item>
+        <item>Major 7 Root Pos</item>
+        <item>Major 7 1st Inv</item>
+        <item>Major 7 2nd Inv</item>
+        <item>Major 7 3rd Inv</item>
+        <item>Minor 7 Root Pos</item>
+        <item>Minor 7 1st Inv</item>
+        <item>Minor 7 2nd Inv</item>
+        <item>Minor 7 3rd Inv</item>
     </string-array>
 
     <string-array name="pref_cadences_entries">
@@ -53,21 +151,31 @@
         <item>cadential</item>
     </string-array>
 
+    <string-array name="pref_progression_tonality_entries">
+        <item>Major</item>
+        <item>Minor</item>
+        <item>Major or Minor</item>
+    </string-array>
+
+    <string-array name="pref_progression_tonality_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <string-array name="pref_seq_length_entries">
         <item>Easy - 3</item>
-        <item>Medium - 5</item>
+        <item>Medium - 4</item>
+        <item>Hard - 5</item>
         <item>Difficult - 10</item>
         <item>Challenging - 20</item>
     </string-array>
 
     <string-array name="pref_seq_length_values">
         <item>3</item>
+        <item>4</item>
         <item>5</item>
         <item>10</item>
         <item>20</item>
-    </string-array>
-
-    <string-array name="pref_level_default" >
-        <item>one</item>
     </string-array>
 </resources>

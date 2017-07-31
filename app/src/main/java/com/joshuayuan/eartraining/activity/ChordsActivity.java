@@ -8,7 +8,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining;
+package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,16 +17,27 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
+import com.joshuayuan.eartraining.R;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
+
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.CHORDS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS_ADVANCED;
+import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
 
 /**
  * The chords activity plays a chord and asks the user to identify it.
@@ -35,76 +46,29 @@ import java.util.Set;
  * @author Joshua Yuan
  */
 public class ChordsActivity extends AppCompatActivity {
-    /**
-     * The sound files required to play the chord.
-     */
     private final MediaPlayer[] mp = new MediaPlayer[4];
-    /**
-     * A <code>Button</code> object in the first row of the chord activity window.
-     */
-    private Button major, minor, dominant, diminished;
-    /**
-     * A <code>Button</code> object in the bottom two rows of the chord activity window.
-     */
+    private Button major, minor, dominant, diminished, augmented, major7, minor7;
     private Button root, first, second, third;
-    /**
-     * Allows user to replay the last chord.
-     */
     private Button replay;
-    /**
-     * User input for major, minor, dominant, or diminished.
-     */
-    private CharSequence part1;
-    /**
-     * User input for root pos, 1st inv, 2nd inv, or 3rd inv.
-     */
-    private CharSequence part2;
-    /**
-     * Stores the first part of the correct answer: major, minor, dominant, or diminished.
-     */
-    private CharSequence answer1;
-    /**
-     * Stores the second part of the correct answer: root pos, 1st inv, 2nd inv, or 3rd inv.
-     * If diminished is the answer, this variable is set to "none".
-     */
-    private CharSequence answer2;
-    /**
-     * <code>true</code> if the correct chord is identified.
-     */
+
+    private CharSequence part1, part2;
+    private CharSequence answer1, answer2;
+
     private boolean answerCorrect = true;
-    /**
-     * Displays info to the user on screen.
-     */
+
     private TextView tv;
-    /**
-     * Displays the current score.
-     */
-    private TextView hs;
-    /**
-     * The lowest note of the chord being played.
-     */
+    private TextView currentScore, highScore;
+
     private int note1;
-    /**
-     * The current score of the user in this activity.
-     */
     private int score = 0;
-    /**
-     * The chords that the user wishes to be tested on.
-     */
     private Set<String> selections;
-    /**
-     * <code>true</code> if the user wants automatic replays.
-     */
-    private boolean prefRepeat;
-    /**
-     * <code>true</code> if the user wants to be tested on one or more dominant 7th chord(s).
-     */
-    private boolean allowDom;
-    /**
-     * Used to play sound after a specified amount of time.
-     */
+
+    private boolean prefRepeat, prefSolid;
+    private boolean allowDom, allowDim, allowAug, allowMaj7, allowMin7;
+
     private Handler handler = new Handler();
     private boolean isReplaying;
+    SharedPreferences pref;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -117,34 +81,70 @@ public class ChordsActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chInstructions);
-        hs = (TextView) findViewById(R.id.chordProgressionScore);
+        currentScore = (TextView) findViewById(R.id.intervalScore);
+        highScore = (TextView) findViewById(R.id.chordHighScore);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<String>(Arrays.asList(new String[]{
-                "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
-                "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
-                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none",}));
-        selections = sharedPrefs.getStringSet("pref_chords", defaultSet);
-        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
+        loadPreference();
+        initializeIntervalToSemitoneMap();
 
         initializeButtons();
         setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);
         replay.setEnabled(false);
 
+        for (String s : selections) {
+            if (s.contains("Dom")) {
+                allowDom = true;
+            } else if (s.contains("Dim")) {
+                allowDim = true;
+            } else if (s.contains("Aug")) {
+                allowAug = true;
+            } else if (s.contains("Major 7")) {
+                allowMaj7 = true;
+            } else if (s.contains("Minor 7")) {
+                allowMin7 = true;
+            }
+        }
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 testUser();
             }
-        }, 1500);
+        }, 1000);
+    }
 
-        for (String s : selections) {
-            if (s.contains("Dom")) {
-                allowDom = true;
+    private void loadPreference() {
+        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
+        highScore.setText(String.valueOf(pref.getInt(CHORDS_SCORE_KEY, 0)));
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
+                "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
+                "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
+                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad",
+                "Major 7 Root Pos", "Major 7 1st Inv", "Major 7 2nd Inv", "Major 7 3rd Inv",
+                "Minor 7 Root Pos", "Minor 7 1st Inv", "Minor 7 2nd Inv", "Minor 7 3rd Inv"
+        }));
+        selections = sharedPrefs.getStringSet(PREF_CHORDS, defaultSet);
+        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
+        prefSolid = sharedPrefs.getString(PREF_CHORDS_ADVANCED, "1").equals("1");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
                 break;
-            }
         }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -175,6 +175,10 @@ public class ChordsActivity extends AppCompatActivity {
         minor = (Button) findViewById(R.id.minor);
         dominant = (Button) findViewById(R.id.dom7);
         diminished = (Button) findViewById(R.id.dim7);
+        augmented = (Button) findViewById(R.id.augChord);
+
+        major7 = (Button) findViewById(R.id.majmaj7);
+        minor7 = (Button) findViewById(R.id.minmin7);
 
         root = (Button) findViewById(R.id.root);
         first = (Button) findViewById(R.id.first);
@@ -193,7 +197,10 @@ public class ChordsActivity extends AppCompatActivity {
         major.setEnabled(enabled);
         minor.setEnabled(enabled);
         dominant.setEnabled(allowDom && enabled);
-        diminished.setEnabled(selections.contains("Dim 7 none") && enabled);
+        diminished.setEnabled(allowDim && enabled);
+        augmented.setEnabled(allowAug && enabled);
+        major7.setEnabled(allowMaj7 && enabled);
+        minor7.setEnabled(allowMin7 && enabled);
     }
 
     /**
@@ -212,6 +219,17 @@ public class ChordsActivity extends AppCompatActivity {
         return false;
     }
 
+    private boolean allowRoot() {
+        if (part1 == null) return false;
+        if (part1.equals("Major") || part1.equals("Minor")) return true;
+        for (String s : selections) {
+            if (s.contains(part1) && s.contains("Root")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Enables or disables the bottom two rows of buttons.
      *
@@ -219,59 +237,60 @@ public class ChordsActivity extends AppCompatActivity {
      * @param enableThird Controls the 3rd inv button.
      */
     private void setBottomRowsEnabled(boolean enabled, boolean enableThird) {
-        boolean allowRoot = part1 != null && !(part1.equals("Dom 7") && !selections.contains("Dom 7 Root Pos"));
-        root.setEnabled(allowRoot && enabled);
+        root.setEnabled(allowRoot() && enabled); // todo: fix bug here
         first.setEnabled(allowInvButton("1st Inv") && enabled);
         second.setEnabled(allowInvButton("2nd Inv") && enabled);
         third.setEnabled(allowInvButton("3rd Inv") && enableThird);
     }
 
-    /**
-     * Generates a new random chord and stores it in <code>answer1</code> and <code>answer2</code>.
-     * Chances: 25% major, 25% minor, 25% dominant, 25% diminished.
-     * Method is invoked only when the last answer provided is correct.
-     */
     private void setAnswer() {
-        double randNum = Math.random() * 4;
-        if (randNum < 2) {
-            if (randNum < 1) {
-                answer1 = "Major";
-            } else {
-                answer1 = "Minor";
-            }
+        String[] primaryKey = new String[] { "Major", "Minor", "Dom 7", "Dim 7", "Aug", "Major 7", "Minor 7" };
+        Random random = new Random();
 
-            double randNum2 = Math.random() * 3;
-            if (randNum2 < 1) {
-                answer2 = "Root Pos";
-            } else if (randNum2 < 2) {
-                answer2 = "1st Inv";
-            } else {
-                answer2 = "2nd Inv";
-            }
-        } else if (randNum < 3) {
-            answer1 = "Dom 7";
+        answer1 = primaryKey[random.nextInt(primaryKey.length)];
 
-            double randNum2 = Math.random() * 4;
-            if (randNum2 < 1) {
-                answer2 = "Root Pos";
-            } else if (randNum2 < 2) {
-                answer2 = "1st Inv";
-            } else if (randNum2 < 3) {
-                answer2 = "2nd Inv";
-            } else {
-                answer2 = "3rd Inv";
-            }
+        String[] nextValue;
+        if (answer1.equals("Major") || answer1.equals("Minor")) {
+            nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv" };
+        } else if (answer1.equals("Dom 7") || answer1.equals("Major 7") || answer1.equals("Minor 7")) {
+            nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv", "3rd Inv" };
         } else {
-            answer1 = "Dim 7";
-            answer2 = "none";
+            nextValue = new String[] { "none" };
         }
-        //Log.i ("answer", answer1 +  " " + answer2);
+
+        answer2 = nextValue[random.nextInt(nextValue.length)];
+
         String answer = answer1 + " " + answer2;
         if (!answer.equals("Major Root Pos") && !answer.equals("Minor Root Pos") && !selections.contains(answer)) {
             setAnswer();
         }
     }
 
+    private HashMap<String, int[]> chordToSemitoneGaps = new HashMap<>();
+    private void initializeIntervalToSemitoneMap() {
+        chordToSemitoneGaps.put("Major Root Pos", new int[] {4, 3});
+        chordToSemitoneGaps.put("Major 1st Inv", new int[] {3, 5});
+        chordToSemitoneGaps.put("Major 2nd Inv", new int[] {5, 4});
+        chordToSemitoneGaps.put("Minor Root Pos", new int[] {3, 4});
+        chordToSemitoneGaps.put("Minor 1st Inv", new int[] {4, 5});
+        chordToSemitoneGaps.put("Minor 2nd Inv", new int[] {5, 3});
+        chordToSemitoneGaps.put("Dom 7 Root Pos", new int[] {4, 3, 3});
+        chordToSemitoneGaps.put("Dom 7 1st Inv", new int[] {3, 3, 2});
+        chordToSemitoneGaps.put("Dom 7 2nd Inv", new int[] {3, 2, 4});
+        chordToSemitoneGaps.put("Dom 7 3rd Inv", new int[] {2, 4, 3});
+        chordToSemitoneGaps.put("Dim 7 none", new int[] {3, 3, 3});
+        chordToSemitoneGaps.put("Aug none", new int[] {4, 4});
+
+        chordToSemitoneGaps.put("Major 7 Root Pos", new int[] {4, 3, 4});
+        chordToSemitoneGaps.put("Major 7 1st Inv", new int[] {3, 4, 1});
+        chordToSemitoneGaps.put("Major 7 2nd Inv", new int[] {4, 1, 4});
+        chordToSemitoneGaps.put("Major 7 3rd Inv", new int[] {1, 4, 3});
+
+        chordToSemitoneGaps.put("Minor 7 Root Pos", new int[] {3, 4, 3});
+        chordToSemitoneGaps.put("Minor 7 1st Inv", new int[] {4, 3, 2});
+        chordToSemitoneGaps.put("Minor 7 2nd Inv", new int[] {3, 2, 3});
+        chordToSemitoneGaps.put("Minor 7 3rd Inv", new int[] {2, 3, 4});
+    }
     /**
      * Plays the chord specified by <code>answer1</code> and <code>answer2</code>.
      * When playing a new chord, the starting note is pseudo-randomly picked.
@@ -288,65 +307,44 @@ public class ChordsActivity extends AppCompatActivity {
         }
 
         if (answerCorrect) {
-            note1 = (int) (Math.random() * 16) + 1; //1 to 15
+            note1 = (int) (Math.random() * 15) + 1; //1 to 14
         }
         int note2, note3, note4 = 1;
 
         CharSequence chord = answer1 + " " + answer2;
-        if (chord.equals("Major Root Pos")) {
-            note2 = note1 + 4;
-            note3 = note2 + 3;
-        } else if (chord.equals("Major 1st Inv")) {
-            note2 = note1 + 3;
-            note3 = note2 + 5;
-        } else if (chord.equals("Major 2nd Inv")) {
-            note2 = note1 + 5;
-            note3 = note2 + 4;
-        } else if (chord.equals("Minor Root Pos")) {
-            note2 = note1 + 3;
-            note3 = note2 + 4;
-        } else if (chord.equals("Minor 1st Inv")) {
-            note2 = note1 + 4;
-            note3 = note2 + 5;
-        } else if (chord.equals("Minor 2nd Inv")) {
-            note2 = note1 + 5;
-            note3 = note2 + 3;
-        } else if (chord.equals("Dom 7 Root Pos")) {
-            note2 = note1 + 4;
-            note3 = note2 + 3;
-            note4 = note3 + 3;
-        } else if (chord.equals("Dom 7 1st Inv")) {
-            note2 = note1 + 3;
-            note3 = note2 + 3;
-            note4 = note3 + 2;
-        } else if (chord.equals("Dom 7 2nd Inv")) {
-            note2 = note1 + 3;
-            note3 = note2 + 2;
-            note4 = note3 + 4;
-        } else if (chord.equals("Dom 7 3rd Inv")) {
-            note2 = note1 + 2;
-            note3 = note2 + 4;
-            note4 = note3 + 3;
-        } else { //diminished
-            note2 = note1 + 3;
-            note3 = note2 + 3;
-            note4 = note3 + 3;
+        int[] stepInfo = chordToSemitoneGaps.get(chord.toString());
+
+        note2 = note1 + stepInfo[0];
+        note3 = note2 + stepInfo[1];
+        if (stepInfo.length > 2) {
+            note4 = note3 + stepInfo[2];
         }
+
+        boolean fourNote = answer1.toString().contains("7");
 
         mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
         mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
         mp[2] = MediaPlayer.create(this, NoteMappings.getResourceId(note3));
         mp[3] = MediaPlayer.create(this, NoteMappings.getResourceId(note4));
 
-        for (int i = 0; i < 3; i++) {
-            mp[i].start();
+        int length = fourNote ? 4 : 3;
+        if (prefSolid) {
+            for (int i = 0; i < length; i++) {
+                mp[i].start();
+            }
+        } else {
+            for (int i = 0; i < length; i++) {
+                final int copy = i;
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mp[copy].start();
+                    }
+                }, i * 500);
+            }
         }
 
-        if (answer1.subSequence(0, 1).equals("D")) {
-            mp[3].start();
-        }
-
-        mp[2].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mp[length - 1].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer m) {
                 for (int i = 0; i < 4; i++) {
                     mp[i].stop();
@@ -380,7 +378,7 @@ public class ChordsActivity extends AppCompatActivity {
      * The score is either incremented (if correct) or reset to zero (if incorrect).
      */
     private void displayResult() {
-        if (answer1.equals("Dim 7") && part2.equals("Dim 7")) {
+        if (answer1.equals("Dim 7") && part2.equals("Dim 7") || answer1.equals("Aug") && part2.equals("Aug")) {
             tv.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
@@ -393,7 +391,8 @@ public class ChordsActivity extends AppCompatActivity {
             answerCorrect = false;
             score = 0;
         }
-        hs.setText(String.valueOf(score));
+
+        currentScore.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -404,12 +403,18 @@ public class ChordsActivity extends AppCompatActivity {
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        SharedPreferences pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
-        if (pref.getInt("chhs", 0) < score) {
+        int hs = pref.getInt(CHORDS_SCORE_KEY, 0);
+
+        if (hs < score) {
+            hs = score;
+
             SharedPreferences.Editor editor = pref.edit();
-            editor.putInt("chhs", score);
-            editor.commit();
+
+            editor.putInt(CHORDS_SCORE_KEY, hs);
+            editor.apply();
         }
+
+        highScore.setText(String.valueOf(hs));
     }
 
     /**
@@ -432,7 +437,7 @@ public class ChordsActivity extends AppCompatActivity {
     public void cpart1Clicked(View view) {
         setFirstRowEnabled(false);
         part1 = ((Button) view).getText();
-        setBottomRowsEnabled(true, part1.equals("Dom 7"));
+        setBottomRowsEnabled(true, part1.toString().contains("7"));
     }
 
     /**
@@ -445,10 +450,12 @@ public class ChordsActivity extends AppCompatActivity {
     public void cpart2Clicked(View view) {
         setBottomRowsEnabled(false, false);
         part2 = ((Button) view).getText();
-        if (part2.equals("Dim 7")) {
-            part1 = "Dim 7";
+
+        if (part2.equals("Dim 7") || part2.equals("Aug")) {
+            part1 = part2;
             setFirstRowEnabled(false);
         }
+
         displayResult();
         if (answerCorrect || prefRepeat) {
             replay.setEnabled(false);

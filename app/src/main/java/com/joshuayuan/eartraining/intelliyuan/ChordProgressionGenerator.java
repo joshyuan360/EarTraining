@@ -45,6 +45,7 @@ public class ChordProgressionGenerator {
      * Contains list of legal, cadential chord progressions.
      */
     private static HashMap<String, List<ChordProgression>> cadentialProgressions = new HashMap<>();
+    private static int tonalityChoice;
 
     /**
      * Generates a chord progression following Western music harmony rules.
@@ -77,7 +78,7 @@ public class ChordProgressionGenerator {
      * @param includeSixth     true if VI chords should be considered.
      * @param includeCadential true if pre-cadential chords should be considered.
      */
-    public static void initialize(int seqSize, boolean includeSixth, boolean includeCadential) {
+    public static void initialize(int seqSize, boolean includeSixth, boolean includeCadential, int tonalityChoice) {
         chordProgressions.clear();
         cadentialProgressions.clear();
 
@@ -85,21 +86,34 @@ public class ChordProgressionGenerator {
         VoiceLeadingRules.initializeCadentialProgressions(cadentialProgressions);
 
         if (includeSixth) {
-            VoiceLeadingRules.includeSixth(chordProgressions);
+            VoiceLeadingRules.includeSixth(chordProgressions, cadentialProgressions);
         }
         if (includeCadential) {
             VoiceLeadingRules.includeCadential(chordProgressions);
         }
+        ChordProgressionGenerator.tonalityChoice = tonalityChoice;
+
 
         SEQ_LENGTH = seqSize;
         chordSequence = new String[SEQ_LENGTH];
         notes = new int[SEQ_LENGTH * 4];
     }
 
+    private static boolean getMinor() {
+        switch (tonalityChoice) {
+            case 1:
+                return false;
+            case 2:
+                return true;
+            default:
+                return Math.random() < 0.5;
+        }
+    }
+
     /**
      * Generate a pseudo-random valid chord progression.
      */
-    private static void setChordSequence() {
+    private static void setChordSequence() { // TODO: OPTIMIZE THIS
         // create a chord progression
         chordProgressionToSend.add(getRandChordProgression(false, null, false));
 
@@ -107,7 +121,7 @@ public class ChordProgressionGenerator {
         for (int i = 0; i < SEQ_LENGTH - 2; i++) {
             int size = chordProgressionToSend.size();
             ChordProgression lastChord = chordProgressionToSend.get(size - 1);
-            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == SEQ_LENGTH - 4); // todo: check
+            ChordProgression next = getRandChordProgression(size == SEQ_LENGTH - 2, lastChord, size == SEQ_LENGTH - 4);
 
             chordProgressionToSend.add(next);
         }
@@ -119,7 +133,7 @@ public class ChordProgressionGenerator {
         }
 
         // flip a coin and set progression to minor
-        if (Math.random() < 0.5) {
+        if (getMinor()) {
             for (ChordProgression c : chordProgressionToSend) {
                 c.toMinor();
             }

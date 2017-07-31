@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true" android:state_pressed="false" android:drawable="@drawable/replay_enabled">
+        <shape>
+            <corners
+                android:radius="3dp">
+            </corners>
+            <solid
+                android:color="#ff9713">
+            </solid>
+        </shape>
+    </item>
+
+    <item android:state_pressed="true" android:drawable="@drawable/replay_pressed">
+        <shape>
+            <corners
+                android:radius="3dp">
+            </corners>
+            <solid
+                android:color="#df7d00">
+            </solid>
+        </shape>
+    </item>
+
+    <item android:state_enabled="false" android:drawable="@drawable/replay_disabled">
+        <shape>
+            <corners android:radius="3dp" />
+            <solid
+                android:color="#d1cbc4">
+            </solid>
+        </shape>
+    </item>
+</selector>

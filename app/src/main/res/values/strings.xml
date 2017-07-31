@@ -2,19 +2,20 @@
     <string name="app_name">Ear Training</string>
     <string name="ear_training_title">EAR TRAINING</string>
 
-    <string name="intervals_menu">- INTERVALS -</string>
-    <string name="chords_menu">- CHORDS -</string>
-    <string name="cadences_menu">- CADENCES -</string>
-    <string name="chord_progressions_menu">- CHORD PROGRESSIONS -</string>
-    <string name="high_scores_menu">- HIGH SCORES -</string>
-    <string name="settings_menu">- SETTINGS -</string>
+    <string name="intervals_menu">INTERVALS</string>
+    <string name="chords_menu">CHORDS</string>
+    <string name="cadences_menu">CADENCES</string>
+    <string name="chord_progressions_menu">CHORD PROGRESSIONS</string>
+    <string name="high_scores_menu">HIGH SCORES</string>
+    <string name="settings_menu">SETTINGS</string>
 
-    <string name="high_scores">HIGH SCORES</string>
+    <string name="score">Score:</string>
+    <string name="high_scores">High Score:</string>
 
     <string name="perfect">Perfect</string>
     <string name="major">Major</string>
     <string name="minor">Minor</string>
-    <string name="tritone">Aug 4</string>
+    <string name="aug">Aug</string>
     <string name="unison">Unison</string>
     <string name="second">Second</string>
     <string name="third">Third</string>
@@ -23,9 +24,16 @@
     <string name="sixth">Sixth</string>
     <string name="seventh">Seventh</string>
     <string name="octave">Octave</string>
+    <string name="ninth">Ninth</string>
+    <string name="tenth">Tenth</string>
+    <string name="eleventh">Eleventh</string>
+    <string name="twelfth">Twelfth</string>
 
     <string name="dom_7">Dom 7</string>
     <string name="dim_7">Dim 7</string>
+    <string name="augChord">Aug</string>
+    <string name="majmaj7">Major 7</string>
+    <string name="minmin7">Minor 7</string>
     <string name="root_pos">Root Pos</string>
     <string name="_1st_inv">1st Inv</string>
     <string name="_2nd_inv">2nd Inv</string>
@@ -42,12 +50,11 @@
     <string name="cadential_chord">Cadential 6-4</string>
 
     <string name="score_value">0</string>
-    <string name="score">Score</string>
 
-    <string name="intervals_hs">Intervals:</string>
-    <string name="chords_hs">Chords:</string>
-    <string name="cadences_hs">Cadences:</string>
-    <string name="chord_progressions_hs">Chord Progressions:</string>
+    <string name="intervals_hs">Intervals: %1$d</string>
+    <string name="chords_hs">Chords: %1$d</string>
+    <string name="cadences_hs">Cadences: %1$d</string>
+    <string name="chord_progressions_hs">Progressions: %1$d</string>
 
     <string name="select_interval">Select the interval you hear:</string>
     <string name="select_chord">Select the chord you hear:</string>
@@ -57,18 +64,20 @@
     <string name="playing_interval">Playing interval…</string>
     <string name="playing_chord">Playing chord…</string>
     <string name="playing_cadence">Playing tonic note and cadence…</string>
-    <string name="playing_chord_progression">Playing chord progression starting on tonic…</string>
-    <string name="playing_each_chord">Playing each chord individually…</string>
+    <string name="playing_chord_progression">Playing chord progression…</string>
+    <string name="playing_each_chord">Playing chord #%1d…</string>
+    <string name="playing_first_chord">Playing chord #1 (tonic)…</string>
 
     <string name="identify_interval">Identify the interval…</string>
     <string name="identify_chord">Identify the chord…</string>
     <string name="identify_cadence">Identify the cadence…</string>
-    <string name="identify_chord_in_progression">Identify the chord in the progression…</string>
+    <string name="identify_chord_in_progression">Identify chord #%1d…</string>
+    <string name="identify_tonic_in_progression">Identify chord #1 (tonic)…</string>
 
     <string name="replaying">Replaying…</string>
     <string name="correct">Correct!</string>
     <string name="incorrect">Incorrect…</string>
     <string name="try_again">Try again!</string>
 
-    <string name="replay_button">REPLAY</string>
+    <string name="replay_button"></string>
 </resources>

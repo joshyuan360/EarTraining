@@ -8,7 +8,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining.userinterface;
+package com.joshuayuan.eartraining.presentation;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -21,6 +21,6 @@ import android.widget.TextView;
 public class HighScoreTextView extends TextView {
     public HighScoreTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/DIGITAL.TTF"));
+//        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/DIGITAL.TTF"));
     }
 }
