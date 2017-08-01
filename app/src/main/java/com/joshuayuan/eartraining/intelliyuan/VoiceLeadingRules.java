@@ -91,6 +91,11 @@ class VoiceLeadingRules {
         _4r_chordProgressions.add(new ChordProgression(new String[]{"4r", "1r"}, new int[]{6, 18, 22, 25, 1, 17, 20, 25}));
         _4r_chordProgressions.add(new ChordProgression(new String[]{"4r", "1r"}, new int[]{6, 10, 13, 18, 1, 8, 13, 17}));
 
+        // *** DECEPTIVE CADENCES ***
+        _5r_chordProgressions.add(new ChordProgression(new String[]{"5r", "6r"}, new int[]{8, 12, 20, 27, 10, 13, 17, 25}));
+        _5r_chordProgressions.add(new ChordProgression(new String[]{"5r", "6r"}, new int[]{8, 12, 20, 27, 10, 13, 17, 25}));
+        _5r_chordProgressions.add(new ChordProgression(new String[]{"5r", "6r"}, new int[]{-4, 8, 12, 15, -2, 5, 13, 13}));
+
         cadentialProgressions.put("1r", _1r_chordProgressions);
         cadentialProgressions.put("11", _11_chordProgressions);
         cadentialProgressions.put("4r", _4r_chordProgressions);
@@ -101,11 +106,11 @@ class VoiceLeadingRules {
         cadentialProgressions.put("61", _61_chordProgressions);
     }
 
-    static void includeSixth(HashMap<String, List<ChordProgression>> chordProgressionsMap, HashMap<String, List<ChordProgression>> cadentialProgressionsMap) {
-        List<ChordProgression> _1r_chordProgressions = chordProgressionsMap.get("1r");
-        List<ChordProgression> _11_chordProgressions = chordProgressionsMap.get("11");
-        List<ChordProgression> _5r_chordProgressions = chordProgressionsMap.get("5r");
-        List<ChordProgression> _51_chordProgressions = chordProgressionsMap.get("51");
+    static void includeSixth(HashMap<String, List<ChordProgression>> chordProgressions) {
+        List<ChordProgression> _1r_chordProgressions = chordProgressions.get("1r");
+        List<ChordProgression> _11_chordProgressions = chordProgressions.get("11");
+        List<ChordProgression> _5r_chordProgressions = chordProgressions.get("5r");
+        List<ChordProgression> _51_chordProgressions = chordProgressions.get("51");
 
         List<ChordProgression> _6r_chordProgressions = new ArrayList<>();
         List<ChordProgression> _61_chordProgressions = new ArrayList<>();
@@ -124,14 +129,8 @@ class VoiceLeadingRules {
         _61_chordProgressions.add(new ChordProgression(new String[]{"61", "41"}, new int[]{-11, -2, 5, 10, -14, 1, 6, 6}));
         _61_chordProgressions.add(new ChordProgression(new String[]{"61", "41"}, new int[]{-11, -2, 5, 10, -14, -6, 6, 13}));
 
-        chordProgressionsMap.put("6r", _6r_chordProgressions);
-        chordProgressionsMap.put("61", _61_chordProgressions);
-
-        // *** DECEPTIVE CADENCES ***
-        List<ChordProgression> _5r_cadentialProgressions = cadentialProgressionsMap.get("5r");
-        _5r_cadentialProgressions.add(new ChordProgression(new String[]{"5r", "6r"}, new int[]{8, 12, 20, 27, 10, 13, 17, 25}));
-        _5r_cadentialProgressions.add(new ChordProgression(new String[]{"5r", "6r"}, new int[]{8, 12, 20, 27, 10, 13, 17, 25}));
-        _5r_cadentialProgressions.add(new ChordProgression(new String[]{"5r", "6r"}, new int[]{-4, 8, 12, 15, -2, 5, 13, 13}));
+        chordProgressions.put("6r", _6r_chordProgressions);
+        chordProgressions.put("61", _61_chordProgressions);
     }
 
     static void includeCadential(HashMap<String, List<ChordProgression>> chordProgressions) {
@@ -150,13 +149,6 @@ class VoiceLeadingRules {
         _41_chordProgressions.add(new ChordProgression(new String[]{"41", "cc"}, new int[]{-14, -6, 6, 13, -16, -7, 8, 13}));
 
         // duplicate of above to increases chance of landing on a cadential 64 (roughly 1/6 after this addition)
-        _1r_chordProgressions.add(new ChordProgression(new String[]{"1r", "cc"}, new int[]{-11, -4, 5, 13, -16, -4, 5, 13}));
-        _11_chordProgressions.add(new ChordProgression(new String[]{"11", "cc"}, new int[]{-7, 1, 8, 13, -4, 5, 8, 13}));
-        _11_chordProgressions.add(new ChordProgression(new String[]{"11", "cc"}, new int[]{-7, 1, 8, 13, -4, 1, 8, 17}));
-        _4r_chordProgressions.add(new ChordProgression(new String[]{"4r", "cc"}, new int[]{-6, 1, 10, 18, -4, 1, 8, 17}));
-        _41_chordProgressions.add(new ChordProgression(new String[]{"41", "cc"}, new int[]{-14, -6, 6, 13, -16, -4, 5, 13}));
-        _41_chordProgressions.add(new ChordProgression(new String[]{"41", "cc"}, new int[]{-14, -6, 6, 13, -16, -7, 8, 13}));
-
         _1r_chordProgressions.add(new ChordProgression(new String[]{"1r", "cc"}, new int[]{-11, -4, 5, 13, -16, -4, 5, 13}));
         _11_chordProgressions.add(new ChordProgression(new String[]{"11", "cc"}, new int[]{-7, 1, 8, 13, -4, 5, 8, 13}));
         _11_chordProgressions.add(new ChordProgression(new String[]{"11", "cc"}, new int[]{-7, 1, 8, 13, -4, 1, 8, 17}));

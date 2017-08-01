@@ -18,8 +18,8 @@ import com.joshuayuan.eartraining.R;
  * @author Joshua Yuan
  */
 public class NoteMappings {
-    public static int MAX_NOTE = 28;
-    public static int MIN_NOTE = -11;
+    static int MAX_NOTE = 28;
+    static int MIN_NOTE = -11;
 
     /**
      * Returns the resource ID of the requested note.

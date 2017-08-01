@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F0EEF1"
+    android:background="@drawable/equalizer_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.joshuayuan.eartraining.activity.HighScoresActivity">
+    tools:context="com.joshuayuan.eartraining.HighScoresActivity">
 
-    <com.joshuayuan.eartraining.presentation.HighScoreTextView
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/intervals_hs"
         android:id="@+id/inhs"
+        android:textColor="#ffffff"
         android:textSize="36sp"
         android:layout_marginTop="95dp"
         android:layout_alignParentTop="true"
@@ -27,12 +28,13 @@
         android:paddingTop="10dp"
         android:textStyle="bold" />
 
-    <com.joshuayuan.eartraining.presentation.HighScoreTextView
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/chords_hs"
         android:id="@+id/chhs"
+        android:textColor="#ffffff"
         android:textSize="36sp"
         android:layout_below="@+id/inhs"
         android:layout_alignLeft="@+id/inhs"
@@ -44,12 +46,13 @@
         android:paddingTop="10dp"
         android:textStyle="bold" />
 
-    <com.joshuayuan.eartraining.presentation.HighScoreTextView
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/cadences_hs"
         android:id="@+id/cahs"
+        android:textColor="#ffffff"
         android:textSize="36sp"
         android:layout_marginLeft="38dp"
         android:layout_marginStart="38dp"
@@ -63,12 +66,13 @@
         android:paddingTop="10dp"
         android:textStyle="bold" />
 
-    <com.joshuayuan.eartraining.presentation.HighScoreTextView
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/chord_progressions_hs"
         android:id="@+id/cphs"
+        android:textColor="#ffffff"
         android:textSize="36sp"
         android:layout_marginLeft="38dp"
         android:layout_marginStart="38dp"
@@ -81,7 +85,7 @@
         android:paddingTop="10dp"
         android:textStyle="bold" />
 
-    <com.joshuayuan.eartraining.presentation.InstructionTextView
+    <com.joshuayuan.eartraining.userinterface.HighScoreTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -90,6 +94,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:paddingTop="20dp"
-        android:textSize="42sp" />
+        android:textSize="42sp"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

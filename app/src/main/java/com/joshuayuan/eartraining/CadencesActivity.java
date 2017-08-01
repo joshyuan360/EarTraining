@@ -8,7 +8,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
-package com.joshuayuan.eartraining.activity;
+package com.joshuayuan.eartraining;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,25 +17,17 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.joshuayuan.eartraining.intelliyuan.CadenceGenerator;
 import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
-import com.joshuayuan.eartraining.R;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.CADENCES_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CADENCES;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
 
 /**
  * The cadences activity plays a cadence and asks the user to identify it.
@@ -44,28 +36,61 @@ import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFr
  * @author Joshua Yuan
  */
 public class CadencesActivity extends AppCompatActivity { //todo: does it switch between minor and major? check this
+    /**
+     * Contains the sound files required to play the cadence.
+     */
     private final MediaPlayer[] mp = new MediaPlayer[8];
-
+    /**
+     * A <code>Button</code> object in the cadences activity.
+     */
     private Button perfect, plagal, imperfect, deceptive;
+    /**
+     * Allows the user to replay the last cadence.
+     */
     private Button replay;
-
+    /**
+     * The current answer to the last cadence played.
+     */
     private CharSequence answer;
+    /**
+     * User input for perfect, plagal, imperfect, or deceptive.
+     */
     private CharSequence response;
-
+    /**
+     * <code>true</code> if the correct interval is identified.
+     */
     private boolean answerCorrect = true;
+    /**
+     * Displays info to the user on screen.
+     */
     private TextView tv;
+    /**
+     * Contains all of the notes in both chords that are to be played.
+     */
     private int notes[];
+    /**
+     * The current score of the user.
+     */
     private int score;
-
-    private TextView currentScore, highScore;
+    /**
+     * Displays the user's high score.
+     */
+    private TextView hs;
     private MediaPlayer tonic = new MediaPlayer();
+    /**
+     * The chords that the user wishes to be tested on.
+     */
     private Set<String> selections;
+    /**
+     * <code>true</code> if the user wants automatic replays.
+     */
     private boolean prefRepeat;
-
+    /**
+     * Used to play sound after a specified amount of time.
+     */
     private Handler handler = new Handler();
     private boolean isReplaying;
     private int randomShift;
-    SharedPreferences pref;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -78,48 +103,23 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.cadenceText);
-        currentScore = (TextView) findViewById(R.id.cadenceScore);
-        highScore = (TextView) findViewById(R.id.cadenceHighestScore);
+        hs = (TextView) findViewById(R.id.cadenceScore);
 
-        loadPreference();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this
+        selections = sharedPrefs.getStringSet("pref_cadences", defaultSet);
+        prefRepeat = sharedPrefs.getBoolean("pref_repeat", true);
 
         initializeButtons();
         setButtonsEnabled(false);
         replay.setEnabled(false);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 testUser();
             }
-        }, 1000);
-
-    }
-
-    private void loadPreference() {
-        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
-        highScore.setText(String.valueOf(pref.getInt(CADENCES_SCORE_KEY, 0)));
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this (6.3)
-        selections = sharedPrefs.getStringSet(PREF_CADENCES, defaultSet);
-        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        }, 1500);
     }
 
     /**
@@ -201,7 +201,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
             answerCorrect = false;
             score = 0;
         }
-        currentScore.setText(String.valueOf(score));
+        hs.setText(String.valueOf(score));
         setHighScores(score);
     }
 
@@ -212,18 +212,12 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
      * @param score The current score.
      */
     private void setHighScores(int score) {
-        int hs = pref.getInt(CADENCES_SCORE_KEY, 0);
-
-        if (hs < score) {
-            hs = score;
-
+        SharedPreferences pref = getSharedPreferences("high scores", Context.MODE_PRIVATE);
+        if (pref.getInt("cahs", 0) < score) {
             SharedPreferences.Editor editor = pref.edit();
-
-            editor.putInt(CADENCES_SCORE_KEY, hs);
+            editor.putInt("cahs", score);
             editor.apply();
         }
-
-        highScore.setText(String.valueOf(hs));
     }
 
     /**
