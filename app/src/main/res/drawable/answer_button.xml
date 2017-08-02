@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="true" >
+    <item android:state_enabled="true" android:state_pressed="false" >
         <shape>
-            <corners android:radius="10dip" />
-            <gradient
-                android:startColor="#c800f2ff"
-                android:centerColor="#c800c2cc"
-                android:endColor="#c800f2ff"
-                android:angle="90"/>
+            <!--<corners android:radius="10dip" />-->
+            <!--<gradient-->
+                <!--android:startColor="#c800f2ff"-->
+                <!--android:centerColor="#c800c2cc"-->
+                <!--android:endColor="#c800f2ff"-->
+                <!--android:angle="90"/>-->
+
+            <corners
+                android:radius="3dp">
+            </corners>
+            <solid
+                android:color="#ff9713">
+            </solid>
+        </shape>
+    </item>
+
+    <item android:state_pressed="true" >
+        <shape>
+            <corners
+                android:radius="3dp">
+            </corners>
+            <solid
+                android:color="#df7d00">
+            </solid>
         </shape>
     </item>
 
     <item android:state_enabled="false" >
         <shape>
-            <corners android:radius="10dip" />
-            <gradient
-                android:endColor="#2400F2FF"
-                android:centerColor="#2400c2cc"
-                android:startColor="#2400F2FF" />
+            <corners android:radius="3dp" />
+            <solid
+                android:color="#d1cbc4">
+            </solid>
         </shape>
     </item>
 </selector>
