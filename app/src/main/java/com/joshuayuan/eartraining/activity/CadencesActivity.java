@@ -32,8 +32,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.CADENCES_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.HighScores.CADENCES_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CADENCES;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
 
@@ -289,37 +289,42 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         }
 
         tonic.start();
-        tonic.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer med) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
                 tonic.stop();
                 tonic.release();
                 tonic = null;
-                for (int i = 0; i < 4; i++) {
-                    if (mp[i] != null) mp[i].start();
-                }
             }
-        });
-        mp[3].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer med) {
-                for (int i = 4; i < 8; i++) {
-                    mp[i].start();
+        }, 1500);
+
+        for (int i = 0; i < mp.length + 4; i += 4) {
+            final int start = i;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (start - 4 >= 0) {
+                        for (int j = start - 4; j < start; j++) {
+                            mp[j].stop();
+                            mp[j].release();
+                            mp[j] = null;
+                        }
+                    }
+
+                    if (start >= mp.length) {
+                        replay.setEnabled(true);
+                        setButtonsEnabled(true);
+                        tv.setText(getResources().getString(R.string.identify_cadence));
+                        isReplaying = false;
+                        return;
+                    }
+
+                    for (int j = start; j < start + 4; j++) {
+                        mp[j].start();
+                    }
                 }
-            }
-        });
-        mp[7].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer med) {
-                for (int i = 0; i < 8; i++) {
-                    mp[i].stop();
-                    mp[i].release();
-                    mp[i] = null;
-                }
-                // set up UI
-                replay.setEnabled(true);
-                setButtonsEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_cadence));
-                isReplaying = false;
-            }
-        });
+            }, 1500 + i / 4 * 1500);
+        }
     }
 
     /**

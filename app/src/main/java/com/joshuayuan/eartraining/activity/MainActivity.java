@@ -88,14 +88,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
     }
-
-    /**
-     * Begins the high score activity.
-     *
-     * @param view The High Scores button pressed.
-     */
-    public void openHighScores(View view) {
-        Intent intent = new Intent(this, HighScoresActivity.class);
-        startActivity(intent);
-    }
 }

@@ -19,7 +19,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,8 +33,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.INTERVALS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.HighScores.INTERVALS_SCORE_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_INTERVALS;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_INTERVALS_ADVANCED;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
@@ -293,30 +292,47 @@ public class IntervalsActivity extends AppCompatActivity {
         if (getSolid()) {
             mp[0].start();
             mp[1].start();
-        } else {
-            mp[0].start();
-            mp[0].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                public void onCompletion(MediaPlayer med) {
-                    mp[1].start();
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < mp.length; i++) {
+                        mp[i].stop();
+                        mp[i].release();
+                        mp[i] = null;
+                    }
+
+                    replay.setEnabled(true);
+                    setFirstRowEnabled(true);
+                    tv.setText(getResources().getString(R.string.identify_interval));
+                    isReplaying = false;
                 }
-            });
-        }
+            }, 1500);
+        } else {
+            for (int i = 0; i < mp.length + 1; i++) {
+                final int index = i;
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (index - 1 >= 0) {
+                            mp[index - 1].stop();
+                            mp[index - 1].release();
+                            mp[index - 1] = null;
+                        }
 
-        mp[1].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer med) {
-                mp[0].release();
-                mp[0] = null;
+                        if (index >= mp.length) {
+                            replay.setEnabled(true);
+                            setFirstRowEnabled(true);
+                            tv.setText(getResources().getString(R.string.identify_interval));
+                            isReplaying = false;
+                            return;
+                        }
 
-                mp[1].release();
-                mp[1] = null;
-
-                // set up UI
-                replay.setEnabled(true);
-                setFirstRowEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_interval));
-                isReplaying = false;
+                        mp[index].start();
+                    }
+                }, i * 1500);
             }
-        });
+        }
     }
 
     /**

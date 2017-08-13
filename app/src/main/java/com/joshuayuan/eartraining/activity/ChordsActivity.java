@@ -33,8 +33,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.CHORDS_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.HighScores.CHORDS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS_ADVANCED;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
@@ -327,37 +327,53 @@ public class ChordsActivity extends AppCompatActivity {
         mp[2] = MediaPlayer.create(this, NoteMappings.getResourceId(note3));
         mp[3] = MediaPlayer.create(this, NoteMappings.getResourceId(note4));
 
-        int length = fourNote ? 4 : 3;
+        final int length = fourNote ? 4 : 3;
         if (prefSolid) {
             for (int i = 0; i < length; i++) {
                 mp[i].start();
             }
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < 4; i++) {
+                        mp[i].stop();
+                        mp[i].release();
+                        mp[i] = null;
+
+                        replay.setEnabled(true);
+                        setFirstRowEnabled(true);
+                        tv.setText(getResources().getString(R.string.identify_chord));
+                        isReplaying = false;
+                    }
+                }
+            }, 1500);
         } else {
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < length + 1; i++) {
                 final int copy = i;
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        if (copy > 0) {
+                            mp[copy - 1].stop();
+                            mp[copy - 1].release();
+                            mp[copy - 1] = null;
+                        }
+
+                        if (copy == length) {
+                            replay.setEnabled(true);
+                            setFirstRowEnabled(true);
+                            tv.setText(getResources().getString(R.string.identify_chord));
+                            isReplaying = false;
+
+                            return;
+                        }
+
                         mp[copy].start();
                     }
                 }, i * 500);
             }
         }
-
-        mp[length - 1].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer m) {
-                for (int i = 0; i < 4; i++) {
-                    mp[i].stop();
-                    mp[i].release();
-                    mp[i] = null;
-                }
-                // set up UI
-                replay.setEnabled(true);
-                setFirstRowEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_chord));
-                isReplaying = false;
-            }
-        });
     }
 
     /**

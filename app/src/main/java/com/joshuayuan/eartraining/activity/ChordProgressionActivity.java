@@ -22,8 +22,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.PROGRESSIONS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.HighScores.PROGRESSIONS_SCORE_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORD_PROGRESSIONS;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_PROGRESSION_TONALITY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
@@ -238,11 +238,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
             tv.setText(getResources().getString(R.string.replaying));
         }
 
-        for (int i = 0; i < mp.length; i++) {
-            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
-        }
-
-        firePlayer(0);
+        firePlayer();
     }
 
     /**
@@ -250,33 +246,40 @@ public class ChordProgressionActivity extends AppCompatActivity {
      * one per chord. Resources are deleted after each chord is played to make this operation
      * as memory efficient as possible.
      *
-     * @param start
      */
-    public void firePlayer(final int start) {
-        if (start == mp.length) {
+    public void firePlayer() {
+        for (int i = 0; i < mp.length; i++) {
+            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
+        }
+
+        for (int i = 0; i < mp.length + 4; i += 4) {
+            final int start = i;
+
+            int delay = 0;
+            if (start >= mp.length) delay = 1500;
+
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    playChord();
-                }
-            }, 1000);
-            return;
-        }
+                    if (start - 4 >= 0) {
+                        for (int n = start - 4; n < start; n++) {
+                            mp[n].stop();
+                            mp[n].release();
+                            mp[n] = null;
+                        }
+                    }
+                    
+                    if (start >= mp.length) {
+                        playChord();
+                        return;
+                    }
 
-        for (int n = start; n < start + 4; n++) {
-            mp[n].start();
-        }
-
-        mp[start + 3].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer med) {
-                for (int n = start; n < start + 4; n++) {
-                    mp[n].stop();
-                    mp[n].release();
-                    mp[n] = null;
+                    for (int n = start; n < start + 4; n++) {
+                        mp[n].start();
+                    }
                 }
-                firePlayer(start + 4);
-            }
-        });
+            }, i / 4 * 1500 + delay);
+        }
     }
 
     /**
@@ -305,8 +308,9 @@ public class ChordProgressionActivity extends AppCompatActivity {
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
             mp[i].start();
         }
-        mp[chordNumber * 4 + 3].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer med) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
                 for (int n = chordNumber * 4; n < chordNumber * 4 + 4; n++) {
                     mp[n].stop();
                     mp[n].release();
@@ -323,7 +327,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
                 tv.setText(text);
                 isReplaying = false;
             }
-        });
+        }, 1500);
     }
 
     /**
