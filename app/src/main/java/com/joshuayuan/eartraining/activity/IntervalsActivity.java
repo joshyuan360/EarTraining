@@ -12,17 +12,12 @@ package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
 import com.joshuayuan.eartraining.R;
@@ -33,8 +28,10 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.HighScores.INTERVALS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.CONTROLS_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.INTERVALS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.INTERVALS_SPEED_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_INTERVALS;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_INTERVALS_ADVANCED;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
@@ -45,8 +42,7 @@ import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFr
  *
  * @author Joshua Yuan
  */
-public class IntervalsActivity extends AppCompatActivity {
-    private final MediaPlayer[] mp = new MediaPlayer[2];
+public class IntervalsActivity extends EarTrainingActivity {
     private CharSequence part1;
     private CharSequence part2;
     private CharSequence answer1;
@@ -54,11 +50,8 @@ public class IntervalsActivity extends AppCompatActivity {
 
     private Button perfect, major, minor, aug;
     private Button unison, second, third, fourth, fifth, sixth, seventh, octave, ninth, tenth, eleventh, twelfth;
-    private Button replay;
 
     private boolean answerCorrect = true;
-    private TextView tv;
-    private TextView currentScore, highScore;
 
     private int note1;
     private int score;
@@ -75,6 +68,7 @@ public class IntervalsActivity extends AppCompatActivity {
 
     private HashMap<String, Integer> intervalToSemitoneGap = new HashMap<>();
     SharedPreferences pref;
+
     /**
      * Initializes the <code>Button</code> fields and begins the test.
      */
@@ -82,44 +76,13 @@ public class IntervalsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Intervals");
-        setContentView(R.layout.activity_intervals);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        tv = (TextView) findViewById(R.id.insDisplay);
-        currentScore = (TextView) findViewById(R.id.intervalScore);
-        highScore = (TextView) findViewById(R.id.intervalHighScore);
-
-        loadPreferences();
 
         initializeMap();
-
-        initializeButtons();
-        setAllRowsEnabled(false);
-        replay.setEnabled(false);
-
-        for (String s : selections) {
-            if (s.startsWith("Perfect")) {
-                allowPerfect = true;
-            } else if (s.startsWith("Aug")) {
-                allowAug = true;
-            }
-        }
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                testUser();
-            }
-        }, 1000);
+        initSpeedSeekBar(INTERVALS_SPEED_KEY);
+        mp = new MediaPlayer[2];
     }
 
-    private void loadPreferences() {
+    protected void loadPreferences() {
         pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
         highScore.setText(String.valueOf(pref.getInt(INTERVALS_SCORE_KEY, 0)));
 
@@ -134,16 +97,14 @@ public class IntervalsActivity extends AppCompatActivity {
         selections = sharedPrefs.getStringSet(PREF_INTERVALS, defaultSet);
         prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
         testType = Integer.parseInt(sharedPrefs.getString(PREF_INTERVALS_ADVANCED, "4"));
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
+        for (String s : selections) {
+            if (s.startsWith("Perfect")) {
+                allowPerfect = true;
+            } else if (s.startsWith("Aug")) {
+                allowAug = true;
+            }
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void initializeMap() {
@@ -170,29 +131,9 @@ public class IntervalsActivity extends AppCompatActivity {
     }
 
     /**
-     * Stops any currently playing sounds when the user exits the activity.
-     *
-     * @throws IllegalStateException if the internal player engine has not been
-     *                               initialized or has been released.
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-        }
-        for (int i = 0; i < 2; i++) {
-            if (mp[i] != null) {
-                mp[i].release();
-                mp[i] = null;
-            }
-        }
-    }
-
-    /**
      * Loads all the Button fields.
      */
-    private void initializeButtons() {
+    protected void initializeButtons() {
         perfect = (Button) findViewById(R.id.perfect);
         major = (Button) findViewById(R.id.major);
         minor = (Button) findViewById(R.id.minor);
@@ -210,8 +151,6 @@ public class IntervalsActivity extends AppCompatActivity {
         tenth = (Button) findViewById(R.id.tenth);
         eleventh = (Button) findViewById(R.id.eleventh);
         twelfth = (Button) findViewById(R.id.twelfth);
-
-        replay = (Button) findViewById(R.id.replay);
     }
 
     /**
@@ -265,17 +204,16 @@ public class IntervalsActivity extends AppCompatActivity {
     private void playAnswer() {
         // set up UI
         setAllRowsEnabled(false);
-        replay.setEnabled(false);
 
         CharSequence interval = answer1 + " " + answer2;
         int intervalGap = intervalToSemitoneGap.get(interval.toString());
         int maxBottom = NoteMappings.MAX_NOTE - intervalGap;
 
         if (answerCorrect) {
-            tv.setText(getResources().getString(R.string.playing_interval));
+            instructions.setText(getResources().getString(R.string.playing_interval));
             note1 = (int) (Math.random() * maxBottom) + 1;
         } else {
-            tv.setText(getResources().getString(R.string.replaying));
+            instructions.setText(getResources().getString(R.string.replaying));
         }
 
         int note2 = note1 + intervalToSemitoneGap.get(interval.toString());
@@ -311,10 +249,10 @@ public class IntervalsActivity extends AppCompatActivity {
 
                 replay.setEnabled(true);
                 setFirstRowEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_interval));
+                instructions.setText(getResources().getString(R.string.identify_interval));
                 isReplaying = false;
             }
-        }, 1500);
+        }, getSharedPreferences(CONTROLS_KEY, MODE_PRIVATE).getInt(INTERVALS_SPEED_KEY, 1500));
     }
 
     private void fireMelodicInterval() {
@@ -332,14 +270,14 @@ public class IntervalsActivity extends AppCompatActivity {
                     if (index >= mp.length) {
                         replay.setEnabled(true);
                         setFirstRowEnabled(true);
-                        tv.setText(getResources().getString(R.string.identify_interval));
+                        instructions.setText(getResources().getString(R.string.identify_interval));
                         isReplaying = false;
                         return;
                     }
 
                     mp[index].start();
                 }
-            }, i * 1500);
+            }, i * getSharedPreferences(CONTROLS_KEY, MODE_PRIVATE).getInt(INTERVALS_SPEED_KEY, 1500));
         }
     }
 
@@ -347,7 +285,7 @@ public class IntervalsActivity extends AppCompatActivity {
      * If the last answer was correct, this method plays a newly-generated interval.
      * If the last answer was incorrect, this method replays the last interval.
      */
-    private void testUser() {
+    protected void testUser() {
         if (answerCorrect) {
             setAnswer();
             playAnswer();
@@ -381,7 +319,7 @@ public class IntervalsActivity extends AppCompatActivity {
         return selections.contains("Aug " + option);
     }
 
-    private void setAllRowsEnabled(boolean enabled) {
+    protected void setAllRowsEnabled(boolean enabled) {
         setPerfectRowsEnabled(enabled);
         setMajorMinorRowsEnabled(enabled);
         setAugRowsEnabled(enabled);
@@ -427,11 +365,11 @@ public class IntervalsActivity extends AppCompatActivity {
     private void displayResult() {
         if (part1.equals(answer1) &&
                 (part2.equals(answer2) || part2.equals("Fourth") && answer2.equals("4") || part2.equals("Eleventh") && answer2.equals("11"))) {
-            tv.setText(getResources().getString(R.string.correct));
+            instructions.setText(getResources().getString(R.string.correct));
             answerCorrect = true;
             score++;
         } else {
-            tv.setText(getResources().getString(R.string.incorrect));
+            instructions.setText(getResources().getString(R.string.incorrect));
             answerCorrect = false;
             score = 0;
         }
@@ -511,7 +449,7 @@ public class IntervalsActivity extends AppCompatActivity {
                     testUser();
                 } else if (!isReplaying) {
                     setFirstRowEnabled(true);
-                    tv.setText(getResources().getString(R.string.try_again));
+                    instructions.setText(getResources().getString(R.string.try_again));
                 }
             }
         }, 1500);

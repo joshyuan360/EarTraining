@@ -34,8 +34,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScores.CHORDS_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.CHORDS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.HIGH_SCORES_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS_ADVANCED;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
@@ -83,7 +83,7 @@ public class ChordsActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chInstructions);
-        currentScore = (TextView) findViewById(R.id.intervalScore);
+        currentScore = (TextView) findViewById(R.id.currentScore);
         highScore = (TextView) findViewById(R.id.chordHighScore);
 
         loadPreference();

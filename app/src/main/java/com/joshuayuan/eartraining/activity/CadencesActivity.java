@@ -13,6 +13,7 @@ package com.joshuayuan.eartraining.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.joshuayuan.eartraining.intelliyuan.CadenceGenerator;
@@ -34,8 +36,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScores.CADENCES_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.CADENCES_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.HIGH_SCORES_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CADENCES;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
 
@@ -67,7 +69,10 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
     private Handler handler = new Handler();
     private boolean isReplaying;
     private int randomShift;
-    SharedPreferences pref;
+    private SharedPreferences pref;
+
+    private AudioManager audioManager;
+    private SeekBar volumeSeekbar, speedSeekbar;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.

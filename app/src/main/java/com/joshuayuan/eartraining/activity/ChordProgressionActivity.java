@@ -22,8 +22,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.HighScores.PROGRESSIONS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.HIGH_SCORES_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.PROGRESSIONS_SCORE_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORD_PROGRESSIONS;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_PROGRESSION_TONALITY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
@@ -69,7 +69,7 @@ public class ChordProgressionActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tv = (TextView) findViewById(R.id.chordProgressionText);
-        currentScore = (TextView) findViewById(R.id.intervalScore);
+        currentScore = (TextView) findViewById(R.id.currentScore);
         highScore = (TextView) findViewById(R.id.chordHighestProgressionScore);
 
         pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);

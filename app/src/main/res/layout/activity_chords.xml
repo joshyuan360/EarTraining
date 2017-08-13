@@ -240,7 +240,7 @@
             android:gravity="end"/>
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
-            android:id="@+id/intervalScore"
+            android:id="@+id/currentScore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
