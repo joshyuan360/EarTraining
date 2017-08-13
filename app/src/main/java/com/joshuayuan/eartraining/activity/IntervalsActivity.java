@@ -290,48 +290,56 @@ public class IntervalsActivity extends AppCompatActivity {
         }
 
         if (getSolid()) {
-            mp[0].start();
-            mp[1].start();
+            fireHarmonicInterval();
+        } else {
+            fireMelodicInterval();
+        }
+    }
 
+    private void fireHarmonicInterval() {
+        mp[0].start();
+        mp[1].start();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < mp.length; i++) {
+                    mp[i].stop();
+                    mp[i].release();
+                    mp[i] = null;
+                }
+
+                replay.setEnabled(true);
+                setFirstRowEnabled(true);
+                tv.setText(getResources().getString(R.string.identify_interval));
+                isReplaying = false;
+            }
+        }, 1500);
+    }
+
+    private void fireMelodicInterval() {
+        for (int i = 0; i < mp.length + 1; i++) {
+            final int index = i;
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    for (int i = 0; i < mp.length; i++) {
-                        mp[i].stop();
-                        mp[i].release();
-                        mp[i] = null;
+                    if (index - 1 >= 0) {
+                        mp[index - 1].stop();
+                        mp[index - 1].release();
+                        mp[index - 1] = null;
                     }
 
-                    replay.setEnabled(true);
-                    setFirstRowEnabled(true);
-                    tv.setText(getResources().getString(R.string.identify_interval));
-                    isReplaying = false;
+                    if (index >= mp.length) {
+                        replay.setEnabled(true);
+                        setFirstRowEnabled(true);
+                        tv.setText(getResources().getString(R.string.identify_interval));
+                        isReplaying = false;
+                        return;
+                    }
+
+                    mp[index].start();
                 }
-            }, 1500);
-        } else {
-            for (int i = 0; i < mp.length + 1; i++) {
-                final int index = i;
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (index - 1 >= 0) {
-                            mp[index - 1].stop();
-                            mp[index - 1].release();
-                            mp[index - 1] = null;
-                        }
-
-                        if (index >= mp.length) {
-                            replay.setEnabled(true);
-                            setFirstRowEnabled(true);
-                            tv.setText(getResources().getString(R.string.identify_interval));
-                            isReplaying = false;
-                            return;
-                        }
-
-                        mp[index].start();
-                    }
-                }, i * 1500);
-            }
+            }, i * 1500);
         }
     }
 

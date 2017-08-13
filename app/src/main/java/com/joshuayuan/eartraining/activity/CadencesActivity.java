@@ -31,6 +31,7 @@ import com.joshuayuan.eartraining.R;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import static com.joshuayuan.eartraining.activity.HighScores.CADENCES_SCORE_KEY;
@@ -135,11 +136,17 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
+
         for (int i = 0; i < 8; i++) {
             if (mp[i] != null) {
                 mp[i].release();
                 mp[i] = null;
             }
+        }
+
+        if (tonic != null) {
+            tonic.release();
+            tonic = null;
         }
     }
 
@@ -149,16 +156,11 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
      * Method is invoked only when the last answer provided is correct.
      */
     private void setAnswer() {
-        double randNum = Math.random() * 4;
-        if (randNum < 1) {
-            answer = "Perfect";
-        } else if (randNum < 2) {
-            answer = "Plagal";
-        } else if (randNum < 3) {
-            answer = "Imperfect";
-        } else {
-            answer = "Deceptive";
-        }
+        String[] primaryKey = new String[] { "Perfect", "Plagal", "Imperfect", "Deceptive" };
+
+        Random random = new Random();
+        answer = primaryKey[random.nextInt(primaryKey.length)];
+
         if (!answer.equals("Perfect") && !answer.equals("Plagal") && !selections.contains(answer)) {
             setAnswer();
         }
