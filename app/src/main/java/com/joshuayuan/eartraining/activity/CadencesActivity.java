@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.joshuayuan.eartraining.intelliyuan.CadenceGenerator;
+import com.joshuayuan.eartraining.intelliyuan.ChordExtensions;
 import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
 import com.joshuayuan.eartraining.R;
 
@@ -264,19 +265,7 @@ public class CadencesActivity extends AppCompatActivity { //todo: does it switch
                 notes = CadenceGenerator.getCadence(CadenceGenerator.Cadence.DECEPTIVE);
             }
 
-            int temp[] = new int[8];
-            for (int i = 0; i < 8; i++) {
-                temp[i] = notes[i];
-            }
-            Arrays.sort(temp);
-
-            int minShift = -11 - temp[0];
-            int maxShift = 28 - temp[7];
-            randomShift = minShift + (int) (Math.random() * (maxShift - minShift + 1));
-            //randomShift = minShift + 2; // bad: -5
-            for (int i = 0; i < 8; i++) {
-                notes[i] += randomShift;
-            }
+            randomShift = ChordExtensions.modulateNotesRand(notes, 5);
         }
         //make sure tonic note is between 5 and 16 (inclusive)
         int tonicId = 1 + randomShift;

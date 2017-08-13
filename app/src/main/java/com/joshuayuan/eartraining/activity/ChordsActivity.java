@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.joshuayuan.eartraining.intelliyuan.ChordExtensions;
 import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
 import com.joshuayuan.eartraining.R;
 
@@ -38,6 +39,7 @@ import static com.joshuayuan.eartraining.activity.HighScores.HIGH_SCORES_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS_ADVANCED;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
+import static com.joshuayuan.eartraining.intelliyuan.ChordExtensions.modulateNotes;
 
 /**
  * The chords activity plays a chord and asks the user to identify it.
@@ -59,7 +61,7 @@ public class ChordsActivity extends AppCompatActivity {
     private TextView tv;
     private TextView currentScore, highScore;
 
-    private int note1;
+    private int shift;
     private int score = 0;
     private Set<String> selections;
 
@@ -306,73 +308,78 @@ public class ChordsActivity extends AppCompatActivity {
             tv.setText(getResources().getString(R.string.replaying));
         }
 
-        if (answerCorrect) {
-            note1 = (int) (Math.random() * 15) + 1; //1 to 14
-        }
-        int note2, note3, note4 = 1;
-
         CharSequence chord = answer1 + " " + answer2;
         int[] stepInfo = chordToSemitoneGaps.get(chord.toString());
 
-        note2 = note1 + stepInfo[0];
-        note3 = note2 + stepInfo[1];
-        if (stepInfo.length > 2) {
-            note4 = note3 + stepInfo[2];
+        int[] chordNotes = new int[stepInfo.length + 1];
+        chordNotes[0] = 1;
+        for (int i = 1; i < chordNotes.length; i++) {
+            chordNotes[i] = chordNotes[i - 1] + stepInfo[i - 1];
         }
 
-        boolean fourNote = answer1.toString().contains("7");
+        if (answerCorrect) {
+            shift = ChordExtensions.modulateNotesRand(chordNotes, 10);
+        } else {
+            modulateNotes(chordNotes, shift);
+        }
 
-        mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
-        mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
-        mp[2] = MediaPlayer.create(this, NoteMappings.getResourceId(note3));
-        mp[3] = MediaPlayer.create(this, NoteMappings.getResourceId(note4));
+        for (int i = 0; i < chordNotes.length; i++) {
+            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(chordNotes[i]));
+        }
 
-        final int length = fourNote ? 4 : 3;
         if (prefSolid) {
-            for (int i = 0; i < length; i++) {
-                mp[i].start();
-            }
+            fireSolidChord(chordNotes.length);
+        } else {
+            fireBrokenChord(chordNotes.length);
+        }
+    }
 
+    private void fireSolidChord(final int length) {
+        for (int i = 0; i < length; i++) {
+            mp[i].start();
+        }
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < length; i++) {
+                    mp[i].stop();
+                    mp[i].release();
+                    mp[i] = null;
+
+                    replay.setEnabled(true);
+                    setFirstRowEnabled(true);
+                    tv.setText(getResources().getString(R.string.identify_chord));
+                    isReplaying = false;
+                }
+            }
+        }, 1500);
+    }
+
+    private void fireBrokenChord(final int length) {
+        for (int i = 0; i < length + 1; i++) {
+            final int copy = i;
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    for (int i = 0; i < 4; i++) {
-                        mp[i].stop();
-                        mp[i].release();
-                        mp[i] = null;
+                    if (copy > 0) {
+                        mp[copy - 1].stop();
+                        mp[copy - 1].release();
+                        mp[copy - 1] = null;
+                    }
 
+                    if (copy == length) {
                         replay.setEnabled(true);
                         setFirstRowEnabled(true);
                         tv.setText(getResources().getString(R.string.identify_chord));
                         isReplaying = false;
+
+                        return;
                     }
+
+                    mp[copy].start();
                 }
-            }, 1500);
-        } else {
-            for (int i = 0; i < length + 1; i++) {
-                final int copy = i;
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (copy > 0) {
-                            mp[copy - 1].stop();
-                            mp[copy - 1].release();
-                            mp[copy - 1] = null;
-                        }
-
-                        if (copy == length) {
-                            replay.setEnabled(true);
-                            setFirstRowEnabled(true);
-                            tv.setText(getResources().getString(R.string.identify_chord));
-                            isReplaying = false;
-
-                            return;
-                        }
-
-                        mp[copy].start();
-                    }
-                }, i * 500);
-            }
+            }, i * 500);
         }
     }
 

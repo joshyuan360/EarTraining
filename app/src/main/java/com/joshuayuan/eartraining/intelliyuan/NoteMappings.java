@@ -15,7 +15,7 @@ import android.util.SparseIntArray;
 import com.joshuayuan.eartraining.R;
 
 public class NoteMappings {
-    public static int MAX_NOTE = 37;
+    public static int MAX_NOTE = -11 + 49 - 1;
     public static int MIN_NOTE = -11;
 
     private static SparseIntArray noteMap = new SparseIntArray();

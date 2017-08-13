@@ -98,7 +98,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Ear Training Settings">
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="pref_repeat"
             android:summary="Replay after an incorrect answer is selected."
             android:title="Automatic Replay"
