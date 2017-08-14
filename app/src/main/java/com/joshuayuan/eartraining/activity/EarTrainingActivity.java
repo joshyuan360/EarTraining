@@ -32,16 +32,11 @@ public abstract class EarTrainingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intervals);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        instructions = (TextView) findViewById(R.id.instructions);
-        currentScore = (TextView) findViewById(R.id.currentScore);
-        highScore = (TextView) findViewById(R.id.highScore);
-
-        replay = (Button) findViewById(R.id.replay);
-        replay.setEnabled(false);
-
+        loadTextViews();
         loadPreferences();
-        initializeButtons();
+        loadButtons();
 
+        replay.setEnabled(false);
         setAllRowsEnabled(false);
 
         ActionBar actionBar = getSupportActionBar();
@@ -66,8 +61,9 @@ public abstract class EarTrainingActivity extends AppCompatActivity {
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < mp.length; i++) {
             if (mp[i] != null) {
+                mp[i].stop();
                 mp[i].release();
                 mp[i] = null;
             }
@@ -141,7 +137,8 @@ public abstract class EarTrainingActivity extends AppCompatActivity {
     }
 
     protected abstract void testUser();
+    protected abstract void loadTextViews();
     protected abstract void loadPreferences();
-    protected abstract void initializeButtons();
+    protected abstract void loadButtons();
     protected abstract void setAllRowsEnabled(boolean enabled);
 }

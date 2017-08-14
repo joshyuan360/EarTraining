@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
 import com.joshuayuan.eartraining.R;
@@ -61,7 +62,6 @@ public class IntervalsActivity extends EarTrainingActivity {
     private boolean prefRepeat;
     private boolean allowPerfect, allowAug;
 
-    private Handler handler = new Handler();
     private boolean isReplaying;
     private boolean increasing;
     private int testType;
@@ -80,6 +80,12 @@ public class IntervalsActivity extends EarTrainingActivity {
         initializeMap();
         initSpeedSeekBar(INTERVALS_SPEED_KEY);
         mp = new MediaPlayer[2];
+    }
+
+    protected void loadTextViews() {
+        instructions = (TextView) findViewById(R.id.instructions);
+        currentScore = (TextView) findViewById(R.id.currentScore);
+        highScore = (TextView) findViewById(R.id.highScore);
     }
 
     protected void loadPreferences() {
@@ -133,7 +139,7 @@ public class IntervalsActivity extends EarTrainingActivity {
     /**
      * Loads all the Button fields.
      */
-    protected void initializeButtons() {
+    protected void loadButtons() {
         perfect = (Button) findViewById(R.id.perfect);
         major = (Button) findViewById(R.id.major);
         minor = (Button) findViewById(R.id.minor);
@@ -151,6 +157,8 @@ public class IntervalsActivity extends EarTrainingActivity {
         tenth = (Button) findViewById(R.id.tenth);
         eleventh = (Button) findViewById(R.id.eleventh);
         twelfth = (Button) findViewById(R.id.twelfth);
+
+        replay = (Button) findViewById(R.id.replay);
     }
 
     /**
