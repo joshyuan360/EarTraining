@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -21,14 +22,14 @@
         android:textColor="@android:color/black" />
 
     <com.joshuayuan.eartraining.presentation.ReplayButton
-        android:id="@+id/replay"
+        android:id="@+id/replayButton"
         android:layout_width="43dp"
         android:layout_height="50dp"
         android:layout_above="@+id/linearLayout4"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:enabled="false"
-        android:onClick="replayChordProgression"
+        android:onClick="replayTest"
         android:text="@string/replay_button" />
 
     <LinearLayout
@@ -139,7 +140,7 @@
             android:gravity="end"/>
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
-            android:id="@+id/currentScore"
+            android:id="@+id/chordCurrentScore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -183,4 +184,41 @@
             android:textSize="20sp" />
     </LinearLayout>
 
+    <SeekBar
+        android:id="@+id/progressions_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout6"
+        android:layout_marginTop="34dp" />
+
+    <SeekBar
+        android:id="@+id/progressions_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/speedView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/volumeView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/progressions_speed"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/speed_symbol" />
+
+    <ImageView
+        android:id="@+id/speedView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/progressions_volume"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/volume_symbol" />
 </RelativeLayout>

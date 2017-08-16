@@ -12,14 +12,9 @@ package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,6 +30,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static com.joshuayuan.eartraining.activity.PreferenceKeys.CHORDS_SCORE_KEY;
+import static com.joshuayuan.eartraining.activity.PreferenceKeys.CHORDS_SPEED_KEY;
 import static com.joshuayuan.eartraining.activity.PreferenceKeys.HIGH_SCORES_KEY;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS;
 import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS_ADVANCED;
@@ -47,30 +43,17 @@ import static com.joshuayuan.eartraining.intelliyuan.ChordExtensions.modulateNot
  *
  * @author Joshua Yuan
  */
-public class ChordsActivity extends AppCompatActivity {
-    private final MediaPlayer[] mp = new MediaPlayer[4];
+public class ChordsActivity extends EarTrainingActivity {
     private Button major, minor, dominant, diminished, augmented, major7, minor7;
     private Button root, first, second, third;
-    private Button replay;
 
     private CharSequence part1, part2;
     private CharSequence answer1, answer2;
 
-    private boolean answerCorrect = true;
-
-    private TextView tv;
-    private TextView currentScore, highScore;
-
     private int shift;
-    private int score = 0;
-    private Set<String> selections;
 
-    private boolean prefRepeat, prefSolid;
+    private boolean prefSolid;
     private boolean allowDom, allowDim, allowAug, allowMaj7, allowMin7;
-
-    private Handler handler = new Handler();
-    private boolean isReplaying;
-    SharedPreferences pref;
 
     /**
      * Initializes the <code>Button</code> fields and begins the test.
@@ -80,21 +63,48 @@ public class ChordsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle("Chords");
         setContentView(R.layout.activity_chords);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        tv = (TextView) findViewById(R.id.chInstructions);
-        currentScore = (TextView) findViewById(R.id.currentScore);
-        highScore = (TextView) findViewById(R.id.chordHighScore);
+        onCreateEarTrainingActivity(
+                CHORDS_SCORE_KEY,
+                R.id.chords_volume,
+                R.id.chords_speed,
+                CHORDS_SPEED_KEY);
+        loadAudioPlayer(4);
 
-        loadPreference();
         initializeIntervalToSemitoneMap();
+    }
 
-        initializeButtons();
-        setFirstRowEnabled(false);
-        setBottomRowsEnabled(false, false);
-        replay.setEnabled(false);
+    @Override
+    protected void setAllRowsEnabled(boolean enabled) {
+        setFirstRowEnabled(enabled);
+        setBottomRowsEnabled(enabled, enabled);
+    }
 
-        for (String s : selections) {
+    @Override
+    protected void loadTextViews() {
+        setInstructionsView((TextView) findViewById(R.id.chordInstructions));
+        setCurrentScoreView((TextView) findViewById(R.id.chordCurrentScore));
+        setHighScoreView((TextView) findViewById(R.id.chordHighScore));
+    }
+
+    @Override
+    protected void loadSelectionsAndPreferences() {
+        setHighScoresPref(getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE));
+        getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(CHORDS_SCORE_KEY, 0)));
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
+                "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
+                "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
+                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad",
+                "Major 7 Root Pos", "Major 7 1st Inv", "Major 7 2nd Inv", "Major 7 3rd Inv",
+                "Minor 7 Root Pos", "Minor 7 1st Inv", "Minor 7 2nd Inv", "Minor 7 3rd Inv"
+        }));
+        setUserSelections(sharedPrefs.getStringSet(PREF_CHORDS, defaultSet));
+        setPrefRepeat(sharedPrefs.getBoolean(PREF_REPEAT, true));
+        prefSolid = sharedPrefs.getString(PREF_CHORDS_ADVANCED, "1").equals("1");
+
+        for (String s : getUserSelections()) {
             if (s.contains("Dom")) {
                 allowDom = true;
             } else if (s.contains("Dim")) {
@@ -107,72 +117,10 @@ public class ChordsActivity extends AppCompatActivity {
                 allowMin7 = true;
             }
         }
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                testUser();
-            }
-        }, 1000);
-    }
-
-    private void loadPreference() {
-        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
-        highScore.setText(String.valueOf(pref.getInt(CHORDS_SCORE_KEY, 0)));
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
-                "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
-                "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
-                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad",
-                "Major 7 Root Pos", "Major 7 1st Inv", "Major 7 2nd Inv", "Major 7 3rd Inv",
-                "Minor 7 Root Pos", "Minor 7 1st Inv", "Minor 7 2nd Inv", "Minor 7 3rd Inv"
-        }));
-        selections = sharedPrefs.getStringSet(PREF_CHORDS, defaultSet);
-        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
-        prefSolid = sharedPrefs.getString(PREF_CHORDS_ADVANCED, "1").equals("1");
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Stops any currently playing sounds when the user exits the activity.
-     *
-     * @throws IllegalStateException if the internal player engine has not been
-     *                               initialized or has been released.
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-        }
-        for (int i = 0; i < 4; i++) {
-            if (mp[i] != null) {
-                mp[i].release();
-                mp[i] = null;
-            }
-        }
-    }
-
-    /**
-     * Loads all the button fields.
-     */
-    private void initializeButtons() {
+    protected void loadButtons() {
         major = (Button) findViewById(R.id.major);
         minor = (Button) findViewById(R.id.minor);
         dominant = (Button) findViewById(R.id.dom7);
@@ -187,7 +135,7 @@ public class ChordsActivity extends AppCompatActivity {
         second = (Button) findViewById(R.id.second);
         third = (Button) findViewById(R.id.third);
 
-        replay = (Button) findViewById(R.id.replay);
+        setReplayButton((Button) findViewById(R.id.replayButton));
     }
 
     /**
@@ -213,7 +161,7 @@ public class ChordsActivity extends AppCompatActivity {
      * @return <code>true</code> if the button specified by <code>inversion</code> should be enabled.
      */
     private boolean allowInvButton(String inversion) {
-        for (String s : selections) {
+        for (String s : getUserSelections()) {
             if (part1 != null && s.contains(part1) && s.contains(inversion)) {
                 return true;
             }
@@ -224,7 +172,7 @@ public class ChordsActivity extends AppCompatActivity {
     private boolean allowRoot() {
         if (part1 == null) return false;
         if (part1.equals("Major") || part1.equals("Minor")) return true;
-        for (String s : selections) {
+        for (String s : getUserSelections()) {
             if (s.contains(part1) && s.contains("Root")) {
                 return true;
             }
@@ -245,7 +193,7 @@ public class ChordsActivity extends AppCompatActivity {
         third.setEnabled(allowInvButton("3rd Inv") && enableThird);
     }
 
-    private void setAnswer() {
+    protected void setAnswer() {
         String[] primaryKey = new String[] { "Major", "Minor", "Dom 7", "Dim 7", "Aug", "Major 7", "Minor 7" };
         Random random = new Random();
 
@@ -263,7 +211,7 @@ public class ChordsActivity extends AppCompatActivity {
         answer2 = nextValue[random.nextInt(nextValue.length)];
 
         String answer = answer1 + " " + answer2;
-        if (!answer.equals("Major Root Pos") && !answer.equals("Minor Root Pos") && !selections.contains(answer)) {
+        if (!answer.equals("Major Root Pos") && !answer.equals("Minor Root Pos") && !getUserSelections().contains(answer)) {
             setAnswer();
         }
     }
@@ -297,15 +245,15 @@ public class ChordsActivity extends AppCompatActivity {
      * Plays the chord specified by <code>answer1</code> and <code>answer2</code>.
      * When playing a new chord, the starting note is pseudo-randomly picked.
      */
-    private void playAnswer() {
+    protected void playAnswer() {
         // set up UI
         setFirstRowEnabled(false);
         setBottomRowsEnabled(false, false);
-        replay.setEnabled(false);
-        if (answerCorrect) {
-            tv.setText(getResources().getString(R.string.playing_chord));
+        getReplayButton().setEnabled(false);
+        if (isAnswerCorrect()) {
+            getInstructionsView().setText(getResources().getString(R.string.playing_chord));
         } else {
-            tv.setText(getResources().getString(R.string.replaying));
+            getInstructionsView().setText(getResources().getString(R.string.replaying));
         }
 
         CharSequence chord = answer1 + " " + answer2;
@@ -317,14 +265,14 @@ public class ChordsActivity extends AppCompatActivity {
             chordNotes[i] = chordNotes[i - 1] + stepInfo[i - 1];
         }
 
-        if (answerCorrect) {
+        if (isAnswerCorrect()) {
             shift = ChordExtensions.modulateNotesRand(chordNotes, 10);
         } else {
             modulateNotes(chordNotes, shift);
         }
 
         for (int i = 0; i < chordNotes.length; i++) {
-            mp[i] = MediaPlayer.create(this, NoteMappings.getResourceId(chordNotes[i]));
+            audioPlayer[i] = MediaPlayer.create(this, NoteMappings.getResourceId(chordNotes[i]));
         }
 
         if (prefSolid) {
@@ -336,24 +284,24 @@ public class ChordsActivity extends AppCompatActivity {
 
     private void fireSolidChord(final int length) {
         for (int i = 0; i < length; i++) {
-            mp[i].start();
+            audioPlayer[i].start();
         }
 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < length; i++) {
-                    mp[i].stop();
-                    mp[i].release();
-                    mp[i] = null;
+                    audioPlayer[i].stop();
+                    audioPlayer[i].release();
+                    audioPlayer[i] = null;
 
-                    replay.setEnabled(true);
+                    getReplayButton().setEnabled(true);
                     setFirstRowEnabled(true);
-                    tv.setText(getResources().getString(R.string.identify_chord));
-                    isReplaying = false;
+                    getInstructionsView().setText(getResources().getString(R.string.identify_chord));
+                    setReplaying(false);
                 }
             }
-        }, 1500);
+        }, getDelay());
     }
 
     private void fireBrokenChord(final int length) {
@@ -363,92 +311,30 @@ public class ChordsActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (copy > 0) {
-                        mp[copy - 1].stop();
-                        mp[copy - 1].release();
-                        mp[copy - 1] = null;
+                        audioPlayer[copy - 1].stop();
+                        audioPlayer[copy - 1].release();
+                        audioPlayer[copy - 1] = null;
                     }
 
                     if (copy == length) {
-                        replay.setEnabled(true);
+                        getReplayButton().setEnabled(true);
                         setFirstRowEnabled(true);
-                        tv.setText(getResources().getString(R.string.identify_chord));
-                        isReplaying = false;
+                        getInstructionsView().setText(getResources().getString(R.string.identify_chord));
+                        setReplaying(false);
 
                         return;
                     }
 
-                    mp[copy].start();
+                    audioPlayer[copy].start();
                 }
-            }, i * 500);
+            }, i * (int)(getDelay() / 3.0));
         }
     }
 
-    /**
-     * If the last answer was correct, this method plays a newly-generated chord.
-     * If the last answer was incorrect, this method replays the last chord.
-     */
-    private void testUser() {
-        if (answerCorrect) {
-            setAnswer();
-            playAnswer();
-        } else if (prefRepeat) {
-            playAnswer();
-        }
-    }
-
-    /**
-     * Displays the result of the user's input as "Correct!" or "Incorrect...".
-     * The score is either incremented (if correct) or reset to zero (if incorrect).
-     */
-    private void displayResult() {
-        if (answer1.equals("Dim 7") && part2.equals("Dim 7") || answer1.equals("Aug") && part2.equals("Aug")) {
-            tv.setText(getResources().getString(R.string.correct));
-            answerCorrect = true;
-            score++;
-        } else if (part1.equals(answer1) && part2.equals(answer2)) {
-            tv.setText(getResources().getString(R.string.correct));
-            answerCorrect = true;
-            score++;
-        } else {
-            tv.setText(getResources().getString(R.string.incorrect));
-            answerCorrect = false;
-            score = 0;
-        }
-
-        currentScore.setText(String.valueOf(score));
-        setHighScores(score);
-    }
-
-    /**
-     * If the current score is higher than the high score, the new high score is updated
-     * in shared preferences.
-     *
-     * @param score The current score.
-     */
-    private void setHighScores(int score) {
-        int hs = pref.getInt(CHORDS_SCORE_KEY, 0);
-
-        if (hs < score) {
-            hs = score;
-
-            SharedPreferences.Editor editor = pref.edit();
-
-            editor.putInt(CHORDS_SCORE_KEY, hs);
-            editor.apply();
-        }
-
-        highScore.setText(String.valueOf(hs));
-    }
-
-    /**
-     * Replays the last interval for the user.
-     *
-     * @param view The REPLAY button pressed.
-     */
-    public void replayChord(View view) {
-        answerCorrect = false;
-        isReplaying = true;
-        playAnswer();
+    @Override
+    protected boolean answerCorrect() {
+        return (answer1.equals("Dim 7") && part2.equals("Dim 7") || answer1.equals("Aug") && part2.equals("Aug")) ||
+                (part1.equals(answer1) && part2.equals(answer2));
     }
 
     /**
@@ -480,17 +366,17 @@ public class ChordsActivity extends AppCompatActivity {
         }
 
         displayResult();
-        if (answerCorrect || prefRepeat) {
-            replay.setEnabled(false);
+        if (isAnswerCorrect() || isPrefRepeat()) {
+            getReplayButton().setEnabled(false);
         }
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (answerCorrect || prefRepeat) {
+                if (isAnswerCorrect() || isPrefRepeat()) {
                     testUser();
-                } else if (!isReplaying) {
+                } else if (!isReplaying()) {
                     setFirstRowEnabled(true);
-                    tv.setText(getResources().getString(R.string.try_again));
+                    getInstructionsView().setText(getResources().getString(R.string.try_again));
                 }
             }
         }, 1500);

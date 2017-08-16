@@ -12,7 +12,7 @@
     tools:context="com.joshuayuan.eartraining.activity.IntervalsActivity">
 
     <com.joshuayuan.eartraining.presentation.InstructionTextView
-        android:id="@+id/instructions"
+        android:id="@+id/intervalInstructions"
         android:layout_width="wrap_content"
         android:layout_height="41dp"
         android:layout_alignParentLeft="true"
@@ -23,14 +23,14 @@
         android:textColor="@android:color/black" />
 
     <com.joshuayuan.eartraining.presentation.ReplayButton
-        android:id="@+id/replay"
+        android:id="@+id/replayButton"
         android:layout_width="43dp"
         android:layout_height="50dp"
         android:layout_above="@+id/linearLayout"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:enabled="false"
-        android:onClick="replayInterval"
+        android:onClick="replayTest"
         android:text="@string/replay_button" />
 
     <LinearLayout
@@ -41,7 +41,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/instructions"
+        android:layout_below="@+id/intervalInstructions"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -291,7 +291,7 @@
             android:textSize="20sp" />
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
-            android:id="@+id/currentScore"
+            android:id="@+id/intervalCurrentScore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -324,7 +324,7 @@
             android:textSize="20sp" />
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
-            android:id="@+id/highScore"
+            android:id="@+id/intervalHighScore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"

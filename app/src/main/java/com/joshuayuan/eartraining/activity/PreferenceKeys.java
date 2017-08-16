@@ -26,7 +26,7 @@ public class PreferenceKeys {
     static final String PROGRESSIONS_SCORE_KEY = "cphs";
 
     static final String INTERVALS_SPEED_KEY = "intervals_speed";
-    static final String CHORDS_SPEED = "chords_speed";
-    static final String CADENCES_SPEED = "cadences_speed";
-    static final String PROGRESSIONS_SPEED = "progressions_speed";
+    static final String CHORDS_SPEED_KEY = "chords_speed";
+    static final String CADENCES_SPEED_KEY = "cadences_speed";
+    static final String PROGRESSIONS_SPEED_KEY = "progressions_speed";
 }
