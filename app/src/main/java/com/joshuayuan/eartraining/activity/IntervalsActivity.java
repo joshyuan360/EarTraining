@@ -28,13 +28,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.INTERVALS_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.INTERVALS_SPEED_KEY;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_INTERVALS;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_INTERVALS_ADVANCED;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
-
 /**
  * The interval activity plays an interval and asks the user to identify it.
  * The score is based on the number of consecutive correct answers.
@@ -69,10 +62,10 @@ public class IntervalsActivity extends EarTrainingActivity {
         setTitle("Intervals");
 
         onCreateEarTrainingActivity(
-                INTERVALS_SCORE_KEY,
+                getString(R.string.INTERVALS_SCORE_KEY),
                 R.id.intervals_volume,
                 R.id.intervals_speed,
-                INTERVALS_SPEED_KEY);
+                getString(R.string.INTERVALS_SPEED_KEY));
 
         loadAudioPlayer(2);
 
@@ -111,8 +104,8 @@ public class IntervalsActivity extends EarTrainingActivity {
 
     @Override
     protected void loadSelectionsAndPreferences() {
-        setHighScoresPref(getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE));
-        getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(INTERVALS_SCORE_KEY, 0)));
+        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORE_KEYS), Context.MODE_PRIVATE));
+        getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(getString(R.string.INTERVALS_SCORE_KEY), 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
@@ -122,9 +115,9 @@ public class IntervalsActivity extends EarTrainingActivity {
                 "Perfect Octave", "Aug Fourth", "Minor Ninth", "Major Ninth",
                 "Minor Tenth", "Major Tenth", "Perfect Eleventh", "Aug Eleventh",
                 "Perfect Twelfth"}));
-        setUserSelections(sharedPrefs.getStringSet(PREF_INTERVALS, defaultSet));
-        setPrefRepeat(sharedPrefs.getBoolean(PREF_REPEAT, true));
-        testType = Integer.parseInt(sharedPrefs.getString(PREF_INTERVALS_ADVANCED, "4"));
+        setUserSelections(sharedPrefs.getStringSet(getString(R.string.PREF_INTERVALS), defaultSet));
+        setPrefRepeat(sharedPrefs.getBoolean(getString(R.string.PREF_REPEAT), true));
+        testType = Integer.parseInt(sharedPrefs.getString(getString(R.string.PREF_INTERVALS_ADVANCED), "4"));
 
         for (String s : getUserSelections()) {
             if (s.startsWith("Perfect")) {

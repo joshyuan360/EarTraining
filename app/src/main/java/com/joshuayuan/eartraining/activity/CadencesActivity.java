@@ -29,12 +29,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.CADENCES_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.CADENCES_SPEED_KEY;
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CADENCES;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
-
 /**
  * The cadences activity plays a cadence and asks the user to identify it.
  * The score is based on the number of consecutive correct answers.
@@ -63,10 +57,10 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
         setContentView(R.layout.activity_cadences);
 
         onCreateEarTrainingActivity(
-                CADENCES_SCORE_KEY,
+                getString(R.string.CADENCES_SCORE_KEY),
                 R.id.cadences_volume,
                 R.id.cadences_speed,
-                CADENCES_SPEED_KEY);
+                getString(R.string.CADENCES_SPEED_KEY));
 
         loadAudioPlayer(8);
     }
@@ -80,13 +74,13 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
 
     @Override
     protected void loadSelectionsAndPreferences() {
-        setHighScoresPref(getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE));
-        getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(CADENCES_SCORE_KEY, 0)));
+        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORE_KEYS), Context.MODE_PRIVATE));
+        getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(getString(R.string.CADENCES_SCORE_KEY), 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this (6.3)
-        setUserSelections(sharedPrefs.getStringSet(PREF_CADENCES, defaultSet));
-        setPrefRepeat(sharedPrefs.getBoolean(PREF_REPEAT, true));
+        setUserSelections(sharedPrefs.getStringSet(getString(R.string.PREF_CADENCES), defaultSet));
+        setPrefRepeat(sharedPrefs.getBoolean(getString(R.string.PREF_REPEAT), true));
     }
 
     @Override

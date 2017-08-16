@@ -29,12 +29,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.CHORDS_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.CHORDS_SPEED_KEY;
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORDS_ADVANCED;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
 import static com.joshuayuan.eartraining.intelliyuan.ChordExtensions.modulateNotes;
 
 /**
@@ -65,10 +59,10 @@ public class ChordsActivity extends EarTrainingActivity {
         setContentView(R.layout.activity_chords);
 
         onCreateEarTrainingActivity(
-                CHORDS_SCORE_KEY,
+                getString(R.string.CHORDS_SCORE_KEY),
                 R.id.chords_volume,
                 R.id.chords_speed,
-                CHORDS_SPEED_KEY);
+                getString(R.string.CHORDS_SPEED_KEY));
         loadAudioPlayer(4);
 
         initializeIntervalToSemitoneMap();
@@ -89,8 +83,8 @@ public class ChordsActivity extends EarTrainingActivity {
 
     @Override
     protected void loadSelectionsAndPreferences() {
-        setHighScoresPref(getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE));
-        getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(CHORDS_SCORE_KEY, 0)));
+        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORE_KEYS), Context.MODE_PRIVATE));
+        getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(getString(R.string.CHORDS_SCORE_KEY), 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
@@ -100,9 +94,9 @@ public class ChordsActivity extends EarTrainingActivity {
                 "Major 7 Root Pos", "Major 7 1st Inv", "Major 7 2nd Inv", "Major 7 3rd Inv",
                 "Minor 7 Root Pos", "Minor 7 1st Inv", "Minor 7 2nd Inv", "Minor 7 3rd Inv"
         }));
-        setUserSelections(sharedPrefs.getStringSet(PREF_CHORDS, defaultSet));
-        setPrefRepeat(sharedPrefs.getBoolean(PREF_REPEAT, true));
-        prefSolid = sharedPrefs.getString(PREF_CHORDS_ADVANCED, "1").equals("1");
+        setUserSelections(sharedPrefs.getStringSet(getString(R.string.PREF_CHORDS), defaultSet));
+        setPrefRepeat(sharedPrefs.getBoolean(getString(R.string.PREF_REPEAT), true));
+        prefSolid = sharedPrefs.getString(getString(R.string.PREF_CHORDS_ADVANCED), "1").equals("1");
 
         for (String s : getUserSelections()) {
             if (s.contains("Dom")) {

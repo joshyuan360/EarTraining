@@ -19,8 +19,6 @@ import com.joshuayuan.eartraining.R;
 
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.CONTROLS_KEY;
-
 public abstract class EarTrainingActivity extends AppCompatActivity {
     protected MediaPlayer[] audioPlayer = null;
     protected Handler handler = new Handler();
@@ -132,7 +130,7 @@ public abstract class EarTrainingActivity extends AppCompatActivity {
 
     private void initSpeedSeekBar(int seekBarId, final String key) {
         SeekBar speedSeekBar = (SeekBar) findViewById(seekBarId);
-        final SharedPreferences sharedPref = getSharedPreferences(CONTROLS_KEY, MODE_PRIVATE);
+        final SharedPreferences sharedPref = getSharedPreferences(getString(R.string.CONTROLS_KEY), MODE_PRIVATE);
 
         speedSeekBar.setMax(3000);
         speedSeekBar.setProgress(3000 - sharedPref.getInt(key, 1500));
@@ -202,7 +200,7 @@ public abstract class EarTrainingActivity extends AppCompatActivity {
     }
 
     protected int getDelay() {
-        return getSharedPreferences(CONTROLS_KEY, MODE_PRIVATE)
+        return getSharedPreferences(getString(R.string.CONTROLS_KEY), MODE_PRIVATE)
                 .getInt(speedKey, 1500);
     }
 

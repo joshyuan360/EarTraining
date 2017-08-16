@@ -15,13 +15,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.PROGRESSIONS_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.PreferenceKeys.PROGRESSIONS_SPEED_KEY;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_CHORD_PROGRESSIONS;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_PROGRESSION_TONALITY;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_SEQ_LENGTH;
-
 /**
  * The chord progression activity plays a chord progression twice as per the
  * RCM syllabus. The score is based on the number of consecutive correct answers.
@@ -49,10 +42,10 @@ public class ChordProgressionActivity extends EarTrainingActivity {
         setContentView(R.layout.activity_chord_progression);
 
         onCreateEarTrainingActivity(
-                PROGRESSIONS_SCORE_KEY,
+                getString(R.string.PROGRESSIONS_SCORE_KEY),
                 R.id.progressions_volume,
                 R.id.progressions_speed,
-                PROGRESSIONS_SPEED_KEY);
+                getString(R.string.PROGRESSIONS_SPEED_KEY));
 
         loadAudioPlayer(seqLength * 4);
     }
@@ -61,13 +54,13 @@ public class ChordProgressionActivity extends EarTrainingActivity {
     protected void loadSelectionsAndPreferences() {
         setHighScoresPref(PreferenceManager.getDefaultSharedPreferences(this));
         Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"six", "cadential"}));
-        setUserSelections(getHighScoresPref().getStringSet(PREF_CHORD_PROGRESSIONS, defaultSet));
-        setPrefRepeat(getHighScoresPref().getBoolean(PREF_REPEAT, true));
+        setUserSelections(getHighScoresPref().getStringSet(getString(R.string.PREF_CHORD_PROGRESSIONS), defaultSet));
+        setPrefRepeat(getHighScoresPref().getBoolean(getString(R.string.PREF_REPEAT), true));
 
-        seqLength = Integer.parseInt(getHighScoresPref().getString(PREF_SEQ_LENGTH, "5"));
+        seqLength = Integer.parseInt(getHighScoresPref().getString(getString(R.string.PREF_SEQ_LENGTH), "5"));
         boolean includeSix = getUserSelections().contains("six");
         boolean includeCadential = getUserSelections().contains("cadential");
-        int tonalityChoice = Integer.parseInt(getHighScoresPref().getString(PREF_PROGRESSION_TONALITY, "3"));
+        int tonalityChoice = Integer.parseInt(getHighScoresPref().getString(getString(R.string.PREF_PROGRESSION_TONALITY), "3"));
 
         ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential, tonalityChoice);
     }

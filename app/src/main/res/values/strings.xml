@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Ear Training</string>
-    <string name="ear_training_title">EAR TRAINING</string>
 
     <string name="intervals_menu">INTERVALS</string>
     <string name="chords_menu">CHORDS</string>
@@ -51,11 +50,6 @@
 
     <string name="score_value">0</string>
 
-    <string name="intervals_hs">Intervals: %1$d</string>
-    <string name="chords_hs">Chords: %1$d</string>
-    <string name="cadences_hs">Cadences: %1$d</string>
-    <string name="chord_progressions_hs">Progressions: %1$d</string>
-
     <string name="select_interval">Select the interval you hear:</string>
     <string name="select_chord">Select the chord you hear:</string>
     <string name="select_cadence">Select the cadence you hear:</string>
@@ -79,5 +73,28 @@
     <string name="incorrect">Incorrect…</string>
     <string name="try_again">Try again!</string>
 
-    <string name="replay_button"></string>
+    <string name="HIGH_SCORES_KEY">high scores</string>
+    <string name="INTERVALS_SCORE_KEY">ihs</string>
+    <string name="CHORDS_SCORE_KEY">chhs</string>
+    <string name="CADENCES_SCORE_KEY">cahs</string>
+    <string name="PROGRESSIONS_SCORE_KEY">cphs</string>
+
+    <string name="CONTROLS_KEY">controls</string>
+    <string name="INTERVALS_SPEED_KEY">intervals_speed</string>
+    <string name="CHORDS_SPEED_KEY">chords_speed</string>
+    <string name="CADENCES_SPEED_KEY">cadences_speed</string>
+    <string name="PROGRESSIONS_SPEED_KEY">progressions_speed</string>
+
+    <string name="PREF_LEVEL">pref_level</string>
+    <string name="PREF_PRESET">pref_preset</string>
+
+    <string name="PREF_INTERVALS">pref_intervals</string>
+    <string name="PREF_INTERVALS_ADVANCED">pref_interval_type</string>
+    <string name="PREF_CHORDS">pref_chords</string>
+    <string name="PREF_CHORDS_ADVANCED">pref_chord_type</string>
+    <string name="PREF_CADENCES">pref_cadences</string>
+    <string name="PREF_CHORD_PROGRESSIONS">pref_chord_progressions</string>
+    <string name="PREF_PROGRESSION_TONALITY">pref_progression_tonality</string>
+    <string name="PREF_SEQ_LENGTH">pref_seq_length</string>
+    <string name="PREF_REPEAT">pref_repeat</string>
 </resources>

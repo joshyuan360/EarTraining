@@ -25,9 +25,9 @@
         android:id="@+id/replayButton"
         android:layout_width="43dp"
         android:layout_height="50dp"
+        android:layout_above="@+id/perfect"
         android:enabled="false"
         android:onClick="replayTest"
-        android:text="@string/replay_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

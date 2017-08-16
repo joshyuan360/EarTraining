@@ -84,26 +84,12 @@ public class PreferencesActivity extends AppCompatActivity {
                     .unregisterOnSharedPreferenceChangeListener(this);
         }
 
-        public static final String PREF_LEVEL = "pref_level";
-        public static final String PREF_PRESET = "pref_preset";
-
-        public static final String PREF_INTERVALS = "pref_intervals";
-        public static final String PREF_INTERVALS_ADVANCED = "pref_interval_type";
-        public static final String PREF_CHORDS = "pref_chords";
-        public static final String PREF_CHORDS_ADVANCED = "pref_chord_type";
-        public static final String PREF_CADENCES = "pref_cadences";
-        public static final String PREF_CHORD_PROGRESSIONS = "pref_chord_progressions";
-        public static final String PREF_PROGRESSION_TONALITY = "pref_progression_tonality";
-        public static final String PREF_SEQ_LENGTH = "pref_seq_length";
-
-        public static final String PREF_REPEAT = "pref_repeat";
-
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                               String key) {
-            if (key.equals(PREF_LEVEL)) {
+            if (key.equals(getString(R.string.PREF_LEVEL))) {
                 customizeUserSettings();
-            } else if (key.equals(PREF_PRESET)) {
-                boolean isRequested = getPreferenceManager().getSharedPreferences().getBoolean(PREF_PRESET, false);
+            } else if (key.equals(getString(R.string.PREF_PRESET))) {
+                boolean isRequested = getPreferenceManager().getSharedPreferences().getBoolean(getString(R.string.PREF_PRESET), false);
                 if (isRequested) {
                     customizeUserSettings();
                 } else {
@@ -120,34 +106,34 @@ public class PreferencesActivity extends AppCompatActivity {
 
             SharedPreferences.Editor editor = prefs.edit();
 
-            int level = Integer.parseInt(prefs.getString(PREF_LEVEL, "10"));
+            int level = Integer.parseInt(prefs.getString(getString(R.string.PREF_LEVEL), "10"));
 
-            editor.putStringSet(PREF_INTERVALS, PianoSyllabus.getIntervalsFromLevel(level));
-            editor.putString(PREF_INTERVALS_ADVANCED, PianoSyllabus.getIntervalTypeFromLevel(level));
-            editor.putStringSet(PREF_CHORDS, PianoSyllabus.getChordsFromLevel(level));
-            editor.putString(PREF_CHORDS_ADVANCED, PianoSyllabus.getChordTypeFromLevel(level));
-            editor.putStringSet(PREF_CADENCES, PianoSyllabus.getCadencesFromLevel(level));
-            editor.putStringSet(PREF_CHORD_PROGRESSIONS, PianoSyllabus.getProgressionsFromLevel(level));
-            editor.putString(PREF_PROGRESSION_TONALITY, PianoSyllabus.getProgressionTonalityFromLevel(level));
-            editor.putString(PREF_SEQ_LENGTH, PianoSyllabus.getProgressionLengthFromLevel(level));
+            editor.putStringSet(getString(R.string.PREF_INTERVALS), PianoSyllabus.getIntervalsFromLevel(level));
+            editor.putString(getString(R.string.PREF_INTERVALS_ADVANCED), PianoSyllabus.getIntervalTypeFromLevel(level));
+            editor.putStringSet(getString(R.string.PREF_CHORDS), PianoSyllabus.getChordsFromLevel(level));
+            editor.putString(getString(R.string.PREF_CHORDS_ADVANCED), PianoSyllabus.getChordTypeFromLevel(level));
+            editor.putStringSet(getString(R.string.PREF_CADENCES), PianoSyllabus.getCadencesFromLevel(level));
+            editor.putStringSet(getString(R.string.PREF_CHORD_PROGRESSIONS), PianoSyllabus.getProgressionsFromLevel(level));
+            editor.putString(getString(R.string.PREF_PROGRESSION_TONALITY), PianoSyllabus.getProgressionTonalityFromLevel(level));
+            editor.putString(getString(R.string.PREF_SEQ_LENGTH), PianoSyllabus.getProgressionLengthFromLevel(level));
 
             editor.apply();
         }
 
         private void setPresetRequested() {
-            boolean isRequested = getPreferenceManager().getSharedPreferences().getBoolean(PREF_PRESET, false);
+            boolean isRequested = getPreferenceManager().getSharedPreferences().getBoolean(getString(R.string.PREF_PRESET), false);
             PreferenceScreen preferenceScreen = getPreferenceScreen();
 
-            preferenceScreen.findPreference(PREF_LEVEL).setEnabled(isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_LEVEL)).setEnabled(isRequested);
 
-            preferenceScreen.findPreference(PREF_INTERVALS).setEnabled(!isRequested);
-            preferenceScreen.findPreference(PREF_INTERVALS_ADVANCED).setEnabled(!isRequested);
-            preferenceScreen.findPreference(PREF_CHORDS).setEnabled(!isRequested);
-            preferenceScreen.findPreference(PREF_CHORDS_ADVANCED).setEnabled(!isRequested);
-            preferenceScreen.findPreference(PREF_CADENCES).setEnabled(!isRequested);
-            preferenceScreen.findPreference(PREF_CHORD_PROGRESSIONS).setEnabled(!isRequested);
-            preferenceScreen.findPreference(PREF_PROGRESSION_TONALITY).setEnabled(!isRequested);
-            preferenceScreen.findPreference(PREF_SEQ_LENGTH).setEnabled(!isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_INTERVALS)).setEnabled(!isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_INTERVALS_ADVANCED)).setEnabled(!isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_CHORDS)).setEnabled(!isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_CHORDS_ADVANCED)).setEnabled(!isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_CADENCES)).setEnabled(!isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_CHORD_PROGRESSIONS)).setEnabled(!isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_PROGRESSION_TONALITY)).setEnabled(!isRequested);
+            preferenceScreen.findPreference(getString(R.string.PREF_SEQ_LENGTH)).setEnabled(!isRequested);
         }
     }
 }

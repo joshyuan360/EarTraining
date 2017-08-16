@@ -29,8 +29,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:enabled="false"
-        android:onClick="replayTest"
-        android:text="@string/replay_button" />
+        android:onClick="replayTest" />
 
     <LinearLayout
         android:layout_width="match_parent"
