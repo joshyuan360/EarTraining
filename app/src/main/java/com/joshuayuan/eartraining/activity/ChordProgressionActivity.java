@@ -39,7 +39,7 @@ public class ChordProgressionActivity extends EarTrainingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Chord Progression");
-        setContentView(R.layout.activity_chord_progression);
+        setContentView(R.layout.activity_chord_progressions);
 
         onCreateEarTrainingActivity(
                 getString(R.string.PROGRESSIONS_SCORE_KEY),
@@ -130,8 +130,8 @@ public class ChordProgressionActivity extends EarTrainingActivity {
         for (int i = 0; i < audioPlayer.length + 4; i += 4) {
             final int start = i;
 
-            int delay = 0;
-            if (start >= audioPlayer.length) delay = getDelay();
+            int moreDelay = 0;
+            if (start >= audioPlayer.length) moreDelay = getDelay();
 
             handler.postDelayed(new Runnable() {
                 @Override
@@ -153,7 +153,7 @@ public class ChordProgressionActivity extends EarTrainingActivity {
                         audioPlayer[n].start();
                     }
                 }
-            }, i / 4 * getDelay() + delay);
+            }, i / 4 * getDelay() + moreDelay);
         }
     }
 

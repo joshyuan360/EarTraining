@@ -172,6 +172,8 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
 
         for (int i = 0; i < audioPlayer.length + 4; i += 4) {
             final int start = i;
+            int moreDelay = 0;
+            if (start >= audioPlayer.length) moreDelay = getDelay();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -195,7 +197,7 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
                         audioPlayer[j].start();
                     }
                 }
-            }, getDelay() + i / 4 * getDelay());
+            }, getDelay() + i / 4 * getDelay() + moreDelay);
         }
     }
 

@@ -37,8 +37,7 @@ import java.util.Set;
 public class IntervalsActivity extends EarTrainingActivity {
     private CharSequence part1;
     private CharSequence part2;
-    private CharSequence answer1;
-    private CharSequence answer2;
+    private CharSequence answer;
 
     private Button perfect, major, minor, aug;
     private Button unison, second, third, fourth, fifth, sixth, seventh, octave, ninth, tenth, eleventh, twelfth;
@@ -52,9 +51,6 @@ public class IntervalsActivity extends EarTrainingActivity {
 
     private HashMap<String, Integer> intervalToSemitoneGap = new HashMap<>();
 
-    /**
-     * Initializes the <code>Button</code> fields and begins the test.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,14 +147,14 @@ public class IntervalsActivity extends EarTrainingActivity {
                 getString(R.string.minor), getString(R.string.aug)};
         Random random = new Random();
 
-        answer1 = primaryKey[random.nextInt(primaryKey.length)];
+        answer = primaryKey[random.nextInt(primaryKey.length)];
 
         String[] nextValue;
-        if (answer1.equals(getString(R.string.perfect))) {
+        if (answer.equals(getString(R.string.perfect))) {
             nextValue = new String[]{
                     getString(R.string.unison), getString(R.string.fourth), getString(R.string.fifth),
                     getString(R.string.octave), getString(R.string.eleventh), getString(R.string.twelfth)};
-        } else if (answer1.equals(getString(R.string.major)) || answer1.equals(getString(R.string.minor))) {
+        } else if (answer.equals(getString(R.string.major)) || answer.equals(getString(R.string.minor))) {
             nextValue = new String[]{
                     getString(R.string.second), getString(R.string.third), getString(R.string.sixth),
                     getString(R.string.seventh), getString(R.string.ninth), getString(R.string.tenth)};
@@ -166,9 +162,8 @@ public class IntervalsActivity extends EarTrainingActivity {
             nextValue = new String[]{getString(R.string.fourth), getString(R.string.eleventh)};
         }
 
-        answer2 = nextValue[random.nextInt(nextValue.length)];
+        answer = answer + " " + nextValue[random.nextInt(nextValue.length)];
 
-        String answer = answer1 + " " + answer2;
         if (!answer.equals(getString(R.string.major) + " "  + getString(R.string.third)) &&
                 !answer.equals(getString(R.string.minor) + " " + getString(R.string.third)) &&
                 !getUserSelections().contains(answer)) {
@@ -192,17 +187,12 @@ public class IntervalsActivity extends EarTrainingActivity {
         return testType == 1;
     }
 
-    /**
-     * Plays the interval specified by <code>answer1</code> and <code>answer2</code>.
-     * When playing a new interval, the starting note is pseudo-randomly picked.
-     */
     protected void playAnswer() {
         // set up UI
         setAllRowsEnabled(false);
         getReplayButton().setEnabled(false);
 
-        CharSequence interval = answer1 + " " + answer2;
-        int intervalGap = intervalToSemitoneGap.get(interval.toString());
+        int intervalGap = intervalToSemitoneGap.get(answer.toString());
         int maxBottom = NoteMappings.MAX_NOTE - intervalGap;
 
         if (isAnswerCorrect()) {
@@ -212,7 +202,7 @@ public class IntervalsActivity extends EarTrainingActivity {
             getInstructionsView().setText(getResources().getString(R.string.replaying));
         }
 
-        int note2 = note1 + intervalToSemitoneGap.get(interval.toString());
+        int note2 = note1 + intervalGap;
 
         increasing = getIncreasing();
         if (increasing) {
@@ -277,23 +267,10 @@ public class IntervalsActivity extends EarTrainingActivity {
         }
     }
 
-    /**
-     * Determines if the unison, fourth, fifth, or octave button should be enabled
-     * based on user settings.
-     *
-     * @param option Unison, fourth, fifth, or octave.
-     * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
-     */
     private boolean allowPerfectButton(String option) {
         return getUserSelections().contains(getString(R.string.perfect) + " " + option);
     }
 
-    /**
-     * Determines if the button should be enabled based on user settings.
-     *
-     * @param option A button on the interval activities window.
-     * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
-     */
     private boolean allowMajorMinorButton(String option) {
         return getUserSelections().contains(part1 + " " + option);
     }
@@ -342,15 +319,9 @@ public class IntervalsActivity extends EarTrainingActivity {
     }
 
     protected boolean answerCorrect() {
-        return part1.equals(answer1) && (part2.equals(answer2));
+        return answer.equals(part1 + " " + part2);
     }
 
-
-    /**
-     * Sets the value of <code>part1</code> after the user has selected perfect, major, or minor.
-     *
-     * @param view The button clicked by the user: perfect, major, or minor.
-     */
     public void part1Clicked(View view) {
         part1 = ((Button) view).getText();
         setFirstRowEnabled(false);
@@ -363,13 +334,6 @@ public class IntervalsActivity extends EarTrainingActivity {
         }
     }
 
-    /**
-     * Sets the value of <code>part2</code> after the user has selected an interval.
-     * The result is displayed, and the activity is reset.
-     *
-     * @param view The button clicked by the user: unison, second, third, fourth, fifth,
-     *             sixth, seventh, octave, or tritone.
-     */
     public void part2Clicked(View view) {
         part2 = ((Button) view).getText();
 

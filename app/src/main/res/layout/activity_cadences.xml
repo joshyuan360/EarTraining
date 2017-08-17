@@ -167,32 +167,46 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/deceptive"
-        android:layout_marginTop="34dp" />
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="30dp" />
+
+    <ImageView
+        android:id="@+id/volumeView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/deceptive"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        app:srcCompat="@drawable/volume_symbol" />
 
     <SeekBar
         android:id="@+id/cadences_speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:layout_below="@+id/speedView"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/cadences_volume"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <ImageView
-        android:id="@+id/volumeView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_below="@+id/cadences_speed"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/speed_symbol" />
-
-    <ImageView
         android:id="@+id/speedView"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_below="@+id/cadences_volume"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/volume_symbol" />
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        app:srcCompat="@drawable/speed_symbol" />
+
+
 </RelativeLayout>

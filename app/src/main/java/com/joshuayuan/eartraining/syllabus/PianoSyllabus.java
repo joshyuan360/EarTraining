@@ -76,7 +76,7 @@ public class PianoSyllabus {
 
         levelToIntervalMap.append(6, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Perfect Octave" });
         levelToIntervalTypeMap.append(6, "4");
-        levelToChordsMap.append(6, new String[] { "Dom 7 Root Pos", "Dim 7 none" });
+        levelToChordsMap.append(6, new String[] { "Dom 7 Root Pos", "Dim 7" });
         levelToChordTypeMap.append(6, "1");
         levelToCadencesMap.append(6, new String [] { });
         levelToProgressionsMap.append(6, new String[] { });
@@ -85,34 +85,34 @@ public class PianoSyllabus {
 
         levelToIntervalMap.append(7, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
         levelToIntervalTypeMap.append(7, "4");
-        levelToChordsMap.append(7, new String[] { "Dom 7 Root Pos", "Dim 7 none", "Aug none" });
+        levelToChordsMap.append(7, new String[] { "Dom 7 Root Pos", "Dim 7", "Aug" });
         levelToChordTypeMap.append(7, "1");
         levelToCadencesMap.append(7, new String [] { });
         levelToProgressionsMap.append(7, new String[] { });
         levelToProgressionLengthMap.append(7, "3" );
         levelToProgressionTonalityMap.append(7, "3");
 
-        levelToIntervalMap.append(8, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug 4", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
+        levelToIntervalMap.append(8, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug Fourth", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
         levelToIntervalTypeMap.append(8, "4");
-        levelToChordsMap.append(8, new String[] { "Dom 7 Root Pos", "Dim 7 none", "Aug none" });
+        levelToChordsMap.append(8, new String[] { "Dom 7 Root Pos", "Dim 7", "Aug" });
         levelToChordTypeMap.append(8, "1");
         levelToCadencesMap.append(8, new String [] { });
         levelToProgressionsMap.append(8, new String[] { "six" });
         levelToProgressionLengthMap.append(8, "4" );
         levelToProgressionTonalityMap.append(8, "3");
 
-        levelToIntervalMap.append(9, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug 4", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
+        levelToIntervalMap.append(9, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug Fourth", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave" });
         levelToIntervalTypeMap.append(9, "4");
-        levelToChordsMap.append(9, new String[] { "Major 1st Inv", "Minor 1st Inv", "Dom 7 Root Pos", "Dim 7 none", "Aug none" });
+        levelToChordsMap.append(9, new String[] { "Major 1st Inv", "Minor 1st Inv", "Dom 7 Root Pos", "Dim 7", "Aug" });
         levelToChordTypeMap.append(9, "1");
         levelToCadencesMap.append(9, new String [] { });
         levelToProgressionsMap.append(9, new String[] { "six" });
         levelToProgressionLengthMap.append(9, "4" );
         levelToProgressionTonalityMap.append(9, "3");
 
-        levelToIntervalMap.append(10, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug 4", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave", "Major Ninth", "Minor Ninth" });
+        levelToIntervalMap.append(10, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug Fourth", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave", "Major Ninth", "Minor Ninth" });
         levelToIntervalTypeMap.append(10, "4");
-        levelToChordsMap.append(10, new String[] { "Major 1st Inv", "Minor 1st Inv", "Dom 7 Root Pos", "Dim 7 none", "Aug none", "Major 7 Root Pos", "Minor 7 Root Pos" }); // todo: add four note chords (release 6.3)
+        levelToChordsMap.append(10, new String[] { "Major 1st Inv", "Minor 1st Inv", "Dom 7 Root Pos", "Dim 7", "Aug", "Major 7 Root Pos", "Minor 7 Root Pos" }); // todo: add four note chords (release 6.3)
         levelToChordTypeMap.append(10, "1");
         levelToCadencesMap.append(10, new String [] { });
         levelToProgressionsMap.append(10, new String[] { "six", "cadential"});
