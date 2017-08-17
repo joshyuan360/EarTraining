@@ -53,16 +53,18 @@ public class ChordProgressionActivity extends EarTrainingActivity {
     @Override
     protected void loadSelectionsAndPreferences() {
         setHighScoresPref(PreferenceManager.getDefaultSharedPreferences(this));
-        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"six", "cadential"}));
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(getResources().getStringArray(R.array.pref_chord_progressions_values)));
         setUserSelections(getHighScoresPref().getStringSet(getString(R.string.PREF_CHORD_PROGRESSIONS), defaultSet));
         setPrefRepeat(getHighScoresPref().getBoolean(getString(R.string.PREF_REPEAT), true));
 
         seqLength = Integer.parseInt(getHighScoresPref().getString(getString(R.string.PREF_SEQ_LENGTH), "5"));
-        boolean includeSix = getUserSelections().contains("six");
-        boolean includeCadential = getUserSelections().contains("cadential");
         int tonalityChoice = Integer.parseInt(getHighScoresPref().getString(getString(R.string.PREF_PROGRESSION_TONALITY), "3"));
 
-        ChordProgressionGenerator.initialize(seqLength, includeSix, includeCadential, tonalityChoice);
+        ChordProgressionGenerator.initialize(
+                seqLength,
+                getUserSelections().contains(getResources().getStringArray(R.array.pref_chord_progressions_values)[0]),
+                getUserSelections().contains(getResources().getStringArray(R.array.pref_chord_progressions_values)[1]),
+                tonalityChoice);
     }
 
     @Override
@@ -95,8 +97,10 @@ public class ChordProgressionActivity extends EarTrainingActivity {
         five.setEnabled(enabled);
 
         // look into this
-        six.setEnabled(enabled && getUserSelections().contains("six"));
-        cadential.setEnabled(enabled && getUserSelections().contains("cadential"));
+        six.setEnabled(enabled && getUserSelections()
+                .contains(getResources().getStringArray(R.array.pref_chord_progressions_values)[0]));
+        cadential.setEnabled(enabled && getUserSelections()
+                .contains(getResources().getStringArray(R.array.pref_chord_progressions_values)[1]));
     }
 
     @Override
@@ -118,12 +122,6 @@ public class ChordProgressionActivity extends EarTrainingActivity {
         firePlayer();
     }
 
-    /**
-     * Recursive method that continuously fires four MediaPlayer events simultaneously,
-     * one per chord. Resources are deleted after each chord is played to make this operation
-     * as memory efficient as possible.
-     *
-     */
     public void firePlayer() {
         for (int i = 0; i < audioPlayer.length; i++) {
             audioPlayer[i] = MediaPlayer.create(this, NoteMappings.getResourceId(notes[i]));
@@ -164,10 +162,6 @@ public class ChordProgressionActivity extends EarTrainingActivity {
         playChord();
     }
 
-    /**
-     * Creates and fires four MediaPlayer events to play the next chord in the progression.
-     * Resources are deleted immediately afterwards.
-     */
     public void playChord() {
         // set up UI
         setAllRowsEnabled(false);
@@ -190,6 +184,7 @@ public class ChordProgressionActivity extends EarTrainingActivity {
         for (int i = chordNumber * 4; i < chordNumber * 4 + 4; i++) {
             audioPlayer[i].start();
         }
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -212,12 +207,6 @@ public class ChordProgressionActivity extends EarTrainingActivity {
         }, getDelay());
     }
 
-    /**
-     * Sets the value of <code>response</code> after the user has selected a cadence.
-     * The result is displayed, and the activity is reset.
-     *
-     * @param view The button clicked by the user: tonic, subdominant, dominant, or submediant.
-     */
     public void answerClicked(View view) {
         response = ((Button) view).getText();
         setAllRowsEnabled(false);

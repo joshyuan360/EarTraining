@@ -42,7 +42,7 @@ public class ChordsActivity extends EarTrainingActivity {
     private Button root, first, second, third;
 
     private CharSequence part1, part2;
-    private CharSequence answer1, answer2;
+    private CharSequence answer;
 
     private int shift;
 
@@ -83,31 +83,25 @@ public class ChordsActivity extends EarTrainingActivity {
 
     @Override
     protected void loadSelectionsAndPreferences() {
-        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORE_KEYS), Context.MODE_PRIVATE));
+        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORES_KEY), Context.MODE_PRIVATE));
         getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(getString(R.string.CHORDS_SCORE_KEY), 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
-                "Major 1st Inv", "Major 2nd Inv", "Minor 1st Inv",
-                "Minor 2nd Inv", "Dom 7 Root Pos", "Dom 7 1st Inv",
-                "Dom 7 2nd Inv", "Dom 7 3rd Inv", "Dim 7 none", "Augmented Triad",
-                "Major 7 Root Pos", "Major 7 1st Inv", "Major 7 2nd Inv", "Major 7 3rd Inv",
-                "Minor 7 Root Pos", "Minor 7 1st Inv", "Minor 7 2nd Inv", "Minor 7 3rd Inv"
-        }));
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(getResources().getStringArray(R.array.pref_chords_values)));
         setUserSelections(sharedPrefs.getStringSet(getString(R.string.PREF_CHORDS), defaultSet));
         setPrefRepeat(sharedPrefs.getBoolean(getString(R.string.PREF_REPEAT), true));
         prefSolid = sharedPrefs.getString(getString(R.string.PREF_CHORDS_ADVANCED), "1").equals("1");
 
         for (String s : getUserSelections()) {
-            if (s.contains("Dom")) {
+            if (s.startsWith(getString(R.string.dom_7))) {
                 allowDom = true;
-            } else if (s.contains("Dim")) {
+            } else if (s.startsWith(getString(R.string.dim_7))) {
                 allowDim = true;
-            } else if (s.contains("Aug")) {
+            } else if (s.startsWith(getString(R.string.aug))) {
                 allowAug = true;
-            } else if (s.contains("Major 7")) {
+            } else if (s.startsWith(getString(R.string.majmaj7))) {
                 allowMaj7 = true;
-            } else if (s.contains("Minor 7")) {
+            } else if (s.startsWith(getString(R.string.minmin7))) {
                 allowMin7 = true;
             }
         }
@@ -132,11 +126,6 @@ public class ChordsActivity extends EarTrainingActivity {
         setReplayButton((Button) findViewById(R.id.replayButton));
     }
 
-    /**
-     * Enables or disables the first row of buttons.
-     *
-     * @param enabled Controls the major, minor, dominant, and diminished buttons.
-     */
     private void setFirstRowEnabled(boolean enabled) {
         major.setEnabled(enabled);
         minor.setEnabled(enabled);
@@ -147,96 +136,80 @@ public class ChordsActivity extends EarTrainingActivity {
         minor7.setEnabled(allowMin7 && enabled);
     }
 
-    /**
-     * Determines if the inversion button should be enabled
-     * based on user settings.
-     *
-     * @param inversion The inversion button.
-     * @return <code>true</code> if the button specified by <code>inversion</code> should be enabled.
-     */
     private boolean allowInvButton(String inversion) {
-        for (String s : getUserSelections()) {
-            if (part1 != null && s.contains(part1) && s.contains(inversion)) {
-                return true;
-            }
-        }
-        return false;
+        return part1 != null && getUserSelections().contains(part1 + " " + inversion);
     }
 
     private boolean allowRoot() {
-        if (part1 == null) return false;
-        if (part1.equals("Major") || part1.equals("Minor")) return true;
-        for (String s : getUserSelections()) {
-            if (s.contains(part1) && s.contains("Root")) {
-                return true;
-            }
-        }
-        return false;
+        return part1 != null && (
+                part1.equals(getString(R.string.major)) || part1.equals(getString(R.string.minor))
+                || getUserSelections().contains(part1 + " " + getString(R.string.root_pos)));
     }
 
-    /**
-     * Enables or disables the bottom two rows of buttons.
-     *
-     * @param enabled     Controls the root pos, 1st inv, and 2nd inv buttons.
-     * @param enableThird Controls the 3rd inv button.
-     */
     private void setBottomRowsEnabled(boolean enabled, boolean enableThird) {
-        root.setEnabled(allowRoot() && enabled); // todo: fix bug here
-        first.setEnabled(allowInvButton("1st Inv") && enabled);
-        second.setEnabled(allowInvButton("2nd Inv") && enabled);
-        third.setEnabled(allowInvButton("3rd Inv") && enableThird);
+        root.setEnabled(allowRoot() && enabled);
+        first.setEnabled(allowInvButton(getString(R.string._1st_inv)) && enabled);
+        second.setEnabled(allowInvButton(getString(R.string._2nd_inv)) && enabled);
+        third.setEnabled(allowInvButton(getString(R.string._3rd_inv)) && enableThird);
     }
 
     protected void setAnswer() {
-        String[] primaryKey = new String[] { "Major", "Minor", "Dom 7", "Dim 7", "Aug", "Major 7", "Minor 7" };
+        String[] primaryKey = new String[] {
+                getString(R.string.major), getString(R.string.minor), getString(R.string.dom_7),
+                getString(R.string.dim_7), getString(R.string.aug), getString(R.string.majmaj7),
+                getString(R.string.minmin7) };
         Random random = new Random();
 
-        answer1 = primaryKey[random.nextInt(primaryKey.length)];
+        answer = primaryKey[random.nextInt(primaryKey.length)];
 
         String[] nextValue;
-        if (answer1.equals("Major") || answer1.equals("Minor")) {
-            nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv" };
-        } else if (answer1.equals("Dom 7") || answer1.equals("Major 7") || answer1.equals("Minor 7")) {
-            nextValue = new String[] { "Root Pos", "1st Inv", "2nd Inv", "3rd Inv" };
-        } else {
-            nextValue = new String[] { "none" };
+        if (answer.equals(getString(R.string.major)) || answer.equals(getString(R.string.minor))) {
+            nextValue = new String[] {
+                    getString(R.string.root_pos), getString(R.string._1st_inv), getString(R.string._2nd_inv) };
+            answer = answer + " " + nextValue[random.nextInt(nextValue.length)];
+        } else if (answer.equals(
+                getString(R.string.dom_7)) || answer.equals(getString(R.string.majmaj7)) || answer.equals(getString(R.string.minmin7))) {
+            nextValue = new String[] {
+                    getString(R.string.root_pos), getString(R.string._1st_inv), getString(R.string._2nd_inv),
+                    getString(R.string._3rd_inv) };
+            answer = answer + " " +  nextValue[random.nextInt(nextValue.length)];
         }
 
-        answer2 = nextValue[random.nextInt(nextValue.length)];
-
-        String answer = answer1 + " " + answer2;
-        if (!answer.equals("Major Root Pos") && !answer.equals("Minor Root Pos") && !getUserSelections().contains(answer)) {
+        if (!answer.equals(getString(R.string.major) + " " + getString(R.string.root_pos)) &&
+                !answer.equals(getString(R.string.minor) + " " + getString(R.string.root_pos)) &&
+                !getUserSelections().contains(answer)) {
             setAnswer();
         }
     }
 
     private HashMap<String, int[]> chordToSemitoneGaps = new HashMap<>();
     private void initializeIntervalToSemitoneMap() {
-        chordToSemitoneGaps.put("Major Root Pos", new int[] {4, 3});
-        chordToSemitoneGaps.put("Major 1st Inv", new int[] {3, 5});
-        chordToSemitoneGaps.put("Major 2nd Inv", new int[] {5, 4});
-        chordToSemitoneGaps.put("Minor Root Pos", new int[] {3, 4});
-        chordToSemitoneGaps.put("Minor 1st Inv", new int[] {4, 5});
-        chordToSemitoneGaps.put("Minor 2nd Inv", new int[] {5, 3});
-        chordToSemitoneGaps.put("Dom 7 Root Pos", new int[] {4, 3, 3});
-        chordToSemitoneGaps.put("Dom 7 1st Inv", new int[] {3, 3, 2});
-        chordToSemitoneGaps.put("Dom 7 2nd Inv", new int[] {3, 2, 4});
-        chordToSemitoneGaps.put("Dom 7 3rd Inv", new int[] {2, 4, 3});
-        chordToSemitoneGaps.put("Dim 7 none", new int[] {3, 3, 3});
-        chordToSemitoneGaps.put("Aug none", new int[] {4, 4});
+        chordToSemitoneGaps.put(getString(R.string.major) + " " + getString(R.string.root_pos), new int[] {4, 3});
+        chordToSemitoneGaps.put(getString(R.string.major) + " " + getString(R.string._1st_inv), new int[] {3, 5});
+        chordToSemitoneGaps.put(getString(R.string.major) + " " + getString(R.string._2nd_inv), new int[] {5, 4});
+        chordToSemitoneGaps.put(getString(R.string.minor) + " " + getString(R.string.root_pos), new int[] {3, 4});
+        chordToSemitoneGaps.put(getString(R.string.minor) + " " + getString(R.string._1st_inv), new int[] {4, 5});
+        chordToSemitoneGaps.put(getString(R.string.minor) + " " + getString(R.string._2nd_inv), new int[] {5, 3});
+        chordToSemitoneGaps.put(getString(R.string.dom_7) + " " + getString(R.string.root_pos), new int[] {4, 3, 3});
+        chordToSemitoneGaps.put(getString(R.string.dom_7) + " " + getString(R.string._1st_inv), new int[] {3, 3, 2});
+        chordToSemitoneGaps.put(getString(R.string.dom_7) + " " + getString(R.string._2nd_inv), new int[] {3, 2, 4});
+        chordToSemitoneGaps.put(getString(R.string.dom_7) + " " + getString(R.string._3rd_inv), new int[] {2, 4, 3});
 
-        chordToSemitoneGaps.put("Major 7 Root Pos", new int[] {4, 3, 4});
-        chordToSemitoneGaps.put("Major 7 1st Inv", new int[] {3, 4, 1});
-        chordToSemitoneGaps.put("Major 7 2nd Inv", new int[] {4, 1, 4});
-        chordToSemitoneGaps.put("Major 7 3rd Inv", new int[] {1, 4, 3});
+        chordToSemitoneGaps.put(getString(R.string.dim_7), new int[] {3, 3, 3});
+        chordToSemitoneGaps.put(getString(R.string.aug), new int[] {4, 4});
 
-        chordToSemitoneGaps.put("Minor 7 Root Pos", new int[] {3, 4, 3});
-        chordToSemitoneGaps.put("Minor 7 1st Inv", new int[] {4, 3, 2});
-        chordToSemitoneGaps.put("Minor 7 2nd Inv", new int[] {3, 2, 3});
-        chordToSemitoneGaps.put("Minor 7 3rd Inv", new int[] {2, 3, 4});
+        chordToSemitoneGaps.put(getString(R.string.majmaj7) + " " + getString(R.string.root_pos), new int[] {4, 3, 4});
+        chordToSemitoneGaps.put(getString(R.string.majmaj7) + " " + getString(R.string._1st_inv), new int[] {3, 4, 1});
+        chordToSemitoneGaps.put(getString(R.string.majmaj7) + " " + getString(R.string._2nd_inv), new int[] {4, 1, 4});
+        chordToSemitoneGaps.put(getString(R.string.majmaj7) + " " + getString(R.string._3rd_inv), new int[] {1, 4, 3});
+
+        chordToSemitoneGaps.put(getString(R.string.minmin7) + " " + getString(R.string.root_pos), new int[] {3, 4, 3});
+        chordToSemitoneGaps.put(getString(R.string.minmin7) + " " + getString(R.string._1st_inv), new int[] {4, 3, 2});
+        chordToSemitoneGaps.put(getString(R.string.minmin7) + " " + getString(R.string._2nd_inv), new int[] {3, 2, 3});
+        chordToSemitoneGaps.put(getString(R.string.minmin7) + " " + getString(R.string._3rd_inv), new int[] {2, 3, 4});
     }
     /**
-     * Plays the chord specified by <code>answer1</code> and <code>answer2</code>.
+     * Plays the chord specified by <code>answer</code> and <code>answer2</code>.
      * When playing a new chord, the starting note is pseudo-randomly picked.
      */
     protected void playAnswer() {
@@ -250,8 +223,7 @@ public class ChordsActivity extends EarTrainingActivity {
             getInstructionsView().setText(getResources().getString(R.string.replaying));
         }
 
-        CharSequence chord = answer1 + " " + answer2;
-        int[] stepInfo = chordToSemitoneGaps.get(chord.toString());
+        int[] stepInfo = chordToSemitoneGaps.get(answer.toString());
 
         int[] chordNotes = new int[stepInfo.length + 1];
         chordNotes[0] = 1;
@@ -327,8 +299,7 @@ public class ChordsActivity extends EarTrainingActivity {
 
     @Override
     protected boolean answerCorrect() {
-        return (answer1.equals("Dim 7") && part2.equals("Dim 7") || answer1.equals("Aug") && part2.equals("Aug")) ||
-                (part1.equals(answer1) && part2.equals(answer2));
+        return answer.equals(part1 + " " + part2);
     }
 
     /**
@@ -340,7 +311,11 @@ public class ChordsActivity extends EarTrainingActivity {
     public void cpart1Clicked(View view) {
         setFirstRowEnabled(false);
         part1 = ((Button) view).getText();
-        setBottomRowsEnabled(true, part1.toString().contains("7"));
+        boolean isSeventh = part1.equals(getString(R.string.dom_7)) ||
+                part1.equals(getString(R.string.majmaj7)) ||
+                part1.equals(getString(R.string.minmin7));
+
+        setBottomRowsEnabled(true, isSeventh);
     }
 
     /**
@@ -354,8 +329,8 @@ public class ChordsActivity extends EarTrainingActivity {
         setBottomRowsEnabled(false, false);
         part2 = ((Button) view).getText();
 
-        if (part2.equals("Dim 7") || part2.equals("Aug")) {
-            part1 = part2;
+        if (part2.equals(getString(R.string.dim_7)) || part2.equals(getString(R.string.aug))) {
+            part1 = "";
             setFirstRowEnabled(false);
         }
 

@@ -104,77 +104,74 @@ public class IntervalsActivity extends EarTrainingActivity {
 
     @Override
     protected void loadSelectionsAndPreferences() {
-        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORE_KEYS), Context.MODE_PRIVATE));
+        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORES_KEY), Context.MODE_PRIVATE));
         getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(getString(R.string.INTERVALS_SCORE_KEY), 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
-                "Minor Second", "Major Second", "Minor Sixth",
-                "Major Sixth", "Minor Seventh", "Major Seventh",
-                "Perfect Unison", "Perfect Fourth", "Perfect Fifth",
-                "Perfect Octave", "Aug Fourth", "Minor Ninth", "Major Ninth",
-                "Minor Tenth", "Major Tenth", "Perfect Eleventh", "Aug Eleventh",
-                "Perfect Twelfth"}));
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(getResources().getStringArray(R.array.pref_intervals_values)));
         setUserSelections(sharedPrefs.getStringSet(getString(R.string.PREF_INTERVALS), defaultSet));
         setPrefRepeat(sharedPrefs.getBoolean(getString(R.string.PREF_REPEAT), true));
         testType = Integer.parseInt(sharedPrefs.getString(getString(R.string.PREF_INTERVALS_ADVANCED), "4"));
 
         for (String s : getUserSelections()) {
-            if (s.startsWith("Perfect")) {
+            if (s.startsWith(getString(R.string.perfect))) {
                 allowPerfect = true;
-            } else if (s.startsWith("Aug")) {
+            } else if (s.startsWith(getString(R.string.aug))) {
                 allowAug = true;
             }
         }
     }
 
     private void initializeMap() {
-        intervalToSemitoneGap.put("Perfect Unison", 0);
-        intervalToSemitoneGap.put("Minor Second", 1);
-        intervalToSemitoneGap.put("Major Second", 2);
-        intervalToSemitoneGap.put("Minor Third", 3);
-        intervalToSemitoneGap.put("Major Third", 4);
-        intervalToSemitoneGap.put("Perfect Fourth", 5);
-        intervalToSemitoneGap.put("Aug 4", 6);
-        intervalToSemitoneGap.put("Perfect Fifth", 7);
-        intervalToSemitoneGap.put("Minor Sixth", 8);
-        intervalToSemitoneGap.put("Major Sixth", 9);
-        intervalToSemitoneGap.put("Minor Seventh", 10);
-        intervalToSemitoneGap.put("Major Seventh", 11);
-        intervalToSemitoneGap.put("Perfect Octave", 12); // check this one
-        intervalToSemitoneGap.put("Minor Ninth", 13);
-        intervalToSemitoneGap.put("Major Ninth", 14);
-        intervalToSemitoneGap.put("Minor Tenth", 15);
-        intervalToSemitoneGap.put("Major Tenth", 16);
-        intervalToSemitoneGap.put("Perfect Eleventh", 17);
-        intervalToSemitoneGap.put("Aug 11", 18);
-        intervalToSemitoneGap.put("Perfect Twelfth", 19);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.unison), 0);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.second), 1);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.second), 2);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.third), 3);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.third), 4);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.fourth), 5);
+        intervalToSemitoneGap.put(getString(R.string.aug) + " " + getString(R.string.fourth), 6);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.fifth), 7);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.sixth), 8);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.sixth), 9);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.seventh), 10);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.seventh), 11);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.octave), 12);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.ninth), 13);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.ninth), 14);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.tenth), 15);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.tenth), 16);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.eleventh), 17);
+        intervalToSemitoneGap.put(getString(R.string.aug) + " " + getString(R.string.eleventh), 18);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.twelfth), 19);
     }
 
-    /**
-     * Generates a new random interval and stores it in <code>answer1</code> and <code>answer2</code>.
-     * Chances: 10% tritone, 30% perfect, 30% major, 30% minor.
-     * Method is invoked only when the last answer provided is correct.
-     */
     protected void setAnswer() {
-        String[] primaryKey = new String[]{"Perfect", "Major", "Minor", "Aug"};
+        String[] primaryKey = new String[]{
+                getString(R.string.perfect), getString(R.string.major),
+                getString(R.string.minor), getString(R.string.aug)};
         Random random = new Random();
 
         answer1 = primaryKey[random.nextInt(primaryKey.length)];
 
         String[] nextValue;
-        if (answer1.equals("Perfect")) {
-            nextValue = new String[]{"Unison", "Fourth", "Fifth", "Octave", "Eleventh", "Twelfth"};
-        } else if (answer1.equals("Major") || answer1.equals("Minor")) {
-            nextValue = new String[]{"Second", "Third", "Sixth", "Seventh", "Ninth", "Tenth"};
+        if (answer1.equals(getString(R.string.perfect))) {
+            nextValue = new String[]{
+                    getString(R.string.unison), getString(R.string.fourth), getString(R.string.fifth),
+                    getString(R.string.octave), getString(R.string.eleventh), getString(R.string.twelfth)};
+        } else if (answer1.equals(getString(R.string.major)) || answer1.equals(getString(R.string.minor))) {
+            nextValue = new String[]{
+                    getString(R.string.second), getString(R.string.third), getString(R.string.sixth),
+                    getString(R.string.seventh), getString(R.string.ninth), getString(R.string.tenth)};
         } else {
-            nextValue = new String[]{"4", "11"};
+            nextValue = new String[]{getString(R.string.fourth), getString(R.string.eleventh)};
         }
 
         answer2 = nextValue[random.nextInt(nextValue.length)];
 
         String answer = answer1 + " " + answer2;
-        if (!answer.equals("Major Third") && !answer.equals("Minor Third") && !getUserSelections().contains(answer)) {
+        if (!answer.equals(getString(R.string.major) + " "  + getString(R.string.third)) &&
+                !answer.equals(getString(R.string.minor) + " " + getString(R.string.third)) &&
+                !getUserSelections().contains(answer)) {
             setAnswer(); // todo: better algorithm (6.3)
         }
     }
@@ -288,7 +285,7 @@ public class IntervalsActivity extends EarTrainingActivity {
      * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
      */
     private boolean allowPerfectButton(String option) {
-        return getUserSelections().contains("Perfect " + option);
+        return getUserSelections().contains(getString(R.string.perfect) + " " + option);
     }
 
     /**
@@ -302,7 +299,7 @@ public class IntervalsActivity extends EarTrainingActivity {
     }
 
     private boolean allowAugButton(String option) {
-        return getUserSelections().contains("Aug " + option);
+        return getUserSelections().contains(getString(R.string.aug) + " " + option);
     }
 
     protected void setAllRowsEnabled(boolean enabled) {
@@ -313,28 +310,28 @@ public class IntervalsActivity extends EarTrainingActivity {
     }
 
     private void setPerfectRowsEnabled(boolean enabled) {
-        unison.setEnabled(allowPerfectButton("Unison") && enabled);
-        fourth.setEnabled(allowPerfectButton("Fourth") && enabled);
-        fifth.setEnabled(allowPerfectButton("Fifth") && enabled);
-        octave.setEnabled(allowPerfectButton("Octave") && enabled);
+        unison.setEnabled(allowPerfectButton(getString(R.string.unison)) && enabled);
+        fourth.setEnabled(allowPerfectButton(getString(R.string.fourth)) && enabled);
+        fifth.setEnabled(allowPerfectButton(getString(R.string.fifth)) && enabled);
+        octave.setEnabled(allowPerfectButton(getString(R.string.octave)) && enabled);
 
-        eleventh.setEnabled(allowPerfectButton("Eleventh") && enabled);
-        twelfth.setEnabled(allowPerfectButton("Twelfth") && enabled);
+        eleventh.setEnabled(allowPerfectButton(getString(R.string.eleventh)) && enabled);
+        twelfth.setEnabled(allowPerfectButton(getString(R.string.twelfth)) && enabled);
     }
 
     private void setMajorMinorRowsEnabled(boolean enabled) {
-        second.setEnabled(allowMajorMinorButton("Second") && enabled);
+        second.setEnabled(allowMajorMinorButton(getString(R.string.second)) && enabled);
         third.setEnabled(enabled);
-        sixth.setEnabled(allowMajorMinorButton("Sixth") && enabled);
-        seventh.setEnabled(allowMajorMinorButton("Seventh") && enabled);
+        sixth.setEnabled(allowMajorMinorButton(getString(R.string.sixth)) && enabled);
+        seventh.setEnabled(allowMajorMinorButton(getString(R.string.seventh)) && enabled);
 
-        ninth.setEnabled(allowMajorMinorButton("Ninth") && enabled);
-        tenth.setEnabled(allowMajorMinorButton("Tenth") && enabled);
+        ninth.setEnabled(allowMajorMinorButton(getString(R.string.ninth)) && enabled);
+        tenth.setEnabled(allowMajorMinorButton(getString(R.string.tenth)) && enabled);
     }
 
     private void setAugRowsEnabled(boolean enabled) {
-        fourth.setEnabled(allowAugButton("4") && enabled);
-        eleventh.setEnabled(allowAugButton("11") && enabled);
+        fourth.setEnabled(allowAugButton(getString(R.string.fourth)) && enabled);
+        eleventh.setEnabled(allowAugButton(getString(R.string.eleventh)) && enabled);
     }
 
     private void setFirstRowEnabled(boolean enabled) {
@@ -345,9 +342,7 @@ public class IntervalsActivity extends EarTrainingActivity {
     }
 
     protected boolean answerCorrect() {
-        return part1.equals(answer1) && (part2.equals(answer2) ||
-                part2.equals("Fourth") && answer2.equals("4") ||
-                part2.equals("Eleventh") && answer2.equals("11"));
+        return part1.equals(answer1) && (part2.equals(answer2));
     }
 
 
@@ -359,9 +354,9 @@ public class IntervalsActivity extends EarTrainingActivity {
     public void part1Clicked(View view) {
         part1 = ((Button) view).getText();
         setFirstRowEnabled(false);
-        if (part1.equals("Perfect")) {
+        if (part1.equals(getString(R.string.perfect))) {
             setPerfectRowsEnabled(true);
-        } else if (part1.equals("Major") || part1.equals("Minor")) {
+        } else if (part1.equals(getString(R.string.major)) || part1.equals(getString(R.string.minor))) {
             setMajorMinorRowsEnabled(true);
         } else {
             setAugRowsEnabled(true);

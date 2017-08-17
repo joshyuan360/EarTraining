@@ -74,11 +74,11 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
 
     @Override
     protected void loadSelectionsAndPreferences() {
-        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORE_KEYS), Context.MODE_PRIVATE));
+        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORES_KEY), Context.MODE_PRIVATE));
         getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(getString(R.string.CADENCES_SCORE_KEY), 0)));
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet(Arrays.asList(new String[]{"Imperfect", "Deceptive"})); //TODO change this (6.3)
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(getResources().getStringArray(R.array.pref_cadences_entries)));
         setUserSelections(sharedPrefs.getStringSet(getString(R.string.PREF_CADENCES), defaultSet));
         setPrefRepeat(sharedPrefs.getBoolean(getString(R.string.PREF_REPEAT), true));
     }
@@ -95,12 +95,15 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
 
     @Override
     protected void setAnswer() {
-        String[] primaryKey = new String[] { "Perfect", "Plagal", "Imperfect", "Deceptive" };
+        String[] primaryKey = new String[] {
+                getString(R.string.perfect), getString(R.string.plagal),
+                getString(R.string.imperfect), getString(R.string.deceptive) };
 
         Random random = new Random();
         answer = primaryKey[random.nextInt(primaryKey.length)];
 
-        if (!answer.equals("Perfect") && !answer.equals("Plagal") && !getUserSelections().contains(answer)) {
+        if (!answer.equals(getString(R.string.perfect)) && !answer.equals(getString(R.string.plagal))
+                && !getUserSelections().contains(answer.toString())) {
             setAnswer();
         }
     }
@@ -119,8 +122,8 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
         perfect.setEnabled(enabled);
         plagal.setEnabled(enabled);
 
-        imperfect.setEnabled(enabled && getUserSelections().contains("Imperfect"));
-        deceptive.setEnabled(enabled && getUserSelections().contains("Deceptive"));
+        imperfect.setEnabled(enabled && getUserSelections().contains(getString(R.string.imperfect)));
+        deceptive.setEnabled(enabled && getUserSelections().contains(getString(R.string.deceptive)));
     }
 
     @Override
@@ -135,11 +138,11 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
         }
 
         if (isAnswerCorrect()) {
-            if (answer.equals("Perfect")) {
+            if (answer.equals(getString(R.string.perfect))) {
                 notes = CadenceGenerator.getCadence(CadenceGenerator.Cadence.PERFECT);
-            } else if (answer.equals("Imperfect")) {
+            } else if (answer.equals(getString(R.string.imperfect))) {
                 notes = CadenceGenerator.getCadence(CadenceGenerator.Cadence.IMPERFECT);
-            } else if (answer.equals("Plagal")) {
+            } else if (answer.equals(getString(R.string.plagal))) {
                 notes = CadenceGenerator.getCadence(CadenceGenerator.Cadence.PLAGAL);
             } else {
                 notes = CadenceGenerator.getCadence(CadenceGenerator.Cadence.DECEPTIVE);
@@ -201,12 +204,6 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
         return response.equals(answer);
     }
 
-    /**
-     * Sets the value of <code>response</code> after the user has selected a cadence.
-     * The result is displayed, and the activity is reset.
-     *
-     * @param view The button clicked by the user: perfect, plagal, imperfect, or deceptive.
-     */
     public void answerClicked(View view) {
         response = ((Button) view).getText();
         setAllRowsEnabled(false);
