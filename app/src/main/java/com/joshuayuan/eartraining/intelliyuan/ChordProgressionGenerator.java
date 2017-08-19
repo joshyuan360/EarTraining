@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Random;
 
 import static com.joshuayuan.eartraining.intelliyuan.ChordExtensions.mod;
-import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MAX_NOTE;
-import static com.joshuayuan.eartraining.intelliyuan.NoteMappings.MIN_NOTE;
 
 /**
  * Ear Training API for chord progression generator.
@@ -57,7 +55,7 @@ public class ChordProgressionGenerator {
             chordProgressionToSend.clear();
             setChordSequence();
             extractNotesAndMetaData();
-        } while (!modulateNotes());
+        } while (ChordExtensions.modulateNotesRand(notes, 5) == Integer.MAX_VALUE);
 
         return notes;
     }
@@ -113,7 +111,7 @@ public class ChordProgressionGenerator {
     /**
      * Generate a pseudo-random valid chord progression.
      */
-    private static void setChordSequence() { // TODO: OPTIMIZE THIS
+    private static void setChordSequence() { // TODO: optimize, as it takes long time to load sometimes
         // create a chord progression
         chordProgressionToSend.add(getRandChordProgression(false, null, false));
 
@@ -141,34 +139,6 @@ public class ChordProgressionGenerator {
 
         // resolve all merge conflicts
         mergeProgression();
-    }
-
-    /**
-     * Find notes out of bound and adjust all notes in that voice.
-     */
-    private static boolean modulateNotes() {
-        int min = notes[0];
-        int max = notes[0];
-
-        for (int i : notes) {
-            if (i < min) min = i;
-            if (i > max) max = i;
-        }
-
-        int boost = 5; // chord progression may be too low otherwise
-        int minShift = MIN_NOTE - min + boost;
-        int maxShift = MAX_NOTE - max;
-
-        if (minShift > maxShift) {
-            return false;
-        }
-
-        int randomShift = minShift + (int) (Math.random() * (maxShift - minShift + 1));
-        for (int i = 0; i < notes.length; i++) {
-            notes[i] += randomShift;
-        }
-
-        return true;
     }
 
     /**

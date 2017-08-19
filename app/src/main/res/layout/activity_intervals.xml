@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,283 +11,285 @@
     tools:context="com.joshuayuan.eartraining.activity.IntervalsActivity">
 
     <com.joshuayuan.eartraining.presentation.InstructionTextView
+        android:id="@+id/intervalInstructions"
         android:layout_width="wrap_content"
         android:layout_height="41dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:paddingTop="10dp"
         android:text="@string/playing_interval"
-        android:id="@+id/insDisplay"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/black" />
 
     <com.joshuayuan.eartraining.presentation.ReplayButton
-        android:id="@+id/replay"
+        android:id="@+id/replayButton"
         android:layout_width="43dp"
         android:layout_height="50dp"
         android:layout_above="@+id/linearLayout"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:enabled="false"
-        android:onClick="replayInterval"
-        android:text="@string/replay_button" />
+        android:onClick="replayTest" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/insDisplay"
-        android:id="@+id/linearLayout"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/intervalInstructions"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/perfect"
             android:id="@+id/perfect"
-            android:onClick="part1Clicked"
-            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginEnd="5dp"
-            android:enabled="false" />
-        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/major"
+            android:enabled="false"
+            android:onClick="part1Clicked"
+            android:text="@string/perfect" />
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:id="@+id/major"
-            android:onClick="part1Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:enabled="false" />
-        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/minor"
+            android:enabled="false"
+            android:onClick="part1Clicked"
+            android:text="@string/major" />
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:id="@+id/minor"
-            android:onClick="part1Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:enabled="false" />
-        <com.joshuayuan.eartraining.presentation.AnswerButton
             android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/aug"
-            android:id="@+id/aug"
+            android:enabled="false"
             android:onClick="part1Clicked"
+            android:text="@string/minor" />
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:id="@+id/aug"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part1Clicked"
+            android:text="@string/aug" />
     </LinearLayout>
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#d1cbc4"
         android:layout_below="@+id/linearLayout"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="#d1cbc4" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/line"
         android:layout_marginTop="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:orientation="horizontal">
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/unison"
             android:id="@+id/unison"
-            android:onClick="part2Clicked"
-            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginEnd="5dp"
-            android:enabled="false" />
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/unison" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/second"
             android:id="@+id/second"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/second" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/third"
             android:id="@+id/third"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/third" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/fourth"
             android:id="@+id/fourth"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/fourth" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout3"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout2"
         android:layout_marginTop="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:orientation="horizontal">
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/fifth"
             android:id="@+id/fifth"
-            android:onClick="part2Clicked"
-            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginEnd="5dp"
-            android:enabled="false" />
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/fifth" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/sixth"
             android:id="@+id/sixth"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/sixth" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/seventh"
             android:id="@+id/seventh"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/seventh" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/octave"
             android:id="@+id/octave"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/octave" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout4"
-        android:layout_below="@+id/linearLayout3"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/ninth"
             android:id="@+id/ninth"
-            android:onClick="part2Clicked"
-            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginEnd="5dp"
-            android:enabled="false" />
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/ninth" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/tenth"
             android:id="@+id/tenth"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/tenth" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/eleventh"
             android:id="@+id/eleventh"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/eleventh" />
 
         <com.joshuayuan.eartraining.presentation.AnswerButton
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_width="match_parent"
-            android:text="@string/twelfth"
             android:id="@+id/twelfth"
-            android:onClick="part2Clicked"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:enabled="false" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="part2Clicked"
+            android:text="@string/twelfth" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout8"
         android:layout_above="@+id/linearLayout9"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="end"
             android:text="@string/score"
-            android:textSize="20sp"
             android:textColor="@color/colorPrimary"
-            android:gravity="end"/>
+            android:textSize="20sp" />
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
-            android:id="@+id/intervalScore"
+            android:id="@+id/intervalCurrentScore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -298,13 +301,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout9"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout9"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        android:orientation="horizontal">
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
             android:id="@+id/textView4"
@@ -329,4 +332,54 @@
             android:textColor="@color/colorPrimary"
             android:textSize="20sp" />
     </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/intervals_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout4"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="30dp" />
+
+    <ImageView
+        android:id="@+id/volumeView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/linearLayout4"
+        app:srcCompat="@drawable/volume_symbol"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <SeekBar
+        android:id="@+id/intervals_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/intervals_volume"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/speedView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/intervals_volume"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/speed_symbol" />
 </RelativeLayout>

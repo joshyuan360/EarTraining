@@ -12,21 +12,15 @@ package com.joshuayuan.eartraining.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
 import com.joshuayuan.eartraining.R;
+import com.joshuayuan.eartraining.intelliyuan.NoteMappings;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,166 +28,55 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.HIGH_SCORES_KEY;
-import static com.joshuayuan.eartraining.activity.HighScoresActivity.INTERVALS_SCORE_KEY;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_INTERVALS;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_INTERVALS_ADVANCED;
-import static com.joshuayuan.eartraining.activity.PreferencesActivity.SettingsFragment.PREF_REPEAT;
-
 /**
  * The interval activity plays an interval and asks the user to identify it.
  * The score is based on the number of consecutive correct answers.
  *
  * @author Joshua Yuan
  */
-public class IntervalsActivity extends AppCompatActivity {
-    private final MediaPlayer[] mp = new MediaPlayer[2];
+public class IntervalsActivity extends EarTrainingActivity {
     private CharSequence part1;
     private CharSequence part2;
-    private CharSequence answer1;
-    private CharSequence answer2;
+    private CharSequence answer;
 
     private Button perfect, major, minor, aug;
     private Button unison, second, third, fourth, fifth, sixth, seventh, octave, ninth, tenth, eleventh, twelfth;
-    private Button replay;
-
-    private boolean answerCorrect = true;
-    private TextView tv;
-    private TextView currentScore, highScore;
 
     private int note1;
-    private int score;
 
-    private Set<String> selections;
-
-    private boolean prefRepeat;
     private boolean allowPerfect, allowAug;
 
-    private Handler handler = new Handler();
-    private boolean isReplaying;
     private boolean increasing;
     private int testType;
 
     private HashMap<String, Integer> intervalToSemitoneGap = new HashMap<>();
-    SharedPreferences pref;
-    /**
-     * Initializes the <code>Button</code> fields and begins the test.
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Intervals");
         setContentView(R.layout.activity_intervals);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setTitle("Intervals");
 
-        tv = (TextView) findViewById(R.id.insDisplay);
-        currentScore = (TextView) findViewById(R.id.intervalScore);
-        highScore = (TextView) findViewById(R.id.intervalHighScore);
+        onCreateEarTrainingActivity(
+                getString(R.string.INTERVALS_SCORE_KEY),
+                R.id.intervals_volume,
+                R.id.intervals_speed,
+                getString(R.string.INTERVALS_SPEED_KEY));
 
-        loadPreferences();
+        loadAudioPlayer(2);
 
         initializeMap();
-
-        initializeButtons();
-        setAllRowsEnabled(false);
-        replay.setEnabled(false);
-
-        for (String s : selections) {
-            if (s.startsWith("Perfect")) {
-                allowPerfect = true;
-            } else if (s.startsWith("Aug")) {
-                allowAug = true;
-            }
-        }
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                testUser();
-            }
-        }, 1000);
-    }
-
-    private void loadPreferences() {
-        pref = getSharedPreferences(HIGH_SCORES_KEY, Context.MODE_PRIVATE);
-        highScore.setText(String.valueOf(pref.getInt(INTERVALS_SCORE_KEY, 0)));
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> defaultSet = new HashSet<>(Arrays.asList(new String[]{
-                "Minor Second", "Major Second", "Minor Sixth",
-                "Major Sixth", "Minor Seventh", "Major Seventh",
-                "Perfect Unison", "Perfect Fourth", "Perfect Fifth",
-                "Perfect Octave", "Aug Fourth", "Minor Ninth", "Major Ninth",
-                "Minor Tenth", "Major Tenth", "Perfect Eleventh", "Aug Eleventh",
-                "Perfect Twelfth"}));
-        selections = sharedPrefs.getStringSet(PREF_INTERVALS, defaultSet);
-        prefRepeat = sharedPrefs.getBoolean(PREF_REPEAT, true);
-        testType = Integer.parseInt(sharedPrefs.getString(PREF_INTERVALS_ADVANCED, "4"));
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+    protected void loadTextViews() {
+        setInstructionsView((TextView) findViewById(R.id.intervalInstructions));
+        setCurrentScoreView((TextView) findViewById(R.id.intervalCurrentScore));
+        setHighScoreView((TextView) findViewById(R.id.intervalHighScore));
     }
 
-    private void initializeMap() {
-        intervalToSemitoneGap.put("Perfect Unison", 0);
-        intervalToSemitoneGap.put("Minor Second", 1);
-        intervalToSemitoneGap.put("Major Second", 2);
-        intervalToSemitoneGap.put("Minor Third", 3);
-        intervalToSemitoneGap.put("Major Third", 4);
-        intervalToSemitoneGap.put("Perfect Fourth", 5);
-        intervalToSemitoneGap.put("Aug 4", 6);
-        intervalToSemitoneGap.put("Perfect Fifth", 7);
-        intervalToSemitoneGap.put("Minor Sixth", 8);
-        intervalToSemitoneGap.put("Major Sixth", 9);
-        intervalToSemitoneGap.put("Minor Seventh", 10);
-        intervalToSemitoneGap.put("Major Seventh", 11);
-        intervalToSemitoneGap.put("Perfect Octave", 12); // check this one
-        intervalToSemitoneGap.put("Minor Ninth", 13);
-        intervalToSemitoneGap.put("Major Ninth", 14);
-        intervalToSemitoneGap.put("Minor Tenth", 15);
-        intervalToSemitoneGap.put("Major Tenth", 16);
-        intervalToSemitoneGap.put("Perfect Eleventh", 17);
-        intervalToSemitoneGap.put("Aug 11", 18);
-        intervalToSemitoneGap.put("Perfect Twelfth", 19);
-    }
-
-    /**
-     * Stops any currently playing sounds when the user exits the activity.
-     *
-     * @throws IllegalStateException if the internal player engine has not been
-     *                               initialized or has been released.
-     */
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-        }
-        for (int i = 0; i < 2; i++) {
-            if (mp[i] != null) {
-                mp[i].release();
-                mp[i] = null;
-            }
-        }
-    }
-
-    /**
-     * Loads all the Button fields.
-     */
-    private void initializeButtons() {
+    protected void loadButtons() {
         perfect = (Button) findViewById(R.id.perfect);
         major = (Button) findViewById(R.id.major);
         minor = (Button) findViewById(R.id.minor);
@@ -212,34 +95,79 @@ public class IntervalsActivity extends AppCompatActivity {
         eleventh = (Button) findViewById(R.id.eleventh);
         twelfth = (Button) findViewById(R.id.twelfth);
 
-        replay = (Button) findViewById(R.id.replay);
+        setReplayButton((Button) findViewById(R.id.replayButton));
     }
 
-    /**
-     * Generates a new random interval and stores it in <code>answer1</code> and <code>answer2</code>.
-     * Chances: 10% tritone, 30% perfect, 30% major, 30% minor.
-     * Method is invoked only when the last answer provided is correct.
-     */
-    private void setAnswer() {
-        String[] primaryKey = new String[] { "Perfect", "Major", "Minor", "Aug" };
+    @Override
+    protected void loadSelectionsAndPreferences() {
+        setHighScoresPref(getSharedPreferences(getString(R.string.HIGH_SCORES_KEY), Context.MODE_PRIVATE));
+        getHighScoreView().setText(String.valueOf(getHighScoresPref().getInt(getString(R.string.INTERVALS_SCORE_KEY), 0)));
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> defaultSet = new HashSet<>(Arrays.asList(getResources().getStringArray(R.array.pref_intervals_values)));
+        setUserSelections(sharedPrefs.getStringSet(getString(R.string.PREF_INTERVALS), defaultSet));
+        setPrefRepeat(sharedPrefs.getBoolean(getString(R.string.PREF_REPEAT), true));
+        testType = Integer.parseInt(sharedPrefs.getString(getString(R.string.PREF_INTERVALS_ADVANCED), "4"));
+
+        for (String s : getUserSelections()) {
+            if (s.startsWith(getString(R.string.perfect))) {
+                allowPerfect = true;
+            } else if (s.startsWith(getString(R.string.aug))) {
+                allowAug = true;
+            }
+        }
+    }
+
+    private void initializeMap() {
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.unison), 0);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.second), 1);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.second), 2);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.third), 3);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.third), 4);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.fourth), 5);
+        intervalToSemitoneGap.put(getString(R.string.aug) + " " + getString(R.string.fourth), 6);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.fifth), 7);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.sixth), 8);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.sixth), 9);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.seventh), 10);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.seventh), 11);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.octave), 12);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.ninth), 13);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.ninth), 14);
+        intervalToSemitoneGap.put(getString(R.string.minor) + " " + getString(R.string.tenth), 15);
+        intervalToSemitoneGap.put(getString(R.string.major) + " " + getString(R.string.tenth), 16);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.eleventh), 17);
+        intervalToSemitoneGap.put(getString(R.string.aug) + " " + getString(R.string.eleventh), 18);
+        intervalToSemitoneGap.put(getString(R.string.perfect) + " " + getString(R.string.twelfth), 19);
+    }
+
+    protected void setAnswer() {
+        String[] primaryKey = new String[]{
+                getString(R.string.perfect), getString(R.string.major),
+                getString(R.string.minor), getString(R.string.aug)};
         Random random = new Random();
 
-        answer1 = primaryKey[random.nextInt(primaryKey.length)];
+        answer = primaryKey[random.nextInt(primaryKey.length)];
 
         String[] nextValue;
-        if (answer1.equals("Perfect")) {
-            nextValue = new String[] { "Unison", "Fourth", "Fifth", "Octave", "Eleventh", "Twelfth" };
-        } else if (answer1.equals("Major") || answer1.equals("Minor")) {
-            nextValue = new String[] { "Second", "Third", "Sixth", "Seventh", "Ninth", "Tenth" };
+        if (answer.equals(getString(R.string.perfect))) {
+            nextValue = new String[]{
+                    getString(R.string.unison), getString(R.string.fourth), getString(R.string.fifth),
+                    getString(R.string.octave), getString(R.string.eleventh), getString(R.string.twelfth)};
+        } else if (answer.equals(getString(R.string.major)) || answer.equals(getString(R.string.minor))) {
+            nextValue = new String[]{
+                    getString(R.string.second), getString(R.string.third), getString(R.string.sixth),
+                    getString(R.string.seventh), getString(R.string.ninth), getString(R.string.tenth)};
         } else {
-            nextValue = new String[] { "4", "11" };
+            nextValue = new String[]{getString(R.string.fourth), getString(R.string.eleventh)};
         }
 
-        answer2 = nextValue[random.nextInt(nextValue.length)];
+        answer = answer + " " + nextValue[random.nextInt(nextValue.length)];
 
-        String answer = answer1 + " " + answer2;
-        if (!answer.equals("Major Third") && !answer.equals("Minor Third") && !selections.contains(answer)) {
-            setAnswer(); // todo: better algorithm (6.3)
+        if (!answer.equals(getString(R.string.major) + " "  + getString(R.string.third)) &&
+                !answer.equals(getString(R.string.minor) + " " + getString(R.string.third)) &&
+                !getUserSelections().contains(answer)) {
+            setAnswer();
         }
     }
 
@@ -251,7 +179,7 @@ public class IntervalsActivity extends AppCompatActivity {
             case 3: // decreasing
                 return false;
             default: // increasing or decreasing
-                return answerCorrect ? Math.random() < 0.5 : increasing;
+                return isAnswerCorrect() ? Math.random() < 0.5 : increasing;
         }
     }
 
@@ -259,105 +187,99 @@ public class IntervalsActivity extends AppCompatActivity {
         return testType == 1;
     }
 
-    /**
-     * Plays the interval specified by <code>answer1</code> and <code>answer2</code>.
-     * When playing a new interval, the starting note is pseudo-randomly picked.
-     */
-    private void playAnswer() {
+    protected void playAnswer() {
         // set up UI
         setAllRowsEnabled(false);
-        replay.setEnabled(false);
+        getReplayButton().setEnabled(false);
 
-        CharSequence interval = answer1 + " " + answer2;
-        int intervalGap = intervalToSemitoneGap.get(interval.toString());
+        int intervalGap = intervalToSemitoneGap.get(answer.toString());
         int maxBottom = NoteMappings.MAX_NOTE - intervalGap;
 
-        if (answerCorrect) {
-            tv.setText(getResources().getString(R.string.playing_interval));
+        if (isAnswerCorrect()) {
+            getInstructionsView().setText(getResources().getString(R.string.playing_interval));
             note1 = (int) (Math.random() * maxBottom) + 1;
         } else {
-            tv.setText(getResources().getString(R.string.replaying));
+            getInstructionsView().setText(getResources().getString(R.string.replaying));
         }
 
-        int note2 = note1 + intervalToSemitoneGap.get(interval.toString());
+        int note2 = note1 + intervalGap;
 
         increasing = getIncreasing();
         if (increasing) {
-            mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
-            mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
+            audioPlayer[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
+            audioPlayer[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
         } else {
-            mp[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
-            mp[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
+            audioPlayer[0] = MediaPlayer.create(this, NoteMappings.getResourceId(note2));
+            audioPlayer[1] = MediaPlayer.create(this, NoteMappings.getResourceId(note1));
         }
 
         if (getSolid()) {
-            mp[0].start();
-            mp[1].start();
+            fireHarmonicInterval();
         } else {
-            mp[0].start();
-            mp[0].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                public void onCompletion(MediaPlayer med) {
-                    mp[1].start();
+            fireMelodicInterval();
+        }
+    }
+
+    private void fireHarmonicInterval() {
+        audioPlayer[0].start();
+        audioPlayer[1].start();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < audioPlayer.length; i++) {
+                    audioPlayer[i].stop();
+                    audioPlayer[i].release();
+                    audioPlayer[i] = null;
                 }
-            });
-        }
 
-        mp[1].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer med) {
-                mp[0].release();
-                mp[0] = null;
-
-                mp[1].release();
-                mp[1] = null;
-
-                // set up UI
-                replay.setEnabled(true);
+                getReplayButton().setEnabled(true);
                 setFirstRowEnabled(true);
-                tv.setText(getResources().getString(R.string.identify_interval));
-                isReplaying = false;
+                getInstructionsView().setText(getResources().getString(R.string.identify_interval));
+                setReplaying(false);
             }
-        });
+        }, getDelay());
     }
 
-    /**
-     * If the last answer was correct, this method plays a newly-generated interval.
-     * If the last answer was incorrect, this method replays the last interval.
-     */
-    private void testUser() {
-        if (answerCorrect) {
-            setAnswer();
-            playAnswer();
-        } else if (prefRepeat) {
-            playAnswer();
+    private void fireMelodicInterval() {
+        for (int i = 0; i < audioPlayer.length + 1; i++) {
+            final int index = i;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (index - 1 >= 0) {
+                        audioPlayer[index - 1].stop();
+                        audioPlayer[index - 1].release();
+                        audioPlayer[index - 1] = null;
+                    }
+
+                    if (index >= audioPlayer.length) {
+                        getReplayButton().setEnabled(true);
+                        setFirstRowEnabled(true);
+                        getInstructionsView().setText(getResources().getString(R.string.identify_interval));
+                        setReplaying(false);
+                        return;
+                    }
+
+                    audioPlayer[index].start();
+                }
+            }, i * getDelay());
         }
     }
 
-    /**
-     * Determines if the unison, fourth, fifth, or octave button should be enabled
-     * based on user settings.
-     *
-     * @param option Unison, fourth, fifth, or octave.
-     * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
-     */
     private boolean allowPerfectButton(String option) {
-        return selections.contains("Perfect " + option);
+        return getUserSelections().contains(getString(R.string.perfect) + " " + option);
     }
 
-    /**
-     * Determines if the button should be enabled based on user settings.
-     *
-     * @param option A button on the interval activities window.
-     * @return <code>true</code> if the button specified by <code>option</code> should be enabled.
-     */
     private boolean allowMajorMinorButton(String option) {
-        return selections.contains(part1 + " " + option);
+        return getUserSelections().contains(part1 + " " + option);
     }
 
     private boolean allowAugButton(String option) {
-        return selections.contains("Aug " + option);
+        return getUserSelections().contains(getString(R.string.aug) + " " + option);
     }
 
-    private void setAllRowsEnabled(boolean enabled) {
+    protected void setAllRowsEnabled(boolean enabled) {
         setPerfectRowsEnabled(enabled);
         setMajorMinorRowsEnabled(enabled);
         setAugRowsEnabled(enabled);
@@ -365,28 +287,28 @@ public class IntervalsActivity extends AppCompatActivity {
     }
 
     private void setPerfectRowsEnabled(boolean enabled) {
-        unison.setEnabled(allowPerfectButton("Unison") && enabled);
-        fourth.setEnabled(allowPerfectButton("Fourth") && enabled);
-        fifth.setEnabled(allowPerfectButton("Fifth") && enabled);
-        octave.setEnabled(allowPerfectButton("Octave") && enabled);
+        unison.setEnabled(allowPerfectButton(getString(R.string.unison)) && enabled);
+        fourth.setEnabled(allowPerfectButton(getString(R.string.fourth)) && enabled);
+        fifth.setEnabled(allowPerfectButton(getString(R.string.fifth)) && enabled);
+        octave.setEnabled(allowPerfectButton(getString(R.string.octave)) && enabled);
 
-        eleventh.setEnabled(allowPerfectButton("Eleventh") && enabled);
-        twelfth.setEnabled(allowPerfectButton("Twelfth") && enabled);
+        eleventh.setEnabled(allowPerfectButton(getString(R.string.eleventh)) && enabled);
+        twelfth.setEnabled(allowPerfectButton(getString(R.string.twelfth)) && enabled);
     }
 
     private void setMajorMinorRowsEnabled(boolean enabled) {
-        second.setEnabled(allowMajorMinorButton("Second") && enabled);
+        second.setEnabled(allowMajorMinorButton(getString(R.string.second)) && enabled);
         third.setEnabled(enabled);
-        sixth.setEnabled(allowMajorMinorButton("Sixth") && enabled);
-        seventh.setEnabled(allowMajorMinorButton("Seventh") && enabled);
+        sixth.setEnabled(allowMajorMinorButton(getString(R.string.sixth)) && enabled);
+        seventh.setEnabled(allowMajorMinorButton(getString(R.string.seventh)) && enabled);
 
-        ninth.setEnabled(allowMajorMinorButton("Ninth") && enabled);
-        tenth.setEnabled(allowMajorMinorButton("Tenth") && enabled);
+        ninth.setEnabled(allowMajorMinorButton(getString(R.string.ninth)) && enabled);
+        tenth.setEnabled(allowMajorMinorButton(getString(R.string.tenth)) && enabled);
     }
 
     private void setAugRowsEnabled(boolean enabled) {
-        fourth.setEnabled(allowAugButton("4") && enabled);
-        eleventh.setEnabled(allowAugButton("11") && enabled);
+        fourth.setEnabled(allowAugButton(getString(R.string.fourth)) && enabled);
+        eleventh.setEnabled(allowAugButton(getString(R.string.eleventh)) && enabled);
     }
 
     private void setFirstRowEnabled(boolean enabled) {
@@ -396,98 +318,39 @@ public class IntervalsActivity extends AppCompatActivity {
         aug.setEnabled(allowAug && enabled);
     }
 
-    /**
-     * Displays the result of the user's input as "Correct! Next one playing..." or "Incorrect...".
-     * The score is either incremented (if correct) or reset to zero (if incorrect).
-     */
-    private void displayResult() {
-        if (part1.equals(answer1) &&
-                (part2.equals(answer2) || part2.equals("Fourth") && answer2.equals("4") || part2.equals("Eleventh") && answer2.equals("11"))) {
-            tv.setText(getResources().getString(R.string.correct));
-            answerCorrect = true;
-            score++;
-        } else {
-            tv.setText(getResources().getString(R.string.incorrect));
-            answerCorrect = false;
-            score = 0;
-        }
-        currentScore.setText(String.valueOf(score));
-        setHighScores(score);
+    protected boolean answerCorrect() {
+        return answer.equals(part1 + " " + part2);
     }
 
-    /**
-     * If the current score is higher than the high score, the new high score is updated
-     * in shared preferences.
-     *
-     * @param score The current score.
-     */
-    private void setHighScores(int score) {
-        int hs = pref.getInt(INTERVALS_SCORE_KEY, 0);
-
-        if (hs < score) {
-            hs = score;
-
-            SharedPreferences.Editor editor = pref.edit();
-
-            editor.putInt(INTERVALS_SCORE_KEY, hs);
-            editor.apply();
-        }
-
-        highScore.setText(String.valueOf(hs));
-    }
-
-    /**
-     * Replays the last interval for the user.
-     *
-     * @param view The REPLAY button pressed.
-     */
-    public void replayInterval(View view) {
-        answerCorrect = false;
-        isReplaying = true;
-        playAnswer();
-    }
-
-    /**
-     * Sets the value of <code>part1</code> after the user has selected perfect, major, or minor.
-     *
-     * @param view The button clicked by the user: perfect, major, or minor.
-     */
     public void part1Clicked(View view) {
         part1 = ((Button) view).getText();
         setFirstRowEnabled(false);
-        if (part1.equals("Perfect")) {
+        if (part1.equals(getString(R.string.perfect))) {
             setPerfectRowsEnabled(true);
-        } else if (part1.equals("Major") || part1.equals("Minor")){
+        } else if (part1.equals(getString(R.string.major)) || part1.equals(getString(R.string.minor))) {
             setMajorMinorRowsEnabled(true);
         } else {
             setAugRowsEnabled(true);
         }
     }
 
-    /**
-     * Sets the value of <code>part2</code> after the user has selected an interval.
-     * The result is displayed, and the activity is reset.
-     *
-     * @param view The button clicked by the user: unison, second, third, fourth, fifth,
-     *             sixth, seventh, octave, or tritone.
-     */
     public void part2Clicked(View view) {
         part2 = ((Button) view).getText();
 
         setAllRowsEnabled(false);
         displayResult();
 
-        if (answerCorrect || prefRepeat) {
-            replay.setEnabled(false);
+        if (isAnswerCorrect() || isPrefRepeat()) {
+            getReplayButton().setEnabled(false);
         }
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (answerCorrect || prefRepeat) {
+                if (isAnswerCorrect() || isPrefRepeat()) {
                     testUser();
-                } else if (!isReplaying) {
+                } else if (!isReplaying()) {
                     setFirstRowEnabled(true);
-                    tv.setText(getResources().getString(R.string.try_again));
+                    getInstructionsView().setText(getResources().getString(R.string.try_again));
                 }
             }
         }, 1500);

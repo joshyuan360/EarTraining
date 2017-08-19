@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="RCM Piano Level Presets">
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="pref_preset"
             android:summary="Automatically adjust all settings based on performance level."
             android:title="Use Piano Level Presets"
@@ -29,7 +29,7 @@
 
         <ListPreference
             android:key="pref_interval_type"
-            android:summary="Choose harmonic, increasing, or decreasing."
+            android:summary="Choose harmonic, ascending, or descending."
             android:title="Interval Type"
             android:dialogTitle="Interval Type:"
             android:entries="@array/pref_interval_type_entries"
@@ -98,7 +98,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Ear Training Settings">
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="pref_repeat"
             android:summary="Replay after an incorrect answer is selected."
             android:title="Automatic Replay"

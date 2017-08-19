@@ -11,7 +11,7 @@
     tools:context="com.joshuayuan.eartraining.activity.ChordsActivity">
 
     <com.joshuayuan.eartraining.presentation.InstructionTextView
-        android:id="@+id/chInstructions"
+        android:id="@+id/chordInstructions"
         android:layout_width="wrap_content"
         android:layout_height="41dp"
         android:layout_alignParentLeft="true"
@@ -22,21 +22,20 @@
         android:textColor="@android:color/black" />
 
     <com.joshuayuan.eartraining.presentation.ReplayButton
-        android:id="@+id/replay"
+        android:id="@+id/replayButton"
         android:layout_width="43dp"
         android:layout_height="50dp"
         android:layout_above="@+id/linearLayout4"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:enabled="false"
-        android:onClick="replayChord"
-        android:text="@string/replay_button" />
+        android:onClick="replayTest" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/chInstructions"
+        android:layout_below="@+id/chordInstructions"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
@@ -240,7 +239,7 @@
             android:gravity="end"/>
 
         <com.joshuayuan.eartraining.presentation.InstructionTextView
-            android:id="@+id/intervalScore"
+            android:id="@+id/chordCurrentScore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -283,4 +282,54 @@
             android:textColor="@color/colorPrimary"
             android:textSize="20sp" />
     </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/chords_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout8"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="30dp" />
+
+    <ImageView
+        android:id="@+id/volumeView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/linearLayout8"
+        app:srcCompat="@drawable/volume_symbol"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <SeekBar
+        android:id="@+id/chords_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/chords_volume"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/speedView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/chords_volume"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/speed_symbol" />
 </RelativeLayout>

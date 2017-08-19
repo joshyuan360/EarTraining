@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.joshuayuan.eartraining.activity.ChordsActivity">
+
+    <com.joshuayuan.eartraining.presentation.InstructionTextView
+        android:id="@+id/chordProgressionText"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="10dp"
+        android:text="@string/playing_chord_progression"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black" />
+
+    <com.joshuayuan.eartraining.presentation.ReplayButton
+        android:id="@+id/replayButton"
+        android:layout_width="43dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/linearLayout4"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:enabled="false"
+        android:onClick="replayTest" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/chordProgressionText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/linearLayout4">
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:id="@+id/one"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="answerClicked"
+            android:text="@string/tonic_chord" />
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:id="@+id/four"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="answerClicked"
+            android:text="@string/subdominant_chord" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_alignLeft="@+id/linearLayout4"
+        android:layout_alignStart="@+id/linearLayout4"
+        android:layout_marginTop="10dp"
+        android:id="@+id/linearLayout5"
+        android:layout_below="@+id/linearLayout4">
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:id="@+id/five"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="answerClicked"
+            android:text="@string/dominant_chord" />
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:id="@+id/six"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="answerClicked"
+            android:text="@string/submediant_chord" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/linearLayout5"
+        android:layout_alignLeft="@+id/linearLayout5"
+        android:layout_alignStart="@+id/linearLayout5"
+        android:layout_marginTop="10dp"
+        android:id="@+id/linearLayout6">
+
+        <com.joshuayuan.eartraining.presentation.AnswerButton
+            android:id="@+id/cadential"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:onClick="answerClicked"
+            android:text="@string/cadential_chord" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout8"
+        android:layout_above="@+id/linearLayout9"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <com.joshuayuan.eartraining.presentation.InstructionTextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/score"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:gravity="end"/>
+
+        <com.joshuayuan.eartraining.presentation.InstructionTextView
+            android:id="@+id/chordCurrentScore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:text="@string/score_value"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout9"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+
+        <com.joshuayuan.eartraining.presentation.InstructionTextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/high_scores"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+        <com.joshuayuan.eartraining.presentation.InstructionTextView
+            android:id="@+id/chordHighestProgressionScore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:text="@string/score_value"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/progressions_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout6"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="30dp" />
+
+    <ImageView
+        android:id="@+id/volumeView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/linearLayout6"
+        app:srcCompat="@drawable/volume_symbol"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <SeekBar
+        android:id="@+id/progressions_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/progressions_volume"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/speedView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/progressions_volume"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/speed_symbol" />
+
+
+</RelativeLayout>

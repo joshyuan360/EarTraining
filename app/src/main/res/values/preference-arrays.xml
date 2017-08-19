@@ -59,14 +59,14 @@
         <item>Perfect Fourth</item>
         <item>Perfect Fifth</item>
         <item>Perfect Octave</item>
-        <item>Aug 4</item>
+        <item>Aug Fourth</item>
 
         <item>Minor Ninth</item>
         <item>Major Ninth</item>
         <item>Minor Tenth</item>
         <item>Major Tenth</item>
         <item>Perfect Eleventh</item>
-        <item>Aug 11</item>
+        <item>Aug Eleventh</item>
         <item>Perfect Twelfth</item>
     </string-array>
 
@@ -124,8 +124,8 @@
         <item>Dom 7 1st Inv</item>
         <item>Dom 7 2nd Inv</item>
         <item>Dom 7 3rd Inv</item>
-        <item>Dim 7 none</item>
-        <item>Aug none</item>
+        <item>Dim 7</item>
+        <item>Aug</item>
         <item>Major 7 Root Pos</item>
         <item>Major 7 1st Inv</item>
         <item>Major 7 2nd Inv</item>
