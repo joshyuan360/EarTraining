@@ -8,8 +8,8 @@ android {
         applicationId "com.joshuayuan.eartraining"
         minSdkVersion 11
         targetSdkVersion 25
-        versionCode 18
-        versionName "6.2"
+        versionCode 19
+        versionName "6.3"
     }
     buildTypes {
         release {
