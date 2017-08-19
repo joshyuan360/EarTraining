@@ -167,7 +167,7 @@ public class IntervalsActivity extends EarTrainingActivity {
         if (!answer.equals(getString(R.string.major) + " "  + getString(R.string.third)) &&
                 !answer.equals(getString(R.string.minor) + " " + getString(R.string.third)) &&
                 !getUserSelections().contains(answer)) {
-            setAnswer(); // todo: better algorithm (6.3)
+            setAnswer();
         }
     }
 

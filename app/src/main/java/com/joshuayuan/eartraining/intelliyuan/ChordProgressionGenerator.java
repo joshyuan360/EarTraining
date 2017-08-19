@@ -111,7 +111,7 @@ public class ChordProgressionGenerator {
     /**
      * Generate a pseudo-random valid chord progression.
      */
-    private static void setChordSequence() { // TODO: OPTIMIZE THIS
+    private static void setChordSequence() { // TODO: optimize, as it takes long time to load sometimes
         // create a chord progression
         chordProgressionToSend.add(getRandChordProgression(false, null, false));
 

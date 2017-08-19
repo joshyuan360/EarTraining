@@ -80,10 +80,10 @@
     <string name="PROGRESSIONS_SCORE_KEY">cphs</string>
 
     <string name="CONTROLS_KEY">controls</string>
-    <string name="INTERVALS_SPEED_KEY">intervals_speed</string>
-    <string name="CHORDS_SPEED_KEY">chords_speed</string>
-    <string name="CADENCES_SPEED_KEY">cadences_speed</string>
-    <string name="PROGRESSIONS_SPEED_KEY">progressions_speed</string>
+    <string name="INTERVALS_SPEED_KEY">interval_speed</string>
+    <string name="CHORDS_SPEED_KEY">chord_speed</string>
+    <string name="CADENCES_SPEED_KEY">cadence_speed</string>
+    <string name="PROGRESSIONS_SPEED_KEY">progression_speed</string>
 
     <string name="PREF_LEVEL">pref_level</string>
     <string name="PREF_PRESET">pref_preset</string>

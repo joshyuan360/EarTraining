@@ -35,7 +35,7 @@ import java.util.Set;
  *
  * @author Joshua Yuan
  */
-public class CadencesActivity extends EarTrainingActivity { //todo: does it switch between minor and major? check this
+public class CadencesActivity extends EarTrainingActivity {
     private Button perfect, plagal, imperfect, deceptive;
 
     private CharSequence answer;
@@ -150,6 +150,7 @@ public class CadencesActivity extends EarTrainingActivity { //todo: does it swit
 
             randomShift = ChordExtensions.modulateNotesRand(notes, 5);
         }
+
         //make sure tonic note is between 5 and 16 (inclusive)
         int tonicId = 1 + randomShift;
         while (tonicId < 4) {

@@ -18,7 +18,7 @@ public class PianoSyllabus {
     private static SparseArray<String[]> levelToProgressionsMap;
     private static SparseArray<String> levelToProgressionLengthMap;
     private static SparseArray<String> levelToProgressionTonalityMap;
-    // todo: this is piano only, add instrumental (release 6.3)
+    // todo: this is piano only, add instrumental (release 6.5) and use string resources
     static {
         levelToIntervalMap = new SparseArray<>();
         levelToIntervalTypeMap = new SparseArray<>();
@@ -30,7 +30,7 @@ public class PianoSyllabus {
         levelToProgressionTonalityMap = new SparseArray<>();
 
         levelToIntervalMap.append(1, new String[] { });
-        levelToIntervalTypeMap.append(1, "4"); // todo: intervals sometimes played twice (release 6.3)
+        levelToIntervalTypeMap.append(1, "4");
         levelToChordsMap.append(1, new String[] { });
         levelToChordTypeMap.append(1, "2");
         levelToCadencesMap.append(1, new String [] { });
@@ -112,7 +112,7 @@ public class PianoSyllabus {
 
         levelToIntervalMap.append(10, new String[] { "Minor Second", "Major Second", "Minor Third", "Major Third", "Perfect Fourth", "Aug Fourth", "Perfect Fifth", "Minor Sixth", "Major Sixth", "Minor Seventh", "Major Seventh", "Perfect Octave", "Major Ninth", "Minor Ninth" });
         levelToIntervalTypeMap.append(10, "4");
-        levelToChordsMap.append(10, new String[] { "Major 1st Inv", "Minor 1st Inv", "Dom 7 Root Pos", "Dim 7", "Aug", "Major 7 Root Pos", "Minor 7 Root Pos" }); // todo: add four note chords (release 6.3)
+        levelToChordsMap.append(10, new String[] { "Major 1st Inv", "Minor 1st Inv", "Dom 7 Root Pos", "Dim 7", "Aug", "Major 7 Root Pos", "Minor 7 Root Pos" }); // todo: add four note chords (release 6.4)
         levelToChordTypeMap.append(10, "1");
         levelToCadencesMap.append(10, new String [] { });
         levelToProgressionsMap.append(10, new String[] { "six", "cadential"});

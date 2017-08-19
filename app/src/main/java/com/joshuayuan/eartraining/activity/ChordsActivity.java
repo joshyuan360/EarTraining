@@ -299,7 +299,7 @@ public class ChordsActivity extends EarTrainingActivity {
 
     @Override
     protected boolean answerCorrect() {
-        return answer.equals(part1 + " " + part2);
+        return answer.equals((part1 + " " + part2).trim());
     }
 
     /**
