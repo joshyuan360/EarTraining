@@ -1,8 +1,11 @@
 # EarTraining
-To download and install this app on your Android device, go to https://play.google.com/store/apps/details?id=com.joshuayuan.eartraining  
+Google Play: https://play.google.com/store/apps/details?id=com.joshuayuan.eartraining
 
-Ideal for music students preparing for conservatory exams.  
+An ear training app for conservatory music students. Improve your ability to identify intervals, chords, cadences, and chord progressions!
 
-Ear Training is designed to help music students prepare for conservatory exams. The app will never repeat the same sequence of intervals, chords, or cadences. This avoids the repetition that often results from using standard ear training books. The same interval/chord/cadence is repeated when an incorrect answer is selected.  
+Intervals - unison to perfect twelfth, ascending and descending.
+Chords - major, minor, dominant 7th, diminished 7th, augmented triad, major 7th, minor 7th, and all inversions.
+Cadences - perfect, plagal, imperfect, and deceptive.
+Chord progressions - I, IV, V, VI, and cadential 6/4. 
 
-Both increasing and decreasing intervals may be tested. Chord inversions are included. The app is able to generate hundreds of unique cadences by considering a variety of different chord progressions, SATB arrangements, and keys.
+Use one of the 10 level presets, of build your own personalized test. Happy practicing!
